@@ -161,6 +161,9 @@ DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
 
+# Installer executables
+installer/*.exe
+
 # Click-Once directory
 publish/
 
