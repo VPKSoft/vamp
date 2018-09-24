@@ -199,10 +199,10 @@ Section -un.post UNSEC0001
 	
     RmDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
 	
-	MessageBox MB_ICONQUESTION|MB_YESNO "$(DeleteUserData)" IDYES delete IDNO nodelete
-	delete:
+	MessageBox MB_ICONQUESTION|MB_YESNO "$(DeleteUserData)" IDYES deletelocal IDNO nodeletelocal
+	deletelocal:
     RmDir /REBOOTOK "$LOCALAPPDATA\vamp#"
-	nodelete:
+	nodeletelocal:
     RmDir /REBOOTOK $INSTDIR
 SectionEnd
 
