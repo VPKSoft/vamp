@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/amp" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/amp" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfAlbumSongWCF">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AlbumSongWCF" nillable="true" type="tns:AlbumSongWCF" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAlbumSongWCF" nillable="true" type="tns:ArrayOfAlbumSongWCF" />
+  <xs:complexType name="AlbumSongWCF">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Album" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Artist" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Duration" type="xs:int" />
+      <xs:element minOccurs="0" name="FullFileName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="OverrideName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="QueueIndex" type="xs:int" />
+      <xs:element minOccurs="0" name="Rating" type="xs:int" />
+      <xs:element minOccurs="0" name="SongName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SongNameNoQueue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TagStr" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Title" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Track" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Volume" type="xs:float" />
+      <xs:element minOccurs="0" name="Year" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AlbumSongWCF" nillable="true" type="tns:AlbumSongWCF" />
+  <xs:complexType name="PlayerState">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AlbumChanged" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AlbumContentsChanged" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AlbumLoading" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CanGoPrevious" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CurrentAlbumName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CurrentSongID" type="xs:int" />
+      <xs:element minOccurs="0" name="CurrentSongLength" type="xs:double" />
+      <xs:element minOccurs="0" name="CurrentSongName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CurrentSongPosition" type="xs:double" />
+      <xs:element minOccurs="0" name="Paused" type="xs:boolean" />
+      <xs:element minOccurs="0" name="QueueChangedFromPreviousQuery" type="xs:boolean" />
+      <xs:element minOccurs="0" name="QueueCount" type="xs:int" />
+      <xs:element minOccurs="0" name="Random" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Shuffle" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SongsChanged" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Stopped" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PlayerState" nillable="true" type="tns:PlayerState" />
+  <xs:complexType name="ArrayOfQueueEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="QueueEntry" nillable="true" type="tns:QueueEntry" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfQueueEntry" nillable="true" type="tns:ArrayOfQueueEntry" />
+  <xs:complexType name="QueueEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CreteDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" name="QueueName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="QueueEntry" nillable="true" type="tns:QueueEntry" />
+  <xs:complexType name="ArrayOfAlbumWCF">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AlbumWCF" nillable="true" type="tns:AlbumWCF" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAlbumWCF" nillable="true" type="tns:ArrayOfAlbumWCF" />
+  <xs:complexType name="AlbumWCF">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AlbumWCF" nillable="true" type="tns:AlbumWCF" />
+</xs:schema>

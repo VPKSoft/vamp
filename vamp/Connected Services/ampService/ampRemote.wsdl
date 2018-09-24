@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://ampRemote" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ampRemote" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://ampRemote/Imports">
+      <xsd:import schemaLocation="http://localhost:11316/ampRemote?xsd=xsd0" namespace="http://ampRemote" />
+      <xsd:import schemaLocation="http://localhost:11316/ampRemote?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:11316/ampRemote?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/amp" />
+      <xsd:import schemaLocation="http://localhost:11316/ampRemote?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System" />
+      <xsd:import schemaLocation="http://localhost:11316/ampRemote?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IampRemote_GetAlbumName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlbumName" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetAlbumName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlbumNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_NextSong_InputMessage">
+    <wsdl:part name="parameters" element="tns:NextSong" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_NextSong_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NextSongResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_PreviousSong_InputMessage">
+    <wsdl:part name="parameters" element="tns:PreviousSong" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_PreviousSong_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PreviousSongResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_CanGoPrevious_InputMessage">
+    <wsdl:part name="parameters" element="tns:CanGoPrevious" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_CanGoPrevious_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CanGoPreviousResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetAlbumSongs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlbumSongs" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetAlbumSongs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlbumSongsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetQueuedSongs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetQueuedSongs" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetQueuedSongs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetQueuedSongsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetPlayingSong_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayingSong" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetPlayingSong_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayingSongResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetPlayerState_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerState" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetPlayerState_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlayerStateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetPositionSeconds_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetPositionSeconds" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetPositionSeconds_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetPositionSecondsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_QueueChanged_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueueChanged" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_QueueChanged_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueueChangedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_AlbumPlayListChanged_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlbumPlayListChanged" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_AlbumPlayListChanged_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlbumPlayListChangedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_AlbumChanged_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlbumChanged" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_AlbumChanged_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlbumChangedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Queue_InputMessage">
+    <wsdl:part name="parameters" element="tns:Queue" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Queue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetChangedSongs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetChangedSongs" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetChangedSongs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetChangedSongsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_QueueID_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueueID" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_QueueID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueueIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Paused_InputMessage">
+    <wsdl:part name="parameters" element="tns:Paused" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Paused_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PausedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Pause_InputMessage">
+    <wsdl:part name="parameters" element="tns:Pause" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Pause_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PauseResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Stopped_InputMessage">
+    <wsdl:part name="parameters" element="tns:Stopped" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Stopped_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StoppedResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Playing_InputMessage">
+    <wsdl:part name="parameters" element="tns:Playing" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Playing_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PlayingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Play_InputMessage">
+    <wsdl:part name="parameters" element="tns:Play" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Play_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PlayResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_PlayID_InputMessage">
+    <wsdl:part name="parameters" element="tns:PlayID" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_PlayID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PlayIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Randomizing_InputMessage">
+    <wsdl:part name="parameters" element="tns:Randomizing" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Randomizing_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RandomizingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetRandomizing_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetRandomizing" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetRandomizing_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetRandomizingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Shuffle_InputMessage">
+    <wsdl:part name="parameters" element="tns:Shuffle" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Shuffle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ShuffleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetShuffle_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetShuffle" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetShuffle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetShuffleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Suffle_InputMessage">
+    <wsdl:part name="parameters" element="tns:Suffle" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_Suffle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SuffleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetSuffle_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetSuffle" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetSuffle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetSuffleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_RemoveSongFromAlbum_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveSongFromAlbum" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_RemoveSongFromAlbum_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveSongFromAlbumResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetVolume_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetVolume" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetVolume_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetVolumeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetRating_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetRating" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SetRating_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetRatingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetQueueList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetQueueList" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetQueueList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetQueueListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetQueueListCurrentAlbum_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetQueueListCurrentAlbum" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetQueueListCurrentAlbum_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetQueueListCurrentAlbumResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_LoadQueue_InputMessage">
+    <wsdl:part name="parameters" element="tns:LoadQueue" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_LoadQueue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoadQueueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_AppendQueue_InputMessage">
+    <wsdl:part name="parameters" element="tns:AppendQueue" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_AppendQueue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AppendQueueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetAlbums_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlbums" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetAlbums_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAlbumsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SelectAlbum_InputMessage">
+    <wsdl:part name="parameters" element="tns:SelectAlbum" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_SelectAlbum_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SelectAlbumResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetMemberDescriptions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMemberDescriptions" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_GetMemberDescriptions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMemberDescriptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_ConnectionTest_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConnectionTest" />
+  </wsdl:message>
+  <wsdl:message name="IampRemote_ConnectionTest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConnectionTestResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IampRemote">
+    <wsdl:operation name="GetAlbumName">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetAlbumName" message="tns:IampRemote_GetAlbumName_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetAlbumNameResponse" message="tns:IampRemote_GetAlbumName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NextSong">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/NextSong" message="tns:IampRemote_NextSong_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/NextSongResponse" message="tns:IampRemote_NextSong_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PreviousSong">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/PreviousSong" message="tns:IampRemote_PreviousSong_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/PreviousSongResponse" message="tns:IampRemote_PreviousSong_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CanGoPrevious">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/CanGoPrevious" message="tns:IampRemote_CanGoPrevious_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/CanGoPreviousResponse" message="tns:IampRemote_CanGoPrevious_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAlbumSongs">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetAlbumSongs" message="tns:IampRemote_GetAlbumSongs_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetAlbumSongsResponse" message="tns:IampRemote_GetAlbumSongs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQueuedSongs">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetQueuedSongs" message="tns:IampRemote_GetQueuedSongs_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetQueuedSongsResponse" message="tns:IampRemote_GetQueuedSongs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlayingSong">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetPlayingSong" message="tns:IampRemote_GetPlayingSong_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetPlayingSongResponse" message="tns:IampRemote_GetPlayingSong_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPlayerState">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetPlayerState" message="tns:IampRemote_GetPlayerState_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetPlayerStateResponse" message="tns:IampRemote_GetPlayerState_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPositionSeconds">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/SetPositionSeconds" message="tns:IampRemote_SetPositionSeconds_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/SetPositionSecondsResponse" message="tns:IampRemote_SetPositionSeconds_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueueChanged">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/QueueChanged" message="tns:IampRemote_QueueChanged_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/QueueChangedResponse" message="tns:IampRemote_QueueChanged_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlbumPlayListChanged">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/AlbumPlayListChanged" message="tns:IampRemote_AlbumPlayListChanged_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/AlbumPlayListChangedResponse" message="tns:IampRemote_AlbumPlayListChanged_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlbumChanged">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/AlbumChanged" message="tns:IampRemote_AlbumChanged_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/AlbumChangedResponse" message="tns:IampRemote_AlbumChanged_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Queue">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/Queue" message="tns:IampRemote_Queue_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/QueueResponse" message="tns:IampRemote_Queue_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChangedSongs">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetChangedSongs" message="tns:IampRemote_GetChangedSongs_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetChangedSongsResponse" message="tns:IampRemote_GetChangedSongs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueueID">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/QueueID" message="tns:IampRemote_QueueID_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/QueueIDResponse" message="tns:IampRemote_QueueID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Paused">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/Paused" message="tns:IampRemote_Paused_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/PausedResponse" message="tns:IampRemote_Paused_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Pause">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/Pause" message="tns:IampRemote_Pause_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/PauseResponse" message="tns:IampRemote_Pause_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Stopped">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/Stopped" message="tns:IampRemote_Stopped_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/StoppedResponse" message="tns:IampRemote_Stopped_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Playing">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/Playing" message="tns:IampRemote_Playing_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/PlayingResponse" message="tns:IampRemote_Playing_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Play">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/Play" message="tns:IampRemote_Play_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/PlayResponse" message="tns:IampRemote_Play_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PlayID">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/PlayID" message="tns:IampRemote_PlayID_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/PlayIDResponse" message="tns:IampRemote_PlayID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Randomizing">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/Randomizing" message="tns:IampRemote_Randomizing_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/RandomizingResponse" message="tns:IampRemote_Randomizing_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetRandomizing">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/SetRandomizing" message="tns:IampRemote_SetRandomizing_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/SetRandomizingResponse" message="tns:IampRemote_SetRandomizing_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Shuffle">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/Shuffle" message="tns:IampRemote_Shuffle_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/ShuffleResponse" message="tns:IampRemote_Shuffle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetShuffle">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/SetShuffle" message="tns:IampRemote_SetShuffle_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/SetShuffleResponse" message="tns:IampRemote_SetShuffle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Suffle">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/Suffle" message="tns:IampRemote_Suffle_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/SuffleResponse" message="tns:IampRemote_Suffle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetSuffle">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/SetSuffle" message="tns:IampRemote_SetSuffle_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/SetSuffleResponse" message="tns:IampRemote_SetSuffle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSongFromAlbum">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/RemoveSongFromAlbum" message="tns:IampRemote_RemoveSongFromAlbum_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/RemoveSongFromAlbumResponse" message="tns:IampRemote_RemoveSongFromAlbum_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetVolume">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/SetVolume" message="tns:IampRemote_SetVolume_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/SetVolumeResponse" message="tns:IampRemote_SetVolume_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetRating">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/SetRating" message="tns:IampRemote_SetRating_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/SetRatingResponse" message="tns:IampRemote_SetRating_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueList">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetQueueList" message="tns:IampRemote_GetQueueList_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetQueueListResponse" message="tns:IampRemote_GetQueueList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueListCurrentAlbum">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetQueueListCurrentAlbum" message="tns:IampRemote_GetQueueListCurrentAlbum_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetQueueListCurrentAlbumResponse" message="tns:IampRemote_GetQueueListCurrentAlbum_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadQueue">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/LoadQueue" message="tns:IampRemote_LoadQueue_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/LoadQueueResponse" message="tns:IampRemote_LoadQueue_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AppendQueue">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/AppendQueue" message="tns:IampRemote_AppendQueue_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/AppendQueueResponse" message="tns:IampRemote_AppendQueue_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAlbums">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetAlbums" message="tns:IampRemote_GetAlbums_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetAlbumsResponse" message="tns:IampRemote_GetAlbums_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SelectAlbum">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/SelectAlbum" message="tns:IampRemote_SelectAlbum_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/SelectAlbumResponse" message="tns:IampRemote_SelectAlbum_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMemberDescriptions">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/GetMemberDescriptions" message="tns:IampRemote_GetMemberDescriptions_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/GetMemberDescriptionsResponse" message="tns:IampRemote_GetMemberDescriptions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConnectionTest">
+      <wsdl:input wsaw:Action="http://ampRemote/IampRemote/ConnectionTest" message="tns:IampRemote_ConnectionTest_InputMessage" />
+      <wsdl:output wsaw:Action="http://ampRemote/IampRemote/ConnectionTestResponse" message="tns:IampRemote_ConnectionTest_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

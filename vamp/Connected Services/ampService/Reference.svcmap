@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a5bab31b-c9aa-4327-ae48-a54d69e6a66b" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:11316/ampRemote" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ampRemote4.xsd" MetadataType="Schema" ID="435ad67e-60c3-427d-b096-d8fb21ea2169" SourceId="1" SourceUrl="http://localhost:11316/ampRemote?xsd=xsd4" />
+    <MetadataFile FileName="ampRemote.xsd" MetadataType="Schema" ID="5a50deb0-0e79-48c3-8d5b-69f4f04af4fc" SourceId="1" SourceUrl="http://localhost:11316/ampRemote?xsd=xsd2" />
+    <MetadataFile FileName="ampRemote.disco" MetadataType="Disco" ID="2f6cae69-5db2-447a-8553-39d6c5d3166a" SourceId="1" SourceUrl="http://localhost:11316/ampRemote?disco" />
+    <MetadataFile FileName="ampRemote1.xsd" MetadataType="Schema" ID="02c59694-592b-4554-b9af-7034cfc5fa09" SourceId="1" SourceUrl="http://localhost:11316/ampRemote?xsd=xsd1" />
+    <MetadataFile FileName="ampRemote.wsdl" MetadataType="Wsdl" ID="8f52d577-7fc0-45db-8440-0e60da847a68" SourceId="1" SourceUrl="http://localhost:11316/ampRemote?wsdl=wsdl0" />
+    <MetadataFile FileName="AmpRemote1.wsdl" MetadataType="Wsdl" ID="32479345-0096-40ab-bbcc-9d8b4e0cdd3f" SourceId="1" SourceUrl="http://localhost:11316/ampRemote?wsdl" />
+    <MetadataFile FileName="ampRemote2.xsd" MetadataType="Schema" ID="b063b022-ac47-4d24-9e45-57526b42b36d" SourceId="1" SourceUrl="http://localhost:11316/ampRemote?xsd=xsd0" />
+    <MetadataFile FileName="ampRemote3.xsd" MetadataType="Schema" ID="74ab20e1-4520-4b26-bda0-779e3b382a63" SourceId="1" SourceUrl="http://localhost:11316/ampRemote?xsd=xsd3" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,577 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\CefSharp.WinForms.65.0.0\build\CefSharp.WinForms.props" Condition="Exists('..\packages\CefSharp.WinForms.65.0.0\build\CefSharp.WinForms.props')" />
+  <Import Project="..\packages\CefSharp.Common.65.0.0\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.65.0.0\build\CefSharp.Common.props')" />
+  <Import Project="..\packages\cef.redist.x86.3.3325.1758\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.3.3325.1758\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.3.3325.1758\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.3.3325.1758\build\cef.redist.x64.props')" />
+  <Import Project="..\packages\PdfiumViewer.Native.x86.v8-xfa.2018.4.8.256\Build\PdfiumViewer.Native.x86.v8-xfa.props" Condition="Exists('..\packages\PdfiumViewer.Native.x86.v8-xfa.2018.4.8.256\Build\PdfiumViewer.Native.x86.v8-xfa.props')" />
+  <Import Project="..\packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\Build\PdfiumViewer.Native.x86_64.v8-xfa.props" Condition="Exists('..\packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\Build\PdfiumViewer.Native.x86_64.v8-xfa.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{67ACDC96-7BBB-45E4-999E-6F29C41FEB0E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>vamp</RootNamespace>
+    <AssemblyName>vamp#</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <CefSharpAnyCpuSupport>true</CefSharpAnyCpuSupport>
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\vamp#.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\vamp#.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FolderSelect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\static_packages\FolderSelect.dll</HintPath>
+    </Reference>
+    <Reference Include="Geckofx-Core, Version=45.0.34.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=MSIL">
+      <HintPath>..\packages\Geckofx45.64.45.0.34\lib\net45\Geckofx-Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Geckofx-Winforms, Version=45.0.34.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=MSIL">
+      <HintPath>..\packages\Geckofx45.64.45.0.34\lib\net45\Geckofx-Winforms.dll</HintPath>
+    </Reference>
+    <Reference Include="Gma.System.MouseKeyHook, Version=5.6.130.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MouseKeyHook.5.6.0\lib\net40\Gma.System.MouseKeyHook.dll</HintPath>
+    </Reference>
+    <Reference Include="MediaInfoDotNet, Version=0.7.79.40925, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediaInfoDotNet.0.7.79.40925\lib\net45\MediaInfoDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="MetadataExtractor, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetadataExtractor.2.0.0\lib\net45\MetadataExtractor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfiumViewer, Version=2.13.0.0, Culture=neutral, PublicKeyToken=91e4789cfb0609e0, processorArchitecture=MSIL">
+      <HintPath>..\packages\PdfiumViewer.2.13.0.0\lib\net20\PdfiumViewer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.109.1\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TMdbEasy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TMdbEasy.0.3.7\lib\net461\TMdbEasy.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vlc.DotNet.Core.2.2.1\lib\net45\Vlc.DotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Core.Interops, Version=2.2.1.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vlc.DotNet.Core.Interops.2.2.1\lib\net45\Vlc.DotNet.Core.Interops.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Forms, Version=2.2.1.0, Culture=neutral, PublicKeyToken=84529da31f4eb963, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vlc.DotNet.Forms.2.2.1\lib\net45\Vlc.DotNet.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSof.ConfLib, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSof.ConfLib.1.0.0.4\lib\net461\VPKSof.ConfLib.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.3\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.LangLib, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.LangLib.1.0.0.8\lib\net461\VPKSoft.LangLib.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.SecureAPIKey, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.SecureAPIKey.1.0.0\lib\net45\VPKSoft.SecureAPIKey.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.TMDbFileUtils, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.TMDbFileUtils.1.0.0.6\lib\net461\VPKSoft.TMDbFileUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.Utils, Version=1.0.3.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.Utils.1.0.3.7\lib\net45\VPKSoft.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="VPKSoft.VisualComponents, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.VisualComponents.1.0.0.7\lib\net461\VPKSoft.VisualComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="XmpCore, Version=6.1.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XmpCore.6.1.10\lib\net35\XmpCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlbumSongWCFExt.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="FormAmpMusicPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAmpMusicPlayer.Designer.cs">
+      <DependentUpon>FormAmpMusicPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AmpWCFHelper.cs" />
+    <Compile Include="Connected Services\ampService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="FormDialogBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogBase.Designer.cs">
+      <DependentUpon>FormDialogBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDialogError.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogError.designer.cs">
+      <DependentUpon>FormDialogError.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDialogPhotoAlbumQueryName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogPhotoAlbumQueryName.Designer.cs">
+      <DependentUpon>FormDialogPhotoAlbumQueryName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPhotoAlbumEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPhotoAlbumEditor.Designer.cs">
+      <DependentUpon>FormPhotoAlbumEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSettings.Designer.cs">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSplash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSplash.designer.cs">
+      <DependentUpon>FormSplash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTMDBLoadProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTMDBLoadProgress.designer.cs">
+      <DependentUpon>FormTMDBLoadProgress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KeySendList.cs" />
+    <Compile Include="MessageHelper.cs" />
+    <Compile Include="FormPhotoAlbumBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPhotoAlbumBrowser.designer.cs">
+      <DependentUpon>FormPhotoAlbumBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDialogSelectCustomContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogSelectCustomContent.designer.cs">
+      <DependentUpon>FormDialogSelectCustomContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDialogSelectLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogSelectLocation.designer.cs">
+      <DependentUpon>FormDialogSelectLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSelectMovie.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSelectMovie.Designer.cs">
+      <DependentUpon>FormSelectMovie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormViewPDF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViewPDF.Designer.cs">
+      <DependentUpon>FormViewPDF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDialogContextAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogContextAction.Designer.cs">
+      <DependentUpon>FormDialogContextAction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="FormPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPlayer.Designer.cs">
+      <DependentUpon>FormPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptRunner.cs" />
+    <Compile Include="FormDialogSelectFileOrDirectory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogSelectFileOrDirectory.Designer.cs">
+      <DependentUpon>FormDialogSelectFileOrDirectory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDialogSelectPlaybackPosition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogSelectPlaybackPosition.Designer.cs">
+      <DependentUpon>FormDialogSelectPlaybackPosition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSelectSubtitle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSelectSubtitle.Designer.cs">
+      <DependentUpon>FormSelectSubtitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWebBrowserChromium.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWebBrowserChromium.designer.cs">
+      <DependentUpon>FormWebBrowserChromium.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWebBrowserGecko.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWebBrowserGecko.Designer.cs">
+      <DependentUpon>FormWebBrowserGecko.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="FormAmpMusicPlayer.resx">
+      <DependentUpon>FormAmpMusicPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogBase.resx">
+      <DependentUpon>FormDialogBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogError.resx">
+      <DependentUpon>FormDialogError.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogPhotoAlbumQueryName.resx">
+      <DependentUpon>FormDialogPhotoAlbumQueryName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPhotoAlbumBrowser.resx">
+      <DependentUpon>FormPhotoAlbumBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogSelectCustomContent.resx">
+      <DependentUpon>FormDialogSelectCustomContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogSelectLocation.resx">
+      <DependentUpon>FormDialogSelectLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPhotoAlbumEditor.resx">
+      <DependentUpon>FormPhotoAlbumEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSelectMovie.resx">
+      <DependentUpon>FormSelectMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSettings.resx">
+      <DependentUpon>FormSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSplash.resx">
+      <DependentUpon>FormSplash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTMDBLoadProgress.resx">
+      <DependentUpon>FormTMDBLoadProgress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViewPDF.resx">
+      <DependentUpon>FormViewPDF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogContextAction.resx">
+      <DependentUpon>FormDialogContextAction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPlayer.resx">
+      <DependentUpon>FormPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="FormDialogSelectFileOrDirectory.resx">
+      <DependentUpon>FormDialogSelectFileOrDirectory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogSelectPlaybackPosition.resx">
+      <DependentUpon>FormDialogSelectPlaybackPosition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSelectSubtitle.resx">
+      <DependentUpon>FormSelectSubtitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWebBrowserChromium.resx">
+      <DependentUpon>FormWebBrowserChromium.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWebBrowserGecko.resx">
+      <DependentUpon>FormWebBrowserGecko.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Connected Services\ampService\ampRemote.wsdl" />
+    <None Include="Connected Services\ampService\ampRemote.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ampService\AmpRemote1.wsdl" />
+    <None Include="Connected Services\ampService\ampRemote1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ampService\ampRemote2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ampService\ampRemote3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ampService\ampRemote4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ampService\vamp.ampService.AlbumSongWCF.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ampService\vamp.ampService.AlbumWCF.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ampService\vamp.ampService.PlayerState.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ampService\vamp.ampService.QueueEntry.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="COPYING">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Firefox\omni.ja" />
+    <None Include="MediaInfoDotNet.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="script.sql_script">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="thanks_to.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="libvlc_x64\" />
+    <Folder Include="libvlc_x86\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\powered_by_rectangle_green_the_movie_db.png" />
+    <None Include="Resources\settings.png" />
+    <None Include="Resources\tmdb_primary_light_green.png" />
+    <Content Include="DBLocalization.exe" />
+    <None Include="Resources\Exit.png" />
+    <None Include="Resources\List.png" />
+    <None Include="Resources\Download.png" />
+    <None Include="Resources\Upload.png" />
+    <None Include="Resources\New document.png" />
+    <None Include="Resources\Delete.png" />
+    <None Include="Resources\rbin.png" />
+    <None Include="Resources\Yellow tag.png" />
+    <None Include="Resources\save_changes.png" />
+    <None Include="Resources\OK1.png" />
+    <None Include="Resources\database_down.png" />
+    <None Include="Resources\database_up.png" />
+    <None Include="Resources\Modify.png" />
+    <None Include="Resources\sand_class_steel_blue.png" />
+    <None Include="Resources\view_refresh2.png" />
+    <Content Include="VPKSoft.ico" />
+    <Content Include="x64\MediaInfo.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\MediaInfo.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\add_something.png" />
+    <None Include="Resources\remove.png" />
+    <None Include="Resources\rotate_cw.png" />
+    <None Include="Resources\rotate_ccw.png" />
+    <None Include="Resources\append_queue.png" />
+    <None Include="Resources\load_queue.png" />
+    <None Include="Resources\record_album.png" />
+    <None Include="Resources\menu.png" />
+    <None Include="Resources\error.png" />
+    <None Include="Resources\orange_star.png" />
+    <None Include="Resources\rating_up.png" />
+    <None Include="Resources\rating_down.png" />
+    <None Include="Resources\queue.png" />
+    <None Include="Resources\repeat.png" />
+    <None Include="Resources\shuffle.png" />
+    <None Include="Connected Services\ampService\ampRemote.disco" />
+    <None Include="Connected Services\ampService\configuration91.svcinfo" />
+    <None Include="Connected Services\ampService\configuration.svcinfo" />
+    <None Include="Connected Services\ampService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Firefox\AccessibleMarshal.dll" />
+    <Content Include="Firefox\breakpadinjector.dll" />
+    <Content Include="Firefox\d3dcompiler_47.dll" />
+    <Content Include="Firefox\freebl3.dll" />
+    <Content Include="Firefox\icudt58.dll" />
+    <Content Include="Firefox\icuin58.dll" />
+    <Content Include="Firefox\icuuc58.dll" />
+    <Content Include="Firefox\lgpllibs.dll" />
+    <Content Include="Firefox\libEGL.dll" />
+    <Content Include="Firefox\libGLESv2.dll" />
+    <Content Include="Firefox\mozglue.dll" />
+    <Content Include="Firefox\nss3.dll" />
+    <Content Include="Firefox\nssckbi.dll" />
+    <Content Include="Firefox\nssdbm3.dll" />
+    <Content Include="Firefox\plugin-container.exe" />
+    <Content Include="Firefox\plugin-hang-ui.exe" />
+    <Content Include="Firefox\sandboxbroker.dll" />
+    <Content Include="Firefox\softokn3.dll" />
+    <Content Include="Firefox\xul.dll" />
+    <Content Include="icon.ico" />
+    <None Include="Resources\folder-media.png" />
+    <None Include="Resources\folder.png" />
+    <None Include="Resources\description.png" />
+    <None Include="Resources\link_icon.png" />
+    <None Include="Resources\power2.png" />
+    <None Include="Resources\www_button_disabled.png" />
+    <None Include="Resources\tv_series_mod_disabled.png" />
+    <None Include="Resources\power2_disabled.png" />
+    <None Include="Resources\play_youtube_disabled.png" />
+    <None Include="Resources\play_movies_disabled.png" />
+    <None Include="Resources\play_disc_disabled.png" />
+    <None Include="Resources\photos_disabled.png" />
+    <None Include="Resources\music_disabled.png" />
+    <None Include="Resources\www_button.png" />
+    <None Include="Resources\Dual Ring-1s-200px.gif" />
+    <None Include="Resources\back_disabled.png" />
+    <None Include="Resources\forward_disabled.png" />
+    <None Include="Resources\forward.png" />
+    <None Include="Resources\web_button_exit.png" />
+    <None Include="Resources\web_refresh.png" />
+    <None Include="Resources\back.png" />
+    <None Include="Resources\tick.png" />
+    <None Include="Resources\not_whole.png" />
+    <None Include="Resources\photos.png" />
+    <None Include="Resources\music.png" />
+    <None Include="Resources\play_disc.png" />
+    <None Include="Resources\tv_series_mod.png" />
+    <None Include="Resources\play_movies.png" />
+    <None Include="Resources\play_youtube.png" />
+    <None Include="Resources\video-player-2400px.png" />
+    <None Include="Resources\volume_disabled.png" />
+    <None Include="Resources\wind_forward_disabled.png" />
+    <None Include="Resources\wind_back_disabled.png" />
+    <None Include="Resources\subtitle_disabled.png" />
+    <None Include="Resources\previous_disabled.png" />
+    <None Include="Resources\play_disabled.png" />
+    <None Include="Resources\pause_disabled.png" />
+    <None Include="Resources\next_disabled.png" />
+    <None Include="Resources\Cancel.png" />
+    <None Include="Resources\OK.png" />
+    <None Include="Resources\volume_off.png" />
+    <None Include="Resources\subtitle.png" />
+    <None Include="Resources\volume.png" />
+    <None Include="Resources\next.png" />
+    <None Include="Resources\previous.png" />
+    <None Include="Resources\wind_forward.png" />
+    <None Include="Resources\wind_back.png" />
+    <None Include="Resources\stop.png" />
+    <None Include="Resources\pause.png" />
+    <None Include="Resources\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ampService\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY "$(ProjectDir)libvlc_x86" "$(TargetDir)libvlc_x86" /S /Y /I /D
+XCOPY "$(ProjectDir)libvlc_x64" "$(TargetDir)libvlc_x64" /S /Y /I /D
+
+XCOPY  "$(SolutionDir)packages\Geckofx45.45.0.34\content\Firefox" "$(TargetDir)Firefox_x86" /S /Y /I /D
+XCOPY  "$(SolutionDir)packages\Geckofx45.64.45.0.34\content\Firefox" "$(TargetDir)Firefox_x64" /S /Y /I /D
+
+</PostBuildEvent>
+  </PropertyGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Geckofx45.45.0.34\build\Geckofx45.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Geckofx45.45.0.34\build\Geckofx45.targets'))" />
+    <Error Condition="!Exists('..\packages\Geckofx45.64.45.0.34\build\Geckofx45.64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Geckofx45.64.45.0.34\build\Geckofx45.64.targets'))" />
+    <Error Condition="!Exists('..\packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\Build\PdfiumViewer.Native.x86_64.v8-xfa.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\Build\PdfiumViewer.Native.x86_64.v8-xfa.props'))" />
+    <Error Condition="!Exists('..\packages\PdfiumViewer.Native.x86.v8-xfa.2018.4.8.256\Build\PdfiumViewer.Native.x86.v8-xfa.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PdfiumViewer.Native.x86.v8-xfa.2018.4.8.256\Build\PdfiumViewer.Native.x86.v8-xfa.props'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x64.3.3325.1758\build\cef.redist.x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.3325.1758\build\cef.redist.x64.props'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x86.3.3325.1758\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.3325.1758\build\cef.redist.x86.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.65.0.0\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.65.0.0\build\CefSharp.Common.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.65.0.0\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.65.0.0\build\CefSharp.Common.targets'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.WinForms.65.0.0\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.65.0.0\build\CefSharp.WinForms.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.WinForms.65.0.0\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.65.0.0\build\CefSharp.WinForms.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets'))" />
+  </Target>
+  <Import Project="..\packages\Geckofx45.45.0.34\build\Geckofx45.targets" Condition="Exists('..\packages\Geckofx45.45.0.34\build\Geckofx45.targets')" />
+  <Import Project="..\packages\Geckofx45.64.45.0.34\build\Geckofx45.64.targets" Condition="Exists('..\packages\Geckofx45.64.45.0.34\build\Geckofx45.64.targets')" />
+  <Import Project="..\packages\CefSharp.Common.65.0.0\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.65.0.0\build\CefSharp.Common.targets')" />
+  <Import Project="..\packages\CefSharp.WinForms.65.0.0\build\CefSharp.WinForms.targets" Condition="Exists('..\packages\CefSharp.WinForms.65.0.0\build\CefSharp.WinForms.targets')" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets')" />
+</Project>

@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="msgBrowserBack" xml:space="preserve">
+    <value>Back|A tool-tip for a browser back button</value>
+  </data>
+  <data name="msgBrowserExit" xml:space="preserve">
+    <value>Exit|A tool-tip for a browser exit button</value>
+  </data>
+  <data name="msgBrowserForward" xml:space="preserve">
+    <value>Forward|A tool-tip for a browser forward button</value>
+  </data>
+  <data name="msgBrowserRefresh" xml:space="preserve">
+    <value>Refresh|A tool-tip for a browser refresh button</value>
+  </data>
+  <data name="msgCancel" xml:space="preserve">
+    <value>Cancel|As in a Cancel button</value>
+  </data>
+  <data name="msgError" xml:space="preserve">
+    <value>Error|A message describing that some kind of error occurred.</value>
+  </data>
+  <data name="msgJumToStart" xml:space="preserve">
+    <value>Jump to start|A text describing a button tool-tip that jumps the playback to the start</value>
+  </data>
+  <data name="msgMarkItemAsWatched" xml:space="preserve">
+    <value>Mark as watched?|A short (in text length) question whether or not to mark a file or a directory as watched</value>
+  </data>
+  <data name="msgOK" xml:space="preserve">
+    <value>OK|As in an OK button</value>
+  </data>
+  <data name="msgPause" xml:space="preserve">
+    <value>Pause|A text describing a button tool-tip that pauses the playback</value>
+  </data>
+  <data name="msgPlay" xml:space="preserve">
+    <value>Play|As in a tool-tip to describe user clicking the play button</value>
+  </data>
+  <data name="msgPlaybackFromThebeginng" xml:space="preserve">
+    <value>The beginning|A message describing that the playback should be started from the beginning</value>
+  </data>
+  <data name="msgPlaybackPosition" xml:space="preserve">
+    <value>Playback position|A tool-tip for describing a text box with time</value>
+  </data>
+  <data name="msgPlaybackPositionSlider" xml:space="preserve">
+    <value>Seek|A slider with current playback position</value>
+  </data>
+  <data name="msgPlayBackThreeDots" xml:space="preserve">
+    <value>Playback...|A message describing if something should be done for the playback</value>
+  </data>
+  <data name="msgRewind" xml:space="preserve">
+    <value>Rewind|A text describing a button tool-tip starts winding the playback backwards with a higher speed</value>
+  </data>
+  <data name="msgSavedPlaybackPositionContinue" xml:space="preserve">
+    <value>Continue from {0}|A message describing a saved playback position to continue the playback from</value>
+  </data>
+  <data name="msgSeekEnd" xml:space="preserve">
+    <value>Jump to end|A text describing a button tool-tip that jumps the playback to the end. The playback window is closed.</value>
+  </data>
+  <data name="msgStop" xml:space="preserve">
+    <value>Stop|A text describing a button tool-tip that stops the playback and closes the playback window</value>
+  </data>
+  <data name="msgMenu" xml:space="preserve">
+    <value>Menu|A tool-tip for a context menu button</value>
+  </data>
+  <data name="msgUrl" xml:space="preserve">
+    <value>URL|A tool-tip for a browser URL address</value>
+  </data>
+  <data name="msgVLCLibMissing" xml:space="preserve">
+    <value>The VLC Library is missing. The playback will be aborted.|As in the VLC library (dll's and stuff) is missing, so no video playback will occur!</value>
+  </data>
+  <data name="msgVolumePercentage" xml:space="preserve">
+    <value>Volume: {0}%|As in a tool-tip to describe volume and its percentage value</value>
+  </data>
+  <data name="msgWindForward" xml:space="preserve">
+    <value>Wind|A text describing a button tool-tip starts winding the playback forward with a higher speed</value>
+  </data>
+  <data name="msgInvalidURL" xml:space="preserve">
+    <value>The given URL is invalid: '{0}'.|A navigation error occurred in a web browser form.</value>
+  </data>
+  <data name="msgNext" xml:space="preserve">
+    <value>Next|A text describing a button tool-tip of a button to jump to a next item in the playback</value>
+  </data>
+  <data name="msgPrevious" xml:space="preserve">
+    <value>Previous|A text describing a button tool-tip of a button to jump to a previous item in the playback</value>
+  </data>
+  <data name="msgQueue" xml:space="preserve">
+    <value>Queue|A text describing a button tool-tip of a button to show only queued items in a play list</value>
+  </data>
+  <data name="msgRandom" xml:space="preserve">
+    <value>Random|A text describing a button tool-tip of a button to toggle play list randomization</value>
+  </data>
+  <data name="msgRepeat" xml:space="preserve">
+    <value>Repeat|A text describing a button tool-tip of a button to toggle playback repeat mode</value>
+  </data>
+  <data name="msgWindowExit" xml:space="preserve">
+    <value>Exit|A tool-tip for a window close/exit button</value>
+  </data>
+  <data name="msgItemRating" xml:space="preserve">
+    <value>Rating|Rating for a item in a play list</value>
+  </data>
+  <data name="msgAmpRemoteError" xml:space="preserve">
+    <value>amp# remote connection error: {0}{1}|Something wrong with the amp# remote connection API with an error message</value>
+  </data>
+  <data name="msgSelectAlbum" xml:space="preserve">
+    <value>Select Album|A tool-tip message describing a button to select a music album</value>
+  </data>
+  <data name="msgPhotoAlbumExit" xml:space="preserve">
+    <value>Exit|A tool-tip for a photo album browser exit button</value>
+  </data>
+  <data name="msgPhotoAlbumNext" xml:space="preserve">
+    <value>Next photo|A tool-tip to indicate that a button would select a next photo from a photo album</value>
+  </data>
+  <data name="msgPhotoAlbumPrevious" xml:space="preserve">
+    <value>Previous photo|A tool-tip to indicate that a button would select a previous photo from a photo album</value>
+  </data>
+  <data name="msgPhotoRotateClockwise" xml:space="preserve">
+    <value>Rotate clockwise|A tool-tip to indicate that a button would rotate a photo clockwise</value>
+  </data>
+  <data name="msgPhotoRotateCounterClockwise" xml:space="preserve">
+    <value>Rotate counterclockwise|A tool-tip to indicate that a button would rotate a photo counterclockwise</value>
+  </data>
+  <data name="msgPhotoDescription" xml:space="preserve">
+    <value>{0}/{1}: '{2}' [{3}]|A tool-tip for a position of a photo in a photo album, description for a photo and its take time</value>
+  </data>
+  <data name="msgBindExceptionLogger" xml:space="preserve">
+    <value>Binding exception logger|As in bind the application global exception logger</value>
+  </data>
+  <data name="msgConfigureTMDbClient" xml:space="preserve">
+    <value>Configure the TMDb client|As in configure the TMdbEasy client and get its configuration</value>
+  </data>
+  <data name="msgDatabaseCacheLoading" xml:space="preserve">
+    <value>Database cache loading|As in data from the SQLite database is being cached in to the memory</value>
+  </data>
+  <data name="msgDone" xml:space="preserve">
+    <value>..done.|As in some operation is done</value>
+  </data>
+  <data name="msgInitChromiumEmbeddedFrameworkSettings" xml:space="preserve">
+    <value>Initialize Chromium Embedded Framework settings</value>
+  </data>
+  <data name="msgInitDatabase" xml:space="preserve">
+    <value>Initialize database|As in initialize the SQLite database connection and do some caching</value>
+  </data>
+  <data name="msgInitGeckoFXEngine" xml:space="preserve">
+    <value>Initialize GeckoFx engine|As in initialize the GeckoFX web browser engine</value>
+  </data>
+  <data name="msgInitializeVLCDotNet" xml:space="preserve">
+    <value>Initialize the VLC.DotNet|As in initialize the Vcl.DotNet library and underlying VLC native library</value>
+  </data>
+  <data name="msgLoadChromiumEmbeddedFramework" xml:space="preserve">
+    <value>Load Chromium Embedded Framework</value>
+  </data>
+  <data name="msgLocalization" xml:space="preserve">
+    <value>Localization|As in localize the main form</value>
+  </data>
+  <data name="msgPercentage" xml:space="preserve">
+    <value>{0} %|An indicator of percentage</value>
+  </data>
+  <data name="msgReady" xml:space="preserve">
+    <value>Ready|As in some operation is ready</value>
+  </data>
+  <data name="msgVisualStyles" xml:space="preserve">
+    <value>Visual styles|As in initializing the visual styles</value>
+  </data>
+  <data name="msgSelectFolder" xml:space="preserve">
+    <value>Select a folder|A dialog requests a user to select a folder</value>
+  </data>
+  <data name="msgDatabasePhotoCacheLoading" xml:space="preserve">
+    <value>Database photo file information cache loading|As in data from the SQLite database from the V_PHOTOALBUM view is being cached in to the memory</value>
+  </data>
+  <data name="msgMsgDatabaseMediaLocationCacheLoading" xml:space="preserve">
+    <value>Database media location cache loading|As in data from the SQLite database from the MEDIALOCATION and from the PHOTOALBUM tables are being cached in to the memory</value>
+  </data>
+  <data name="msgNewPhotoAlbum" xml:space="preserve">
+    <value>New photo album|A text describing a new photo album</value>
+  </data>
+  <data name="msgPhotoAlbumExists" xml:space="preserve">
+    <value>Photo album with the given name already exists|As in a photo album with the given name already exists</value>
+  </data>
+  <data name="msgSQLFileFilter" xml:space="preserve">
+    <value>SQL Script Files|*.sql|A filter for SQL script files</value>
+  </data>
+  <data name="msgXMLFileFilter" xml:space="preserve">
+    <value>XML Files|*.xml|A filter for XML (Extensible Markup Language) files</value>
+  </data>
+  <data name="msgErrorInScript" xml:space="preserve">
+    <value>A script error occurred on the database update|Something failed during running the database update script</value>
+  </data>
+  <data name="msgSQLSentenceError" xml:space="preserve">
+    <value>An error occurred while running a SQL transaction to the database.|As in a some kind of error occurred while running an arbitrary SQL against the SQLite database</value>
+  </data>
+</root>
