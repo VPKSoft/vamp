@@ -19,3 +19,6 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 * ~~Grayscale the main window while an operation is running~~
 * Make the installer to remove local user saved data
 * Continue to write this readme!
+
+## Credits
+This software is powered by the [TMDb](https://www.themoviedb.org)
