@@ -20,7 +20,11 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 * Make the installer to remove local user saved data
 * Continue to write this readme!
 
+
 ## Credits
+* TODO: List the credits of the libraties this software is using..
+
+## Attribution
 This software is powered by the [TMDb](https://www.themoviedb.org)
 
 ![alt text](https://github.com/VPKSoft/vamp/blob/master/TMDbAttribution.png)
