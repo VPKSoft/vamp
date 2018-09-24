@@ -22,7 +22,7 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 
 
 ## Credits
-* [TMdbEasy](https://github.com/tonykaralis/TMdbEasy) - a great wrapper library for the [TMDb.](https://www.themoviedb.org) database.
+* [TMdbEasy](https://github.com/tonykaralis/TMdbEasy) - a great wrapper library for the [TMDb](https://www.themoviedb.org) database.
 * TODO: List the credits of the libraties this software is using..
 
 ## Attribution
