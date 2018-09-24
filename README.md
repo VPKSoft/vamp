@@ -22,3 +22,5 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 
 ## Credits
 This software is powered by the [TMDb](https://www.themoviedb.org)
+
+![alt text](https://github.com/VPKSoft/vamp/blob/master/TMDbAttribution.png)
