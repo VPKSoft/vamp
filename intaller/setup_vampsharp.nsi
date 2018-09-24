@@ -119,7 +119,8 @@ Section -Main SEC0000
 
 	File ..\settings.ico
 	File ..\album_editor.ico
-	
+
+    /*	
 	SetOutPath $INSTDIR\libvlc_x64
     File /r /x .svn ..\vamp\libvlc_x64\*.*
 	
@@ -131,6 +132,7 @@ Section -Main SEC0000
 	
 	SetOutPath $INSTDIR\Firefox_x86
 	File /r ..\packages\Geckofx45.45.0.34\content\Firefox\*.*
+	*/
 	
     SetOutPath "$LOCALAPPDATA\vamp#"
     File ..\lang.sqlite   
@@ -196,7 +198,11 @@ Section -un.post UNSEC0001
     DeleteRegKey /IfEmpty HKLM "${REGKEY}"
 	
     RmDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
+	
+	MessageBox MB_ICONQUESTION|MB_YESNO "$(DeleteUserData)" IDYES delete IDNO nodelete
+	delete:
     RmDir /REBOOTOK "$LOCALAPPDATA\vamp#"
+	nodelete:
     RmDir /REBOOTOK $INSTDIR
 SectionEnd
 
@@ -226,4 +232,7 @@ LangString SettingsDesc ${LANG_ENGLISH} "vamp# settings"
 
 LangString PhotoEditorDesc ${LANG_FINNISH} "vamp# valokuva-albumieditori"
 LangString PhotoEditorDesc ${LANG_ENGLISH} "vamp# photo album editor"
+
+LangString DeleteUserData ${LANG_FINNISH} "Poista paikalliset käyttäjätiedot?"
+LangString DeleteUserData ${LANG_ENGLISH} "Delete local user data?"
 #END: localization..
