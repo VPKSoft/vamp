@@ -28,7 +28,7 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 ## Attribution
 This software is powered by the [TMDb.](https://www.themoviedb.org)
 
-![alt text](https://github.com/VPKSoft/vamp/blob/master/TMDbAttribution.png)
+![Screenshot](https://github.com/VPKSoft/vamp/blob/master/TMDbAttribution.png)
 
 ## License
 This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 - see the [LICENSE](LICENSE) file for details.
