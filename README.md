@@ -6,11 +6,11 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 ## Todo
 * ~~Document the code~~
 * Make the photo album editor stable
-* Fix the unique name conflict on the photo album editor
+* ~~Fix the unique name conflict on the photo album editor~~ (fixed: 25.09.18)
 * ~~Speed up the video browser control~~
 * ~~Allow the video browser for to display a file name instead of a complete description of a TV show season episode~~
 * Check the dicrectory existence when importing photo albums
-* Add a button the rename a photo album from the photo album editor
+* ~~Add a button the rename a photo album from the photo album editor~~ (done: 25.09.18)
 * ~~Crash handler --> just kill self~~
 * ~~Prevent a crasch when no internet connection is available~~
 * ~~Don't display delete files~~
