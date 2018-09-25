@@ -52,6 +52,7 @@ namespace vamp
     /// <seealso cref="VPKSoft.LangLib.DBLangEngineWinforms" />
     public partial class FormPhotoAlbumEditor : DBLangEngineWinforms
     {
+        #region PrivateFields
         private SQLiteConnection conn; // database connection for the SQLite database
 
         private List<PHOTODATATAG> photoTags = null; // a current list of tags in the database..
@@ -79,7 +80,9 @@ namespace vamp
 
         // a variable holding tags if they to be copied / pasted to some other photo entry..
         private string copyTags = string.Empty;
+        #endregion
 
+        #region MassiveConstructor
         /// <summary>
         /// Initializes a new instance of the <see cref="FormPhotoAlbumEditor"/> class.
         /// </summary>
@@ -104,7 +107,15 @@ namespace vamp
             // run the script to keep the database up to date..
             if (!ScriptRunner.RunScript(DBLangEngine.DataDir + "vamp.sqlite"))
             {
-                MessageBox.Show(DBLangEngine.GetMessage("msgErrorInScript", "?"));
+                MessageBox.Show(
+                    DBLangEngine.GetMessage("msgErrorInScript",
+                    "A script error occurred on the database update|Something failed during running the database update script"),
+                    DBLangEngine.GetMessage("msgError", "Error|A message describing that some kind of error occurred."),
+                    MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+
+                // at this point there is no reason to continue the program's execution as the database might be in an invalid state..
+                throw new Exception(DBLangEngine.GetMessage("msgErrorInScript",
+                    "A script error occurred on the database update|Something failed during running the database update script"));
             }
 
             // initialize the DataBase class connection..
@@ -135,6 +146,7 @@ namespace vamp
             // END: localization of the save and open file dialogs..
             #endregion
         }
+        #endregion
 
         /// <summary>
         /// Lists the tags in the database with an optional search string.
@@ -854,35 +866,6 @@ namespace vamp
             return -1; // no match, return an invalid index..
         }
 
-        // the photo album's name was changed..
-        private void tbPhotoAlbumNameValue_TextChanged(object sender, EventArgs e)
-        {
-            if (changeEventsSuspended) // no change events are allowed..
-            {
-                return; // ..so do return..
-            }
-
-            string newName = ((TextBox)sender).Text; // get the new name for the photo album..
-
-            // set the new name if valid..
-            currentAlbum.NAME = newName.Trim() == string.Empty ? currentAlbum.NAME : newName.Trim();
-
-            // update the name to the photo album's entries as well..
-            for (int i = 0; i < currentPhotoAlbumEntries.Count; i++)
-            {
-                currentPhotoAlbumEntries[i].NAME = newName; // ..update..
-            }
-
-            // set the value to the currently selected item..
-            currentPhotoAlbumEntry.NAME = newName;
-
-            // update the currently selected photo album entry with the new tags..
-            UpdatePhotoAlbumEntry(currentPhotoAlbumEntry);
-
-            // update the photo album into the internal list and into the list box..
-            UpdatePhotoAlbum(currentAlbum);
-        }
-
         // "save" button was clicked..
         private void pnSave_Click(object sender, EventArgs e)
         {
@@ -1100,11 +1083,41 @@ namespace vamp
         // the user wants to rename a photo album..
         private void btSetAlbumName_Click(object sender, EventArgs e)
         {
-            // get the localized default name for a new album..
-            string albumName = FormDialogPhotoAlbumQueryName.Execute(photoAlbums,
+            // get the localized default name for a new album or use a previous name for the
+            // selected album..
+            string albumName = currentAlbum != null ?
+                currentAlbum.NAME :
+                FormDialogPhotoAlbumQueryName.Execute(photoAlbums,
                 DBLangEngine.GetMessage("msgNewPhotoAlbum", "New photo album|A text describing a new photo album"));
 
+            // get a name for the photo album..
+            albumName = FormDialogPhotoAlbumQueryName.Execute(photoAlbums,
+                albumName);
+
             tbPhotoAlbumNameValue.Text = albumName;
+
+            if (changeEventsSuspended) // no change events are allowed..
+            {
+                return; // ..so do return..
+            }
+
+            // set the new name if valid..
+            currentAlbum.NAME = albumName.Trim() == string.Empty ? currentAlbum.NAME : albumName.Trim();
+
+            // update the name to the photo album's entries as well..
+            for (int i = 0; i < currentPhotoAlbumEntries.Count; i++)
+            {
+                currentPhotoAlbumEntries[i].NAME = albumName; // ..update..
+            }
+
+            // set the value to the currently selected item..
+            currentPhotoAlbumEntry.NAME = albumName;
+
+            // update the currently selected photo album entry with the new tags..
+            UpdatePhotoAlbumEntry(currentPhotoAlbumEntry);
+
+            // update the photo album into the internal list and into the list box..
+            UpdatePhotoAlbum(currentAlbum);
         }
 
         // imports a SQL file into the database..

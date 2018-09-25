@@ -63,7 +63,7 @@ namespace vamp
         internal List<KeyValuePair<TableLayoutPanel, Panel>> buttonList = new List<KeyValuePair<TableLayoutPanel, Panel>>();
         #endregion
 
-        #region HeftyConstructor
+        #region MassiveConstructor
         /// <summary>
         /// A constructor for the MainForm class.
         /// </summary>

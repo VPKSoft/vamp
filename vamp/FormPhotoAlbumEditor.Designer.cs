@@ -529,7 +529,6 @@
             this.tbPhotoAlbumNameValue.ReadOnly = true;
             this.tbPhotoAlbumNameValue.Size = new System.Drawing.Size(171, 20);
             this.tbPhotoAlbumNameValue.TabIndex = 4;
-            this.tbPhotoAlbumNameValue.TextChanged += new System.EventHandler(this.tbPhotoAlbumNameValue_TextChanged);
             // 
             // btSetAlbumName
             // 

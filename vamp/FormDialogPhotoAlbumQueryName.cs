@@ -77,6 +77,9 @@ namespace vamp
             // set the previous photo album list..
             formDialogPhotoAlbumQueryName.photoAlbums = photoAlbums;
 
+            // validate the name of the photo album..
+            formDialogPhotoAlbumQueryName.ValidatePhotoAlbumName();
+
             if (formDialogPhotoAlbumQueryName.ShowDialog() == DialogResult.OK)
             {
                 // return the name for a photo album..
@@ -89,12 +92,12 @@ namespace vamp
             }
         }
 
-        // validate the name of the photo album
-        private void tbPhotoAlbumName_TextChanged(object sender, EventArgs e)
+        // validate the name of the photo album..
+        private void ValidatePhotoAlbumName()
         {
             btOK.Enabled =
                 tbPhotoAlbumName.Text.Trim() != string.Empty && // empty strings a not accepted..
-                // existing names are not accepted..
+                                                                // existing names are not accepted..
                 !photoAlbums.Exists(f => f.NAME.Equals(tbPhotoAlbumName.Text.Trim(), StringComparison.InvariantCultureIgnoreCase));
 
             // set the error text to an empty string..
@@ -106,6 +109,13 @@ namespace vamp
                 // ..give an error message..
                 lbErrorText.Text = DBLangEngine.GetMessage("msgPhotoAlbumExists", "Photo album with the given name already exists|As in a photo album with the given name already exists");
             }
+        }
+
+        // this event is subscribed just to validate the photo album's name..
+        private void tbPhotoAlbumName_TextChanged(object sender, EventArgs e)
+        {
+            // validate the name of the photo album..
+            ValidatePhotoAlbumName();
         }
     }
 }
