@@ -184,7 +184,9 @@ Section /o -un.Main UNSEC0000
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(PhotoEditorDesc).lnk"
 
 	RMDir /r /REBOOTOK $INSTDIR
-	   
+	
+	Call DeleteLocalData
+	
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
 
@@ -197,13 +199,9 @@ Section -un.post UNSEC0001
     DeleteRegKey /IfEmpty HKLM "${REGKEY}\Components"
     DeleteRegKey /IfEmpty HKLM "${REGKEY}"
 	
-    RmDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
+    RMDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
 	
-	MessageBox MB_ICONQUESTION|MB_YESNO "$(DeleteUserData)" IDYES deletelocal IDNO nodeletelocal
-	deletelocal:
-    RmDir /REBOOTOK "$LOCALAPPDATA\vamp#"
-	nodeletelocal:
-    RmDir /REBOOTOK $INSTDIR
+    RMDir /REBOOTOK $INSTDIR
 SectionEnd
 
 # Installer functions
@@ -218,6 +216,13 @@ Function un.onInit
     !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuGroup
     !insertmacro MUI_UNGETLANGUAGE
     !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
+FunctionEnd
+
+Function DeleteLocalData
+	MessageBox MB_ICONQUESTION|MB_YESNO "$(DeleteUserData)" IDYES deletelocal IDNO nodeletelocal
+	deletelocal:
+    RMDir /r /REBOOTOK "$LOCALAPPDATA\vamp#"
+	nodeletelocal:
 FunctionEnd
 
 # Installer Language Strings
