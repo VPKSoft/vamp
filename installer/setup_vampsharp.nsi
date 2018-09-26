@@ -116,6 +116,8 @@ Section -Main SEC0000
    
     SetOutPath $INSTDIR
     File /r /x .svn ..\vamp\bin\Release\*.*
+	
+	File ..\thanks_to.odt
 
 	File ..\settings.ico
 	File ..\album_editor.ico
@@ -185,7 +187,7 @@ Section /o -un.Main UNSEC0000
 
 	RMDir /r /REBOOTOK $INSTDIR
 	
-	Call DeleteLocalData
+	Call un.DeleteLocalData
 	
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
@@ -218,7 +220,7 @@ Function un.onInit
     !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
 FunctionEnd
 
-Function DeleteLocalData
+Function un.DeleteLocalData
 	MessageBox MB_ICONQUESTION|MB_YESNO "$(DeleteUserData)" IDYES deletelocal IDNO nodeletelocal
 	deletelocal:
     RMDir /r /REBOOTOK "$LOCALAPPDATA\vamp#"

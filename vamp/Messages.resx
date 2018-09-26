@@ -303,4 +303,7 @@
   <data name="msgSQLSentenceError" xml:space="preserve">
     <value>An error occurred while running a SQL transaction to the database.|As in a some kind of error occurred while running an arbitrary SQL against the SQLite database</value>
   </data>
+  <data name="msgVampPhotoAlbumEditor" xml:space="preserve">
+    <value>vamp# photo album editor|A title for the photo album editor</value>
+  </data>
 </root>

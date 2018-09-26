@@ -404,9 +404,6 @@
     <None Include="script.sql_script">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="thanks_to.pdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -547,6 +544,8 @@
   <PropertyGroup>
     <PostBuildEvent>XCOPY "$(ProjectDir)libvlc_x86" "$(TargetDir)libvlc_x86" /S /Y /I /D
 XCOPY "$(ProjectDir)libvlc_x64" "$(TargetDir)libvlc_x64" /S /Y /I /D
+
+COPY "$(SolutionDir)thanks_to.pdf" "$(TargetDir)"
 
 XCOPY  "$(SolutionDir)packages\Geckofx45.45.0.34\content\Firefox" "$(TargetDir)Firefox_x86" /S /Y /I /D
 XCOPY  "$(SolutionDir)packages\Geckofx45.64.45.0.34\content\Firefox" "$(TargetDir)Firefox_x64" /S /Y /I /D

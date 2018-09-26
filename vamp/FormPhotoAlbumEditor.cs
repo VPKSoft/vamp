@@ -178,7 +178,8 @@ namespace vamp
         /// <summary>
         /// Lists the photo albums in the database.
         /// </summary>
-        private void ListAlbums()
+        /// <param name="selectPhotoAlbum">An optional PHOTOALBUM instance to select from the list box.</param>
+        private void ListAlbums(PHOTOALBUM selectPhotoAlbum = null)
         {
             // get a list of photo albums in the database..
             photoAlbums = Database.GetPhotoAlbums().ToList();
@@ -195,7 +196,30 @@ namespace vamp
                 photoAlbumEntries.AddRange(Database.GetPhotoAlbum(photoAlbum.NAME));
             }
 
-            lbPhotoAlbumList.DisplayMember = "NAME"; // set the list box display member..
+            lbPhotoAlbumList.DisplayMember = "NAME"; // set the list box display member..         
+
+            // if the selectPhotoAlbum parameter was given then select it..
+            if (selectPhotoAlbum != null)
+            {
+                // do the selection by the name as it is unique..
+                string albumName = selectPhotoAlbum.NAME;
+
+                // clear the selection from the photo album list box..
+                lbPhotoAlbumList.ClearSelected();
+
+                // loop through the items in the photo album list box..
+                for (int i = 0; i < lbPhotoAlbumList.Items.Count; i++)
+                {
+                    // if found by a name..
+                    if (((PHOTOALBUM)lbPhotoAlbumList.Items[i]).NAME == selectPhotoAlbum.NAME)
+                    {
+                        // select the album..
+                        lbPhotoAlbumList.SelectedIndex = i;
+                        // ..and exit the loop..
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -234,6 +258,11 @@ namespace vamp
 
             // dispose of the last image..
             lastImage?.Dispose();
+
+            // set the form's title..
+            Text = DBLangEngine.GetMessage("msgVampPhotoAlbumEditor",
+                "vamp# photo album editor|A title for the photo album editor") +
+                $" [{currentAlbum.NAME} / '{Path.Combine(photoAlbumEntry.BASEDIROVERRIDE, photoAlbumEntry.FILENAME)}']";
 
             // create a new image..
             lastImage = Image.FromFile(Path.Combine(photoAlbumEntry.BASEDIROVERRIDE, photoAlbumEntry.FILENAME));
@@ -342,6 +371,10 @@ namespace vamp
         {
             changeEventsSuspended = true; // indicate to discard all change event handlers..
 
+            // set the form's title..
+            Text = DBLangEngine.GetMessage("msgVampPhotoAlbumEditor",
+                "vamp# photo album editor|A title for the photo album editor");
+
             // set the current album value..
             currentAlbum = (PHOTOALBUM)((ListBox)sender).SelectedItem;
 
@@ -444,6 +477,24 @@ namespace vamp
             lb.DoDragDrop(dragDrop, DragDropEffects.Copy);
         }
 
+        /// <summary>
+        /// Removes the tag from a photo album entry (image/photo).
+        /// </summary>
+        /// <param name="tags">The list of current tags.</param>
+        /// <param name="tagText">The text of the tag to remove.</param>
+        private void RemoveTag(ref List<PHOTODATATAG> tags, string tagText)
+        {
+            // loop backwards as a list is in question..
+            for (int i = tags.Count - 1; i >= 0; i--)
+            {
+                // if a match was found the remove the match..
+                if (tags[i].TAGTEXT == tagText) 
+                {
+                    tags.RemoveAt(i);
+                }
+            }
+        }
+
         // one handler for all the drop effects..
         private void common_DragDrop(object sender, DragEventArgs e)
         {
@@ -453,9 +504,16 @@ namespace vamp
             }
 
             // if the data is of type of string set the effect to move..
-            if (e.Data.GetDataPresent(typeof(string)))
+            if (e.Data.GetDataPresent(typeof(string)) &&
+                sender.Equals(pnTrash)) // the sender must be the "trash bin"..
             {
                 e.Effect = DragDropEffects.Move; // ensure a move effect..
+                string tagText = (string)e.Data.GetData(typeof(string));
+                RemoveTag(ref currentPhotoTags, tagText); // remove the tag dragged to the trash bin..
+
+                // set the tag text of the current entry by joining the list into a comma delimited string..
+                List<string> tags = currentPhotoTags.Select(f => f.TAGTEXT).ToList();
+                currentPhotoAlbumEntry.TAGTEXT = string.Join(", ", tags); // ..so join the tags..
             }
             // if the data is of type of PHOTODATATAG..
             else if (e.Data.GetDataPresent(typeof(PHOTODATATAG)) && 
@@ -687,7 +745,11 @@ namespace vamp
             });
 
             // save the photo album into the database..
-            Database.InsertPhotoAlbum(photoAlbums.LastOrDefault(), entries);
+            if (Database.InsertPhotoAlbum(photoAlbums.LastOrDefault(), entries))
+            {
+                // if success select the inserted album..
+                ListAlbums(photoAlbums.LastOrDefault());
+            }
         }
 
         // set the date and time of either the photo album or a photo in the photo album..

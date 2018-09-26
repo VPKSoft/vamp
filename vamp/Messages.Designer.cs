@@ -565,6 +565,15 @@ namespace vamp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to vamp# photo album editor|A title for the photo album editor.
+        /// </summary>
+        internal static string msgVampPhotoAlbumEditor {
+            get {
+                return ResourceManager.GetString("msgVampPhotoAlbumEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Visual styles|As in initializing the visual styles.
         /// </summary>
         internal static string msgVisualStyles {
