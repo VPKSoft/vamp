@@ -25,7 +25,7 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 * [TMdbEasy](https://github.com/tonykaralis/TMdbEasy) - a great wrapper library for the [TMDb](https://www.themoviedb.org) database.
 * [libVLC](https://www.videolan.org/vlc/libvlc.html) - libVLC is the core engine and the interface to the multimedia framework on which VLC media player is based.
 * [Vlc.DotNet](https://github.com/ZeBobo5/Vlc.DotNet) - Vlc.DotNet is a .net library that hosts the audio/video capabilities of the VLC libraries. In other words, it's a .net wrapper around libvlc
-* [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/)
+* [Chromium Embedded Framework](https://bitbucket.org/chromiumembedded/) - The Chromium Embedded Framework (CEF) is a simple framework for embedding Chromium-based browsers in other applications.
 * [CefSharp](http://cefsharp.github.io) - .NET (WPF and Windows Forms) bindings for the Chromium Embedded Framework
 * [GeckoFX-45.0](https://bitbucket.org/geckofx/geckofx-45.0) - library that allows embeding gecko in C# applications.
 * [openclipart](https://openclipart.org) - Free scalable vector graphics and png (Portable Network Graphics)
