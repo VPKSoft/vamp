@@ -306,4 +306,10 @@
   <data name="msgVampPhotoAlbumEditor" xml:space="preserve">
     <value>vamp# photo album editor|A title for the photo album editor</value>
   </data>
+  <data name="msgConfirm" xml:space="preserve">
+    <value>Confirm|A short message indicating that a some action should be confirmed by the user</value>
+  </data>
+  <data name="msgConfirmPhotoAlbumDelete" xml:space="preserve">
+    <value>Are you sure you want to delete the photo album named: '{0}'?|A confirmation question for a photo album delete request</value>
+  </data>
 </root>

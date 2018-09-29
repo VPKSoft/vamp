@@ -764,6 +764,7 @@
             this.mnuImportSQL.Name = "mnuImportSQL";
             this.mnuImportSQL.Size = new System.Drawing.Size(230, 22);
             this.mnuImportSQL.Text = "Import (SQL)";
+            this.mnuImportSQL.Visible = false;
             this.mnuImportSQL.Click += new System.EventHandler(this.mnuImportSQL_Click);
             // 
             // toolStripMenuItem2
@@ -776,7 +777,8 @@
             this.mnuDelete.Image = global::vamp.Properties.Resources.Delete;
             this.mnuDelete.Name = "mnuDelete";
             this.mnuDelete.Size = new System.Drawing.Size(230, 22);
-            this.mnuDelete.Text = "Delete";
+            this.mnuDelete.Text = "Delete selected albums";
+            this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
             // 
             // toolStripMenuItem1
             // 

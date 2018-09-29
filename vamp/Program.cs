@@ -137,6 +137,7 @@ namespace vamp
                 new FormPhotoAlbumEditor();
                 new FormDialogPhotoAlbumQueryName();
                 new FormSelectMovie();
+                new FormDialogPhotoAlbumSelectBaseDirectory();
                 ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully..
                 return;
             }

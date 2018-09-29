@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.cbUseFileNameForTVShowEpisodeNamingValue = new System.Windows.Forms.CheckBox();
+            this.lbUseFileNameForTVShowEpisodeNamingDescription = new System.Windows.Forms.Label();
             this.btSelectTMDbImagesCacheDir = new System.Windows.Forms.Button();
             this.tbTMDbImagesCacheDirValue = new System.Windows.Forms.TextBox();
             this.lbTMDbImagesCacheDirDescription = new System.Windows.Forms.Label();
@@ -50,66 +52,89 @@
             this.btSelectMovieFolder = new System.Windows.Forms.Button();
             this.btSelectTVShowFolder = new System.Windows.Forms.Button();
             this.btSelectPhotoFolder = new System.Windows.Forms.Button();
-            this.lbUseFileNameForTVShowEpisodeNamingDescription = new System.Windows.Forms.Label();
             this.btOK = new VPKSoft.ImageButton.ImageButton();
             this.btCancel = new VPKSoft.ImageButton.ImageButton();
-            this.cbUseFileNameForTVShowEpisodeNamingValue = new System.Windows.Forms.CheckBox();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tlpMain.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // tlpMain
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tlpMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.cbUseFileNameForTVShowEpisodeNamingValue, 1, 8);
-            this.tableLayoutPanel1.Controls.Add(this.lbUseFileNameForTVShowEpisodeNamingDescription, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.btSelectTMDbImagesCacheDir, 2, 7);
-            this.tableLayoutPanel1.Controls.Add(this.tbTMDbImagesCacheDirValue, 1, 7);
-            this.tableLayoutPanel1.Controls.Add(this.lbTMDbImagesCacheDirDescription, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.cdTMDbEnabledValue, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.lbTMDbEnabledDescription, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.cbCacheTMDbImagesIntoMemoryValue, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.lbCacheTMDbImagesIntoMemoryDescription, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.lbCacheDatabaseIntoMemoryDescription, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.tbBaseDirPhotosValue, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.lbBaseDirPhotosDescription, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.tbBaseDirTVShowsValue, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.lbBaseDirTVShowsDescription, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.tbBaseDirMoviesValue, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lbBaseDirMoviesDescription, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lbAmpRemoteDescription, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tbAmpRemoteValue, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.cbCacheDatabaseIntoMemoryValue, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.btSelectMovieFolder, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.btSelectTVShowFolder, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btSelectPhotoFolder, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.btOK, 0, 10);
-            this.tableLayoutPanel1.Controls.Add(this.btCancel, 1, 10);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(16, 15);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 11;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1316, 717);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tlpMain.AutoSize = true;
+            this.tlpMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tlpMain.ColumnCount = 3;
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMain.Controls.Add(this.cbUseFileNameForTVShowEpisodeNamingValue, 1, 8);
+            this.tlpMain.Controls.Add(this.lbUseFileNameForTVShowEpisodeNamingDescription, 0, 8);
+            this.tlpMain.Controls.Add(this.btSelectTMDbImagesCacheDir, 2, 7);
+            this.tlpMain.Controls.Add(this.tbTMDbImagesCacheDirValue, 1, 7);
+            this.tlpMain.Controls.Add(this.lbTMDbImagesCacheDirDescription, 0, 7);
+            this.tlpMain.Controls.Add(this.cdTMDbEnabledValue, 1, 6);
+            this.tlpMain.Controls.Add(this.lbTMDbEnabledDescription, 0, 6);
+            this.tlpMain.Controls.Add(this.cbCacheTMDbImagesIntoMemoryValue, 1, 5);
+            this.tlpMain.Controls.Add(this.lbCacheTMDbImagesIntoMemoryDescription, 0, 5);
+            this.tlpMain.Controls.Add(this.lbCacheDatabaseIntoMemoryDescription, 0, 4);
+            this.tlpMain.Controls.Add(this.tbBaseDirPhotosValue, 1, 3);
+            this.tlpMain.Controls.Add(this.lbBaseDirPhotosDescription, 0, 3);
+            this.tlpMain.Controls.Add(this.tbBaseDirTVShowsValue, 1, 2);
+            this.tlpMain.Controls.Add(this.lbBaseDirTVShowsDescription, 0, 2);
+            this.tlpMain.Controls.Add(this.tbBaseDirMoviesValue, 1, 1);
+            this.tlpMain.Controls.Add(this.lbBaseDirMoviesDescription, 0, 1);
+            this.tlpMain.Controls.Add(this.lbAmpRemoteDescription, 0, 0);
+            this.tlpMain.Controls.Add(this.tbAmpRemoteValue, 1, 0);
+            this.tlpMain.Controls.Add(this.cbCacheDatabaseIntoMemoryValue, 1, 4);
+            this.tlpMain.Controls.Add(this.btSelectMovieFolder, 2, 1);
+            this.tlpMain.Controls.Add(this.btSelectTVShowFolder, 2, 2);
+            this.tlpMain.Controls.Add(this.btSelectPhotoFolder, 2, 3);
+            this.tlpMain.Controls.Add(this.btOK, 0, 10);
+            this.tlpMain.Controls.Add(this.btCancel, 1, 10);
+            this.tlpMain.Location = new System.Drawing.Point(16, 15);
+            this.tlpMain.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tlpMain.Name = "tlpMain";
+            this.tlpMain.RowCount = 11;
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpMain.Size = new System.Drawing.Size(1316, 717);
+            this.tlpMain.TabIndex = 0;
+            // 
+            // cbUseFileNameForTVShowEpisodeNamingValue
+            // 
+            this.cbUseFileNameForTVShowEpisodeNamingValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbUseFileNameForTVShowEpisodeNamingValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            this.cbUseFileNameForTVShowEpisodeNamingValue.Location = new System.Drawing.Point(620, 455);
+            this.cbUseFileNameForTVShowEpisodeNamingValue.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
+            this.cbUseFileNameForTVShowEpisodeNamingValue.Name = "cbUseFileNameForTVShowEpisodeNamingValue";
+            this.cbUseFileNameForTVShowEpisodeNamingValue.Size = new System.Drawing.Size(578, 25);
+            this.cbUseFileNameForTVShowEpisodeNamingValue.TabIndex = 23;
+            this.cbUseFileNameForTVShowEpisodeNamingValue.UseVisualStyleBackColor = true;
+            // 
+            // lbUseFileNameForTVShowEpisodeNamingDescription
+            // 
+            this.lbUseFileNameForTVShowEpisodeNamingDescription.AutoSize = true;
+            this.lbUseFileNameForTVShowEpisodeNamingDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbUseFileNameForTVShowEpisodeNamingDescription.Location = new System.Drawing.Point(17, 455);
+            this.lbUseFileNameForTVShowEpisodeNamingDescription.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
+            this.lbUseFileNameForTVShowEpisodeNamingDescription.Name = "lbUseFileNameForTVShowEpisodeNamingDescription";
+            this.lbUseFileNameForTVShowEpisodeNamingDescription.Size = new System.Drawing.Size(468, 25);
+            this.lbUseFileNameForTVShowEpisodeNamingDescription.TabIndex = 22;
+            this.lbUseFileNameForTVShowEpisodeNamingDescription.Text = "Use file name for TV show episode naming:";
+            this.lbUseFileNameForTVShowEpisodeNamingDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btSelectTMDbImagesCacheDir
             // 
@@ -350,18 +375,6 @@
             this.btSelectPhotoFolder.UseVisualStyleBackColor = true;
             this.btSelectPhotoFolder.Click += new System.EventHandler(this.selectFolderClick);
             // 
-            // lbUseFileNameForTVShowEpisodeNamingDescription
-            // 
-            this.lbUseFileNameForTVShowEpisodeNamingDescription.AutoSize = true;
-            this.lbUseFileNameForTVShowEpisodeNamingDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbUseFileNameForTVShowEpisodeNamingDescription.Location = new System.Drawing.Point(17, 455);
-            this.lbUseFileNameForTVShowEpisodeNamingDescription.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
-            this.lbUseFileNameForTVShowEpisodeNamingDescription.Name = "lbUseFileNameForTVShowEpisodeNamingDescription";
-            this.lbUseFileNameForTVShowEpisodeNamingDescription.Size = new System.Drawing.Size(468, 25);
-            this.lbUseFileNameForTVShowEpisodeNamingDescription.TabIndex = 22;
-            this.lbUseFileNameForTVShowEpisodeNamingDescription.Text = "Use file name for TV show episode naming:";
-            this.lbUseFileNameForTVShowEpisodeNamingDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // btOK
             // 
             this.btOK.BackColor = System.Drawing.SystemColors.Control;
@@ -380,7 +393,7 @@
             // 
             this.btCancel.BackColor = System.Drawing.SystemColors.Control;
             this.btCancel.ButtonImage = global::vamp.Properties.Resources.Cancel;
-            this.tableLayoutPanel1.SetColumnSpan(this.btCancel, 2);
+            this.tlpMain.SetColumnSpan(this.btCancel, 2);
             this.btCancel.Dock = System.Windows.Forms.DockStyle.Right;
             this.btCancel.Location = new System.Drawing.Point(814, 623);
             this.btCancel.Margin = new System.Windows.Forms.Padding(2);
@@ -391,19 +404,6 @@
             this.btCancel.Text = "Cancel";
             this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
             // 
-            // cbUseFileNameForTVShowEpisodeNamingValue
-            // 
-            this.cbUseFileNameForTVShowEpisodeNamingValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbUseFileNameForTVShowEpisodeNamingValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.cbUseFileNameForTVShowEpisodeNamingValue.Location = new System.Drawing.Point(620, 455);
-            this.cbUseFileNameForTVShowEpisodeNamingValue.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
-            this.cbUseFileNameForTVShowEpisodeNamingValue.Name = "cbUseFileNameForTVShowEpisodeNamingValue";
-            this.cbUseFileNameForTVShowEpisodeNamingValue.Size = new System.Drawing.Size(578, 25);
-            this.cbUseFileNameForTVShowEpisodeNamingValue.TabIndex = 23;
-            this.cbUseFileNameForTVShowEpisodeNamingValue.UseVisualStyleBackColor = true;
-            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
@@ -411,7 +411,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1348, 747);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.tlpMain);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -423,8 +423,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "vamp# settings";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormSettings_KeyDown);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tlpMain.ResumeLayout(false);
+            this.tlpMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -432,7 +432,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.Label lbAmpRemoteDescription;
         private System.Windows.Forms.TextBox tbAmpRemoteValue;
         private System.Windows.Forms.TextBox tbBaseDirMoviesValue;

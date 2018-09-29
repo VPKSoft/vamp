@@ -144,8 +144,17 @@ namespace vamp
         /// <param name="index">The index of an image display within the album.</param>
         private void DisplayImage(int index)
         {
-            // load the image from a file to the VPKSoft.ImageViewer control..
-            pbPhoto.Image = Image.FromFile(Path.Combine(basePath, albumContents[index].FILENAME));
+            // only if the image exists..
+            if (File.Exists(Path.Combine(basePath, albumContents[index].FILENAME)))
+            {
+                // ..load the image from a file to the VPKSoft.ImageViewer control..
+                pbPhoto.Image = Image.FromFile(Path.Combine(basePath, albumContents[index].FILENAME));
+            }
+            // indicate a missing image..
+            else
+            {
+                pbPhoto.Image = Properties.Resources.image_not_found;
+            }
 
             // give a description for the image..
             lbImageDesc.Text = DBLangEngine.GetMessage(

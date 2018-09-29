@@ -133,6 +133,24 @@ namespace vamp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm|A short message indicating that a some action should be confirmed by the user.
+        /// </summary>
+        internal static string msgConfirm {
+            get {
+                return ResourceManager.GetString("msgConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the photo album named: &apos;{0}&apos;?|A confirmation question for a photo album delete request.
+        /// </summary>
+        internal static string msgConfirmPhotoAlbumDelete {
+            get {
+                return ResourceManager.GetString("msgConfirmPhotoAlbumDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database cache loading|As in data from the SQLite database is being cached in to the memory.
         /// </summary>
         internal static string msgDatabaseCacheLoading {

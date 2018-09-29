@@ -165,6 +165,12 @@
     <Compile Include="FormDialogPhotoAlbumQueryName.Designer.cs">
       <DependentUpon>FormDialogPhotoAlbumQueryName.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormDialogPhotoAlbumSelectBaseDirectory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogPhotoAlbumSelectBaseDirectory.Designer.cs">
+      <DependentUpon>FormDialogPhotoAlbumSelectBaseDirectory.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormPhotoAlbumEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -289,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormDialogPhotoAlbumQueryName.resx">
       <DependentUpon>FormDialogPhotoAlbumQueryName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogPhotoAlbumSelectBaseDirectory.resx">
+      <DependentUpon>FormDialogPhotoAlbumSelectBaseDirectory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPhotoAlbumBrowser.resx">
       <DependentUpon>FormPhotoAlbumBrowser.cs</DependentUpon>
@@ -434,6 +443,7 @@
     <None Include="Resources\Modify.png" />
     <None Include="Resources\sand_class_steel_blue.png" />
     <None Include="Resources\view_refresh2.png" />
+    <None Include="Resources\image_not_found.png" />
     <Content Include="VPKSoft.ico" />
     <Content Include="x64\MediaInfo.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -488,18 +498,8 @@
     <None Include="Resources\description.png" />
     <None Include="Resources\link_icon.png" />
     <None Include="Resources\power2.png" />
-    <None Include="Resources\www_button_disabled.png" />
-    <None Include="Resources\tv_series_mod_disabled.png" />
-    <None Include="Resources\power2_disabled.png" />
-    <None Include="Resources\play_youtube_disabled.png" />
-    <None Include="Resources\play_movies_disabled.png" />
-    <None Include="Resources\play_disc_disabled.png" />
-    <None Include="Resources\photos_disabled.png" />
-    <None Include="Resources\music_disabled.png" />
     <None Include="Resources\www_button.png" />
     <None Include="Resources\Dual Ring-1s-200px.gif" />
-    <None Include="Resources\back_disabled.png" />
-    <None Include="Resources\forward_disabled.png" />
     <None Include="Resources\forward.png" />
     <None Include="Resources\web_button_exit.png" />
     <None Include="Resources\web_refresh.png" />
@@ -513,14 +513,6 @@
     <None Include="Resources\play_movies.png" />
     <None Include="Resources\play_youtube.png" />
     <None Include="Resources\video-player-2400px.png" />
-    <None Include="Resources\volume_disabled.png" />
-    <None Include="Resources\wind_forward_disabled.png" />
-    <None Include="Resources\wind_back_disabled.png" />
-    <None Include="Resources\subtitle_disabled.png" />
-    <None Include="Resources\previous_disabled.png" />
-    <None Include="Resources\play_disabled.png" />
-    <None Include="Resources\pause_disabled.png" />
-    <None Include="Resources\next_disabled.png" />
     <None Include="Resources\Cancel.png" />
     <None Include="Resources\OK.png" />
     <None Include="Resources\volume_off.png" />

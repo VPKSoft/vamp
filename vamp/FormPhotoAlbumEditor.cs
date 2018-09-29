@@ -264,11 +264,19 @@ namespace vamp
                 "vamp# photo album editor|A title for the photo album editor") +
                 $" [{currentAlbum.NAME} / '{Path.Combine(photoAlbumEntry.BASEDIROVERRIDE, photoAlbumEntry.FILENAME)}']";
 
-            // create a new image..
-            lastImage = Image.FromFile(Path.Combine(photoAlbumEntry.BASEDIROVERRIDE, photoAlbumEntry.FILENAME));
-
-            // display the new image..
-            ivPhoto.Image = lastImage;
+            // create a new image only if one exists in the file system..
+            if (File.Exists(Path.Combine(photoAlbumEntry.BASEDIROVERRIDE, photoAlbumEntry.FILENAME)))
+            {
+                // the file exists so do create an Image class instance from it..
+                lastImage = Image.FromFile(Path.Combine(photoAlbumEntry.BASEDIROVERRIDE, photoAlbumEntry.FILENAME));
+                // display the new image..
+                ivPhoto.Image = lastImage;
+            }
+            // indicate a missing image file..
+            else
+            {
+                ivPhoto.Image = Properties.Resources.image_not_found;
+            }
 
             // I DO HATE REGULAR EXPRESSIONS (?!), but anyhow this pattern will match:
             // a single carriage return character (\r) or a single line feed (\n) character not preceded or followed by
@@ -1120,6 +1128,11 @@ namespace vamp
             }
         }
 
+        private bool PathEquals(string path1, string path2)
+        {
+            return Path.GetFullPath(path1).CompareTo(Path.GetFullPath(path2)) == 0;
+        }
+
         // imports a XML file contents describing photo albums into the database..
         private void mnuImportXML_Click(object sender, EventArgs e)
         {
@@ -1129,15 +1142,53 @@ namespace vamp
                 // get the names of the albums in the XML file..
                 List<string> list = Database.GetAlbumsFromXML(odXML.FileName).ToList();
 
+                // a flag indicating if any albums were actually inserted in to the database..
+                bool albumsInserted = false;
+
                 // loop through the photo albums..
                 foreach (string item in list)
                 {
+                    string noOverrideSettingPath = Settings.PhotoBaseDir;
+
                     // read a photo album with a name from the XML file..
                     if (Database.GetPhotoAlbumFromXML(odXML.FileName, item, out PHOTOALBUM album, out IEnumerable<PhotoAlbumEntry> entries))
                     {
+                        // to list for index iteration..
+                        List<PhotoAlbumEntry> photoAlbumEntries = entries.ToList();
+
+                        BaseRelativePath newPath = new BaseRelativePath();
+
+                        for (int i = photoAlbumEntries.Count - 1; i >= 0; i--)
+                        {
+                            newPath =
+                                FormDialogPhotoAlbumSelectBaseDirectory.
+                                Execute(noOverrideSettingPath, photoAlbumEntries[i].FILENAME);
+
+                            if (newPath.IsEmpty)
+                            {
+                                photoAlbumEntries.RemoveAt(i);
+                            }
+
+                            noOverrideSettingPath = newPath.BaseDir;
+
+                            album.BASEDIROVERRIDE = newPath.BaseDir;
+                            photoAlbumEntries[i].FILENAME = newPath.RelativePath;
+                        }
+
                         // only try to insert if the XML read was successful..
-                        Database.InsertPhotoAlbum(album, entries);
+                        if (Database.InsertPhotoAlbum(album, photoAlbumEntries))
+                        {
+                            // set the flag that an insert to the database was made successfully..
+                            albumsInserted = true;
+                        }
                     }
+                }
+
+                // if any photo album was actually inserted to the database..
+                if (albumsInserted)
+                {
+                    // ..list the photo albums..
+                    ListAlbums();
                 }
             }
         }
@@ -1199,5 +1250,37 @@ namespace vamp
             }
         }
         #endregion
+
+        private void mnuDelete_Click(object sender, EventArgs e)
+        {
+            // a flag indicating if any albums were actually deleted..
+            bool albumsDeleted = false;
+
+            // loop through the selected photo albums..
+            foreach (PHOTOALBUM photoAlbum in lbPhotoAlbumList.SelectedItems)
+            {
+                // confirm for each deletion request of a photo album (precious memories)..
+                if (MessageBox.Show(
+                    DBLangEngine.GetMessage("msgConfirmPhotoAlbumDelete",
+                        "Are you sure you want to delete the photo album named: '{0}'?|A confirmation question for a photo album delete request",
+                        photoAlbum.NAME),
+                    DBLangEngine.GetMessage("msgConfirm",
+                        "Confirm|A short message indicating that a some action should be confirmed by the user"),
+                     MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    // if yes then delete..
+                    Database.DeletePhotoAlbum(photoAlbum.NAME);
+
+                    // set the something deleted flag to true..
+                    albumsDeleted = true;
+                }
+            }
+
+            // some photo albums were deleted reload the album list..
+            if (albumsDeleted)
+            {
+                ListAlbums();
+            }
+        }
     }
 }

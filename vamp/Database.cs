@@ -412,16 +412,6 @@ namespace vamp
         /// <param name="conn">An open SQLiteConnection connection class instance.</param>
         public static void InitConnection(ref SQLiteConnection conn)
         {
-            TMDbFileEnumerator.EpisodeNamingStyles =
-                new List<string>(
-                    new string[]
-                    {
-                        "s{0:00}e{1:00}", // SomeShow S01E01.*
-                        "s{0}e{1:00}",    // SomeShow S1E01.*
-                        "{0:00}x{1:00}",  // SomeShow 01x01.*
-                        "{0}x{1:00}",     // SomeShow 1x01.*
-                    });
-
             Database.conn = conn; // save the given SQLiteConnection class instance reference..
             if (Settings.UseDatabaseMemoryCache)
             {
@@ -1263,14 +1253,14 @@ namespace vamp
         /// <summary>
         /// Gets a photo album by a given name.
         /// </summary>
-        /// <param name="name">A name of the photo album to get.</param>
+        /// <param name="albumName">A name of the photo album to get.</param>
         /// <returns>A list of PhotoAlbumEntry class instances containing the entries of the photo file information.</returns>
-        public static List<PhotoAlbumEntry> GetPhotoAlbum(string name)
+        public static List<PhotoAlbumEntry> GetPhotoAlbum(string albumName)
         {
             List<PhotoAlbumEntry> entries = new List<PhotoAlbumEntry>();
             if (photoAlbumCacheInitialized)
             {
-                var photos = photoAlbumCache.Where(f => f.NAME == name).
+                var photos = photoAlbumCache.Where(f => f.NAME == albumName).
                     OrderBy(f => f.DATETIME).
                     OrderBy(f => f.DESCRIPTION).
                     OrderBy(f => f.FILENAME);
@@ -1285,7 +1275,7 @@ namespace vamp
                         "SELECT NAME, DESCRIPTION, DATETIME, FILENAME, IFNULL(TAGTEXT, '') AS TAGTEXT, ",
                         "IFNULL(DATETIME_FREE, '') AS DATETIME_FREE, MD5HASH, ",
                         $"IFNULL(BASEDIROVERRIDE, {QS(Settings.PhotoBaseDir)}) AS BASEDIROVERRIDE ",
-                        $"FROM V_PHOTOALBUM WHERE NAME = {QS(name)} ORDER BY DATETIME, DESCRIPTION, FILENAME COLLATE NOCASE ");
+                        $"FROM V_PHOTOALBUM WHERE NAME = {QS(albumName)} ORDER BY DATETIME, DESCRIPTION, FILENAME COLLATE NOCASE ");
 
                 // .. as a SQLiteDataReader is disposable also, confirm it will be disposed of..
                 using (SQLiteDataReader dr = GetDataReaderFromSQL(sql))
@@ -1308,6 +1298,50 @@ namespace vamp
                 }
             }
             return entries;
+        }
+
+        /// <summary>
+        /// Deletes a photo album with a given name.
+        /// </summary>
+        /// <param name="albumName">A name of the photo album to delete.</param>
+        /// <returns>True if the deletion was successful; otherwise false.</returns>
+        public static bool DeletePhotoAlbum(string albumName)
+        {
+            // create a SQL sentence to delete a single photo album with a given name..
+            string sql = string.Join(Environment.NewLine,
+                // delete the photo file entries that belongs to the given album..
+                "DELETE FROM PHOTOFILE WHERE MD5HASH IN ",
+                $"  (SELECT MD5HASH FROM PHOTOALBUMLINK WHERE NAME = {QS(albumName)}) AND ",
+                // ..but not those photo file entries that belong to other photo albums as well..
+                "MD5HASH NOT IN ",
+                $"  (SELECT MD5HASH FROM PHOTOALBUMLINK WHERE NAME <> {QS(albumName)}); ",
+                Environment.NewLine,
+
+                // delete the photo data tag entries that belongs to the given album..
+                "DELETE FROM PHOTODATATAG WHERE MD5HASH IN ",
+                $"  (SELECT MD5HASH FROM PHOTOALBUMLINK WHERE NAME = {QS(albumName)}) AND ",
+                // ..but not those photo data tag entries that belong to other photo albums as well..
+                "MD5HASH NOT IN ",
+                $"  (SELECT MD5HASH FROM PHOTOALBUMLINK WHERE NAME <> {QS(albumName)}); ",
+                Environment.NewLine,
+
+                // delete the photo data entries that belongs to the given album..
+                "DELETE FROM PHOTODATA WHERE MD5HASH IN ",
+                $"  (SELECT MD5HASH FROM PHOTOALBUMLINK WHERE NAME = {QS(albumName)}) AND ",
+                // ..but not those photo data entries that belong to other photo albums as well..
+                "MD5HASH NOT IN ",
+                $"  (SELECT MD5HASH FROM PHOTOALBUMLINK WHERE NAME <> {QS(albumName)}); ",
+                Environment.NewLine,
+
+                // delete the photo album link entries that belong to the given album..
+                $"DELETE FROM PHOTOALBUMLINK WHERE NAME = {QS(albumName)}; ",
+                Environment.NewLine,
+
+                // delete the photo album entry of the given album..
+                $"DELETE FROM PHOTOALBUM WHERE NAME = {QS(albumName)}; ");
+
+            // run the SQL sentence against the database..
+            return ExecuteArbitrarySQL(sql);
         }
         #endregion
 
@@ -1545,6 +1579,26 @@ namespace vamp
         }
 
         /// <summary>
+        /// This method stands for Quoted String. Simply double-quote the "insides" of a string and add quotes to the both sides (').
+        /// If the string is null or empty a value of NULL is returned.
+        /// </summary>
+        /// <param name="str">A string to 'quote'.</param>
+        /// <returns>A 'quoted' string or NULL.</returns>
+        public static string QSNullIf(string str)
+        {
+            if (string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str))
+            {
+                // the string can be considered as NULL..
+                return "NULL ";
+            }
+            else
+            {
+                // otherwise just quote the string (')..
+                return QS(str);
+            }
+        }
+
+        /// <summary>
         /// Closes the SQLite database connection and released all resources. A VACUUM command is also executed.
         /// </summary>
         public static void CloseAndFinalizeDatabase()
@@ -1555,10 +1609,21 @@ namespace vamp
 
                 if (conn != null) // only do this if the SQLite database connection is initialized..
                 {
-                    using (conn) // after running the VACUUM command dispose of the SQLite database connection..
+                    // save the connection string for the VACUUM command..
+                    string connectionString = conn.ConnectionString;
+
+                    using (conn) // close the SQLite database connection before running the VACUUM command..
                     {
-                        string sql = "VACUUM; ";
-                        ExecuteArbitrarySQL(sql); // run the sentence against the database..
+                        conn.Close();
+                        conn = null;
+                    }
+
+                    // reconstruct a SQLite connection to execute the WACUUM command and the close the connection again..
+                    using (conn = new SQLiteConnection(connectionString))
+                    {
+                        conn.Open();
+                        ExecuteArbitrarySQL("VACUUM; "); // run the sentence against the database..
+                        conn.Close();
                         conn = null;
                     }
                 }
@@ -2014,7 +2079,8 @@ namespace vamp
         /// <param name="album">A PHOTOALBUM class to contain the photo album data.</param>
         /// <param name="albumEntries">A collection of photo album entry data.</param>
         /// <returns>True if the album was read successfully from the XML file; otherwise false.</returns>
-        public static bool GetPhotoAlbumFromXML(string fileName, string albumName, out PHOTOALBUM album, out IEnumerable<PhotoAlbumEntry> albumEntries)
+        public static bool GetPhotoAlbumFromXML(string fileName, string albumName, out PHOTOALBUM album, 
+            out IEnumerable<PhotoAlbumEntry> albumEntries)
         {
             try // try as a contents of a XML document can be anything..
             {
@@ -2080,6 +2146,8 @@ namespace vamp
             }
         }
 
+
+
         /// <summary>
         /// Generates a SQL sentence to insert a single photo album into a database.
         /// </summary>
@@ -2092,11 +2160,15 @@ namespace vamp
                 string.Join(Environment.NewLine, Environment.NewLine,
                 $"--ALBUMNAME={album.NAME} ",
                 string.Join(Environment.NewLine, Environment.NewLine, // new lines to improve debug readability..
-                $"INSERT INTO PHOTOALBUM (NAME, FIRSTDATE) ",
+                $"INSERT INTO PHOTOALBUM (NAME, FIRSTDATE, BASEDIROVERRIDE) ",
                 $"SELECT {QS(album.NAME)}, ",
                 // the date and time are inserted as strings but they also must be in a format
                 // that the SQLite database can use their values to order data..
-                $"{QS(album.FIRSTDATE.ToString("yyyy-MM-dd HH':'mm':'ss.fff", CultureInfo.InvariantCulture))} ",
+                $"{QS(album.FIRSTDATE.ToString("yyyy-MM-dd HH':'mm':'ss.fff", CultureInfo.InvariantCulture))}, ",
+
+                // the base directory needs to be overridden if the base directory doesn't match the base
+                // directory defined in the program's settings..
+                $"{QSNullIf(album.BASEDIROVERRIDE)} ",
                 $"WHERE NOT EXISTS(SELECT * FROM PHOTOALBUM WHERE NAME = {QS(album.NAME)}); "));
 
             // loop through all of the PhotoAlbumEntry class instances which are to be members of this photo album..
