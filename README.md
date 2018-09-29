@@ -9,7 +9,7 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 * ~~Fix the unique name conflict on the photo album editor~~ (fixed: 25.09.18)
 * ~~Speed up the video browser control~~
 * ~~Allow the video browser for to display a file name instead of a complete description of a TV show season episode~~
-* Check the dicrectory existence when importing photo albums
+* ~~Check the dicrectory existence when importing photo albums~~ (done: 29.09.18)
 * ~~Add a button the rename a photo album from the photo album editor~~ (done: 25.09.18)
 * ~~Crash handler --> just kill self~~
 * ~~Prevent a crasch when no internet connection is available~~
@@ -17,7 +17,7 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 * Make the remove buttons work or hide them
 * Make the DVD playback to work
 * ~~Grayscale the main window while an operation is running~~
-* Make the installer to remove local user saved data
+* ~~Make the installer to remove local user saved data~~ (done: 29.09.18, with a confirmation question..)
 * Continue to write this readme!
 
 
