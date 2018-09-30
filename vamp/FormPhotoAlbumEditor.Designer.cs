@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPhotoAlbumEditor));
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.pnUndoSave = new System.Windows.Forms.Panel();
             this.tlpPhotosInAlbum = new System.Windows.Forms.TableLayoutPanel();
             this.lbTimeTakenDescription = new System.Windows.Forms.Label();
             this.lbPhotoTagDescription = new System.Windows.Forms.Label();
@@ -76,6 +77,9 @@
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuSaveChanges = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuUndoChanges = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExportSelectedXML = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuImportXML = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
@@ -89,6 +93,7 @@
             this.odSQL = new System.Windows.Forms.OpenFileDialog();
             this.sdXML = new System.Windows.Forms.SaveFileDialog();
             this.odXML = new System.Windows.Forms.OpenFileDialog();
+            this.lbItemDragDescription = new System.Windows.Forms.Label();
             this.tlpMain.SuspendLayout();
             this.tlpPhotosInAlbum.SuspendLayout();
             this.cmsCopyTags.SuspendLayout();
@@ -123,12 +128,14 @@
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.666667F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.666667F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6.666667F));
+            this.tlpMain.Controls.Add(this.pnUndoSave, 0, 8);
             this.tlpMain.Controls.Add(this.tlpPhotosInAlbum, 0, 3);
             this.tlpMain.Controls.Add(this.ivPhoto, 9, 0);
             this.tlpMain.Controls.Add(this.tlpPhotoAlbumList, 0, 0);
             this.tlpMain.Controls.Add(this.tableLayoutPanel1, 4, 0);
             this.tlpMain.Controls.Add(this.pnTrash, 5, 8);
             this.tlpMain.Controls.Add(this.pnSave, 0, 8);
+            this.tlpMain.Controls.Add(this.lbItemDragDescription, 3, 8);
             this.tlpMain.Location = new System.Drawing.Point(12, 27);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 9;
@@ -147,6 +154,18 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpMain.Size = new System.Drawing.Size(1225, 611);
             this.tlpMain.TabIndex = 0;
+            // 
+            // pnUndoSave
+            // 
+            this.pnUndoSave.AllowDrop = true;
+            this.pnUndoSave.BackgroundImage = global::vamp.Properties.Resources.undo_save_changes;
+            this.pnUndoSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pnUndoSave.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnUndoSave.Location = new System.Drawing.Point(84, 539);
+            this.pnUndoSave.Name = "pnUndoSave";
+            this.pnUndoSave.Size = new System.Drawing.Size(75, 69);
+            this.pnUndoSave.TabIndex = 8;
+            this.pnUndoSave.Click += new System.EventHandler(this.pnUndoSave_Click);
             // 
             // tlpPhotosInAlbum
             // 
@@ -220,6 +239,7 @@
             this.lbPhotosInAlbum.VScrollPosition = 0;
             this.lbPhotosInAlbum.VScrollPositionNoEvent = 0;
             this.lbPhotosInAlbum.SelectedValueChanged += new System.EventHandler(this.lbPhotosInAlbum_SelectedValueChanged);
+            this.lbPhotosInAlbum.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbPhotosInAlbum_MouseDown);
             // 
             // cmsCopyTags
             // 
@@ -702,6 +722,9 @@
             this.mnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuNew,
             this.toolStripMenuItem3,
+            this.mnuSaveChanges,
+            this.mnuUndoChanges,
+            this.toolStripMenuItem5,
             this.mnuExportSelectedXML,
             this.mnuImportXML,
             this.toolStripMenuItem4,
@@ -728,6 +751,27 @@
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(227, 6);
+            // 
+            // mnuSaveChanges
+            // 
+            this.mnuSaveChanges.Image = global::vamp.Properties.Resources.Save;
+            this.mnuSaveChanges.Name = "mnuSaveChanges";
+            this.mnuSaveChanges.Size = new System.Drawing.Size(230, 22);
+            this.mnuSaveChanges.Text = "Save changes";
+            this.mnuSaveChanges.Click += new System.EventHandler(this.pnSave_Click);
+            // 
+            // mnuUndoChanges
+            // 
+            this.mnuUndoChanges.Image = global::vamp.Properties.Resources.undo_save;
+            this.mnuUndoChanges.Name = "mnuUndoChanges";
+            this.mnuUndoChanges.Size = new System.Drawing.Size(230, 22);
+            this.mnuUndoChanges.Text = "Undo changes";
+            this.mnuUndoChanges.Click += new System.EventHandler(this.pnUndoSave_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(227, 6);
             // 
             // mnuExportSelectedXML
             // 
@@ -813,6 +857,16 @@
             this.odXML.DefaultExt = "*.xml";
             this.odXML.Filter = "XML Files|*.xml";
             // 
+            // lbItemDragDescription
+            // 
+            this.tlpMain.SetColumnSpan(this.lbItemDragDescription, 2);
+            this.lbItemDragDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbItemDragDescription.Location = new System.Drawing.Point(246, 536);
+            this.lbItemDragDescription.Name = "lbItemDragDescription";
+            this.lbItemDragDescription.Size = new System.Drawing.Size(156, 75);
+            this.lbItemDragDescription.TabIndex = 9;
+            this.lbItemDragDescription.Text = "Drag photo files or photo file tags here to delete them from the database -->";
+            // 
             // FormPhotoAlbumEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -826,6 +880,7 @@
             this.Text = "vamp# photo album editor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormPhotoAlbumEditor_FormClosing);
+            this.Load += new System.EventHandler(this.FormPhotoAlbumEditor_Load);
             this.tlpMain.ResumeLayout(false);
             this.tlpPhotosInAlbum.ResumeLayout(false);
             this.tlpPhotosInAlbum.PerformLayout();
@@ -854,7 +909,6 @@
         private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mnuFile;
-        private System.Windows.Forms.ToolStripMenuItem mnuExportSelectedXML;
         private System.Windows.Forms.ToolStripMenuItem mnuImportXML;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem mnuExit;
@@ -910,6 +964,12 @@
         private System.Windows.Forms.ToolStripMenuItem mnuImportSQL;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Button btSetAlbumName;
+        private System.Windows.Forms.Panel pnUndoSave;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportSelectedXML;
+        private System.Windows.Forms.ToolStripMenuItem mnuSaveChanges;
+        private System.Windows.Forms.ToolStripMenuItem mnuUndoChanges;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.Label lbItemDragDescription;
     }
 }
 

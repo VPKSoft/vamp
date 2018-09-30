@@ -43,6 +43,7 @@ using System.Security.Cryptography;
 using VPKSoft.Hashes; // (C): https://www.vpksoft.net, GNU Lesser General Public License Version 3
 using MetadataExtractor.Formats.Exif; // (C): https://github.com/drewnoakes/metadata-extractor-dotnet, Apache Version 2.0
 using VPKSoft.ErrorLogger; // (C): https://www.vpksoft.net, GNU Lesser General Public License Version 3
+using VPKSoft.VisualUtils;
 
 namespace vamp
 {
@@ -148,6 +149,7 @@ namespace vamp
         }
         #endregion
 
+        #region HelperLogic
         /// <summary>
         /// Lists the tags in the database with an optional search string.
         /// </summary>
@@ -363,6 +365,285 @@ namespace vamp
             lbPhotoAlbumTagListValues.TopIndex = topIndex;
         }
 
+        /// <summary>
+        /// Removes the tag from a photo album entry (image/photo).
+        /// </summary>
+        /// <param name="tags">The list of current tags.</param>
+        /// <param name="tagText">The text of the tag to remove.</param>
+        private void RemoveTag(ref List<PHOTODATATAG> tags, string tagText)
+        {
+            // loop backwards as a list is in question..
+            for (int i = tags.Count - 1; i >= 0; i--)
+            {
+                // if a match was found the remove the match..
+                if (tags[i].TAGTEXT == tagText)
+                {
+                    tags.RemoveAt(i);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a given photo album entry from the given photo album.
+        /// </summary>
+        /// <param name="albumName">Name of the photo album.</param>
+        /// <param name="photoAlbumEntry">The photo album entry to remove from the photo album.</param>
+        /// <returns></returns>
+        private bool RemovePhotoFromAlbum(string albumName, PhotoAlbumEntry photoAlbumEntry)
+        {
+            // delete from the database and return the success value..
+            bool success = Database.DeletePhotoAlbumFile(albumName, photoAlbumEntry);            
+            if (success)
+            {
+                lbPhotosInAlbum.Items.Remove(photoAlbumEntry);
+            }
+            return success;
+        }
+
+        /// <summary>
+        /// Enumerates the folder's contents containing the photos to be added to the album and then adds a new photo album to the database.
+        /// </summary>
+        /// <param name="albumName">Name of the photo album to be added in to the database.</param>
+        /// <param name="albumFolder">The folder to be enumerated into the photo album.</param>
+        public void EnumerateFolder(string albumName, string albumFolder)
+        {
+            // create a new list of photo album entries..
+            List<PhotoAlbumEntry> entries = new List<PhotoAlbumEntry>();
+
+            // get the image files in the given folder..
+            IEnumerable<FileEnumeratorFileEntry> files = FileEnumerator.GetFilesPath(albumFolder, FileEnumerator.FiltersImage);
+
+            // set the first date to a ridiculous value - as I except this program not to be used at the year of 9999 :-) ..
+            DateTime dateTimeMin = DateTime.MaxValue;
+
+            // loop through the found image files..
+            foreach (var file in files)
+            {
+                // hash the photo file's contents to identify the photo file..
+                MD5 mD5 = MD5.Create(); // create a MD5 hash algorithm..
+
+                // hash the contents of the photo file..
+                IOHash.MD5AppendFile(file.FileNameWithPath, ref mD5);
+                IOHash.MD5FinalizeBlock(ref mD5);
+
+                // get the hash string value..
+                string md5str = IOHash.MD5GetHashString(ref mD5);
+                mD5.Dispose(); // dispose of the MD5 class instance..
+
+                // a date and time for when the photo was taken..
+                DateTime dateTime;
+
+                try // preparing for everything..
+                {
+                    // get the meta data directories from the image file..
+                    var directories = ImageMetadataReader.ReadMetadata(file.FileNameWithPath);
+
+                    //gGet the original date time Exif tag value..
+                    var subIfdDirectory = directories.OfType<ExifSubIfdDirectory>().FirstOrDefault();
+                    dateTime = subIfdDirectory !=
+                        null ? // a null value makes it now..
+                        subIfdDirectory.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal) : DateTime.Now;
+                }
+                catch (Exception ex) // something went wrong so do log the reason.. (ex avoids the EventArgs e in all cases!)..
+                {
+                    dateTime = DateTime.Now; // an exception makes it now..
+                    ExceptionLogger.LogError(ex); // do note that this needs to be "bound" to the application..
+                }
+
+                // update the first photo time taken value..
+                if (dateTime < dateTimeMin)
+                {
+                    dateTimeMin = dateTime; // set the minimum date as the album date..
+                }
+
+                // add a new photo album entry to the list..
+                entries.Add(new PhotoAlbumEntry()
+                {
+                    DATETIME = dateTime, // the date and time the photo was taken..
+
+                    // set the file name based on if the file is in the default directory or not..
+                    FILENAME = file.FileNameWithPath.StartsWith(Settings.PhotoBaseDir, StringComparison.InvariantCultureIgnoreCase) ?
+                                 file.FileNameWithPath.Substring(Settings.PhotoBaseDir.Length).TrimStart(Path.DirectorySeparatorChar) :
+                                 file.FileNameWithPath,
+                    BASEDIROVERRIDE = string.Empty, // kind of useless..
+
+                    // the free description of date and time is empty at this time..
+                    DATETIME_FREE = string.Empty,
+
+                    // set the default description from the file name..
+                    DESCRIPTION = file.FileNameNoExtension,
+
+                    // set the MD5 hash value..
+                    MD5HASH = md5str,
+
+                    // set the photo album's name..
+                    NAME = albumName,
+
+                    // the tag text for a new entry can be empty..
+                    TAGTEXT = string.Empty,
+                });
+            }
+
+            // sort the entries be their dates and times..
+            entries.Sort((x, y) => x.DATETIME.CompareTo(y.DATETIME));
+
+            // add the PHOTOALBUM to the collections of photo albums..
+            photoAlbums.Add(new PHOTOALBUM
+            {
+                // set the first date and time the photo was taken in the photo album..
+                FIRSTDATE = dateTimeMin,
+                BASEDIROVERRIDE = string.Empty, // kind of useless..
+                NAME = albumName // set the album's name..
+            });
+
+            // save the photo album into the database..
+            if (Database.InsertPhotoAlbum(photoAlbums.LastOrDefault(), entries))
+            {
+                // if success select the inserted album..
+                ListAlbums(photoAlbums.LastOrDefault());
+            }
+        }
+
+        /// <summary>
+        /// Updates a given photo album entry to the list box.
+        /// </summary>
+        /// <param name="photoAlbumEntry">The photo album entry to update to the list box.</param>
+        private void UpdatePhotoAlbumEntry(PhotoAlbumEntry photoAlbumEntry)
+        {
+            // avoid exceptions by disregarding null values..
+            if (photoAlbumEntry == null)
+            {
+                return;
+            }
+
+            // find an index for the given photo album entry..
+            int index = photoAlbumEntries.FindIndex(f => f.MD5HASH == photoAlbumEntry.MD5HASH && f.NAME == photoAlbumEntry.NAME);
+            if (index != -1) // only allow non-negative indices..
+            {
+                photoAlbumEntries[index] = photoAlbumEntry; // set the value..
+            }
+
+            // find an index to the given photo album entry from the list box containing them..
+            index = FindListBoxIndex(lbPhotosInAlbum, photoAlbumEntry, "MD5HASH"); // ..with an MD5HASH value..
+            if (index != -1) // only allow non-negative indices..
+            {
+                changeEventsSuspended = true; // indicate to discard all change event handlers..
+                lbPhotosInAlbum.Items[index] = photoAlbumEntry; // set the item..
+
+                // refresh the display member values, as they don't automatically refresh if a same object is
+                // re-assigned..
+                lbPhotosInAlbum.RefreshItems();
+                changeEventsSuspended = false; // indicate to enable all change event handlers..
+            }
+        }
+
+        /// <summary>
+        /// Updates the photo album into the internal list and into the list box.
+        /// </summary>
+        /// <param name="albumEntry">The album to update.</param>
+        private void UpdatePhotoAlbum(PHOTOALBUM albumEntry)
+        {
+            // find an index for the given photo album..
+            int index = photoAlbums.FindIndex(f => f.NAME == albumEntry.PreviousName);
+            if (index != -1) // only allow non-negative indices..
+            {
+                photoAlbums[index] = albumEntry; // set the value..
+            }
+
+            // find an index to the given photo album from the list box containing them..
+            index = FindListBoxIndex(lbPhotoAlbumList, albumEntry, "NAME");
+            if (index != -1)
+            {
+                changeEventsSuspended = true; // indicate to discard all change event handlers..
+                lbPhotoAlbumList.Items[index] = albumEntry; // set the item..
+
+                // refresh the display member values, as they don't automatically refresh if a same object is
+                // re-assigned..
+                lbPhotoAlbumList.RefreshItems();
+                changeEventsSuspended = false; // indicate to enable all change event handlers..
+            }
+        }
+        #endregion
+
+        #region ListBoxHelpers
+        /// <summary>
+        /// "Initialize" drag and drop operation from a list box.
+        /// </summary>
+        /// <param name="sender">The sender from an event. This will be cast into a ListBox class.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
+        /// <param name="index">An index of a list box item at the mouse coordinates.</param>
+        /// <param name="lb">The <paramref name="sender"/> casted into a ListBox.</param>
+        /// <param name="item">An item of the list box at the mouse coordinates..</param>
+        /// <returns>True if an item was found in the current mouse coordinates; otherwise false.</returns>
+        private bool InitDragDropListBox(object sender, MouseEventArgs e, out int index, out ListBox lb, out object item)
+        {
+            // cast the sender parameter into a ListBox..
+            lb = (ListBox)sender;
+
+            // get an item's index at the current mouse coordinates..
+            index = lb.IndexFromPoint(e.X, e.Y); 
+
+            // if the index is invalid..
+            if (index < 0 || index >= lb.Items.Count)
+            {
+                item = null; // ..set the item to null and..
+                return false; // ..return false..
+            }
+            else // the index is valid..
+            {
+                item = lb.Items[index]; // ..set the item's value and..
+                return true; // ..return true..
+            }
+        }
+
+        /// <summary>
+        /// Sorts the items in a ListBox by their string values.
+        /// </summary>
+        /// <param name="listBox">The list box of which items to sort.</param>
+        private static void SortListBox(ListBox listBox)
+        {
+            SortListBox(listBox, "System.String", typeof(string));
+        }
+
+        /// <summary>
+        /// Sorts the items in a ListBox by a given value type and the name of the member.
+        /// </summary>
+        /// <param name="listBox">The list box of which items to sort.</param>
+        /// <param name="valueMemberName">The name of the field or a property to be used in the sort operation.</param>
+        /// <param name="type">The type.</param>
+        private static void SortListBox(ListBox listBox, string valueMemberName, Type type)
+        {
+            // list the list box's items to a list of objects..
+            List<object> lbItems = new List<object>();
+            foreach (object item in listBox.Items)
+            {
+                lbItems.Add(item);
+            }
+
+            // no idea if this method of ordering will actually work (!)..
+            if (valueMemberName != "System.String")
+            {
+                lbItems = // order the items..
+                    lbItems.
+                    OrderBy(f => Convert.ChangeType(f.GetType().GetProperty(valueMemberName, 
+                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), type)).ToList();
+            }
+            else // ..this one however works..
+            {
+                lbItems = // order the items..
+                    lbItems.
+                    OrderBy(f => (string)f).ToList();
+            }
+
+            // clear the items in the given list box..
+            listBox.Items.Clear();
+
+            // add the sorted items back to the given list box..
+            listBox.Items.AddRange(lbItems.ToArray());
+        }
+        #endregion
+
+        #region GUILogic
         private void mnuExit_Click(object sender, EventArgs e)
         {
             // exit menu was selected..
@@ -371,6 +652,14 @@ namespace vamp
 
         private void FormPhotoAlbumEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // don't allow the form to close when the photo album has been changed..
+            if (AlbumChanged)
+            {
+                // ..so just cancel and return..
+                e.Cancel = true;
+                return;
+            }
+
             // close the database connection and "WACUUM" the database to ensure it's indexes remain non-fragmented..
             Database.CloseAndFinalizeDatabase();
         }
@@ -426,36 +715,6 @@ namespace vamp
             DisplayPhoto(photoAlbumEntry);
         }
 
-        /// <summary>
-        /// "Initialize" drag and drop operation from a list box.
-        /// </summary>
-        /// <param name="sender">The sender from an event. This will be cast into a ListBox class.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
-        /// <param name="index">An index of a list box item at the mouse coordinates.</param>
-        /// <param name="lb">The <paramref name="sender"/> casted into a ListBox.</param>
-        /// <param name="item">An item of the list box at the mouse coordinates..</param>
-        /// <returns>True if an item was found in the current mouse coordinates; otherwise false.</returns>
-        private bool InitDragDropListBox(object sender, MouseEventArgs e, out int index, out ListBox lb, out object item)
-        {
-            // cast the sender parameter into a ListBox..
-            lb = (ListBox)sender;
-
-            // get an item's index at the current mouse coordinates..
-            index = lb.IndexFromPoint(e.X, e.Y); 
-
-            // if the index is invalid..
-            if (index < 0 || index >= lb.Items.Count)
-            {
-                item = null; // ..set the item to null and..
-                return false; // ..return false..
-            }
-            else // the index is valid..
-            {
-                item = lb.Items[index]; // ..set the item's value and..
-                return true; // ..return true..
-            }
-        }
-
         // mouse was clicked on the current item's tag list box..
         private void lbPhotoTagValues_MouseDown(object sender, MouseEventArgs e)
         {
@@ -472,6 +731,24 @@ namespace vamp
             }
         }
 
+        // mouse was clicked on the current item's photo album entry list box..
+        private void lbPhotosInAlbum_MouseDown(object sender, MouseEventArgs e)
+        {
+            // this event seems to block the SelectedValueChanged event so call it manually..
+            lbPhotosInAlbum_SelectedValueChanged(sender, new EventArgs());
+
+            if (!InitDragDropListBox(sender, e, out int index, out ListBox lb, out object dragDrop))
+            {
+                return; // the click was "invalid" so just return..
+            }
+
+            // create a move effect to allow dragging photo album entries to the trash bin..
+            if (lb.DoDragDrop(dragDrop, DragDropEffects.Move) == DragDropEffects.Move)
+            {
+                // if dropped to the trash bin, remove the item..
+                lb.Items.RemoveAt(index);
+            }
+        }
 
         private void lbPhotoAlbumTagListValues_MouseDown(object sender, MouseEventArgs e)
         {
@@ -483,24 +760,6 @@ namespace vamp
             // create a copy effect to allow dragging tags from the list box containing all the
             // tags in the database to the current photo's tag list..
             lb.DoDragDrop(dragDrop, DragDropEffects.Copy);
-        }
-
-        /// <summary>
-        /// Removes the tag from a photo album entry (image/photo).
-        /// </summary>
-        /// <param name="tags">The list of current tags.</param>
-        /// <param name="tagText">The text of the tag to remove.</param>
-        private void RemoveTag(ref List<PHOTODATATAG> tags, string tagText)
-        {
-            // loop backwards as a list is in question..
-            for (int i = tags.Count - 1; i >= 0; i--)
-            {
-                // if a match was found the remove the match..
-                if (tags[i].TAGTEXT == tagText) 
-                {
-                    tags.RemoveAt(i);
-                }
-            }
         }
 
         // one handler for all the drop effects..
@@ -522,9 +781,35 @@ namespace vamp
                 // set the tag text of the current entry by joining the list into a comma delimited string..
                 List<string> tags = currentPhotoTags.Select(f => f.TAGTEXT).ToList();
                 currentPhotoAlbumEntry.TAGTEXT = string.Join(", ", tags); // ..so join the tags..
+
+                // set the album changed value to true..
+                AlbumChanged = true;
+            }
+            // if the data is of type of PhotoAlbumEntry set the effect to move..
+            if (e.Data.GetDataPresent(typeof(PhotoAlbumEntry)) &&
+                sender.Equals(pnTrash)) // the sender must be the "trash bin"..
+            {
+                e.Effect = DragDropEffects.Move; // ensure a move effect..
+                PhotoAlbumEntry entry = (PhotoAlbumEntry)e.Data.GetData(typeof(PhotoAlbumEntry));
+
+                // confirm the deletion of an entry from the current photo album..
+                if (MessageBox.Show(
+                    DBLangEngine.GetMessage("msgConfirmPhotoAlbumDeleteItemDelete",
+                        "Are you sure you want to delete the photo '{0}' from the photo album named: '{1}'?|A confirmation question for a photo album item's delete request",
+                        entry.DESCRIPTION, entry.NAME),
+                    DBLangEngine.GetMessage("msgConfirm",
+                        "Confirm|A short message indicating that a some action should be confirmed by the user"),
+                     MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    // the user accepted the deletion so remove the entry from the current photo album..
+                    RemovePhotoFromAlbum(entry.NAME, entry);
+                }
+
+                // this action is permanent so no reason to set the changed flag..
+                //AlbumChanged = true;
             }
             // if the data is of type of PHOTODATATAG..
-            else if (e.Data.GetDataPresent(typeof(PHOTODATATAG)) && 
+            else if (e.Data.GetDataPresent(typeof(PHOTODATATAG)) &&
                 // and if the sender is either the list box containing the current photo tags or
                 // the sender is the image viewer showing the current photo..
                 (sender.Equals(lbPhotoTagValues) || sender.Equals(ivPhoto)))
@@ -551,7 +836,10 @@ namespace vamp
                     currentPhotoAlbumEntry.TAGTEXT = string.Join(", ", tags); // ..so join the tags..
 
                     // update the currently selected photo album entry with the new tags..
-                    UpdatePhotoAlbumEntry(currentPhotoAlbumEntry); 
+                    UpdatePhotoAlbumEntry(currentPhotoAlbumEntry);
+
+                    // set the album changed value to true..
+                    AlbumChanged = true;
                 }
             }
             else
@@ -559,52 +847,6 @@ namespace vamp
                 // indicate an "invalid" drag & drop operation..
                 e.Effect = DragDropEffects.None;
             }
-        }
-
-        /// <summary>
-        /// Sorts the items in a ListBox by their string values.
-        /// </summary>
-        /// <param name="listBox">The list box of which items to sort.</param>
-        private static void SortListBox(ListBox listBox)
-        {
-            SortListBox(listBox, "System.String", typeof(string));
-        }
-
-        /// <summary>
-        /// Sorts the items in a ListBox by a given value type and the name of the member.
-        /// </summary>
-        /// <param name="listBox">The list box of which items to sort.</param>
-        /// <param name="valueMemberName">The name of the field or a property to be used in the sort operation.</param>
-        /// <param name="type">The type.</param>
-        private static void SortListBox(ListBox listBox, string valueMemberName, Type type)
-        {
-            // list the list box's items to a list of objects..
-            List<object> lbItems = new List<object>();
-            foreach (object item in listBox.Items)
-            {
-                lbItems.Add(item);
-            }
-
-            // no idea if this method of ordering will actually work (!)..
-            if (valueMemberName != "System.String")
-            {
-                lbItems = // order the items..
-                    lbItems.
-                    OrderBy(f => Convert.ChangeType(f.GetType().GetProperty(valueMemberName, 
-                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance), type)).ToList();
-            }
-            else // ..this one however works..
-            {
-                lbItems = // order the items..
-                    lbItems.
-                    OrderBy(f => (string)f).ToList();
-            }
-
-            // clear the items in the given list box..
-            listBox.Items.Clear();
-
-            // add the sorted items back to the given list box..
-            listBox.Items.AddRange(lbItems.ToArray());
         }
 
         // one handler for all the drag over and drag enter events..
@@ -617,10 +859,16 @@ namespace vamp
             }
             // and if the sender is either the list box containing the current photo tags or
             // the sender is the image viewer showing the current photo..
-            else if (e.Data.GetDataPresent(typeof(PHOTODATATAG)) && 
+            else if (e.Data.GetDataPresent(typeof(PHOTODATATAG)) &&
                 (sender.Equals(lbPhotoTagValues) || sender.Equals(ivPhoto)))
             {
                 e.Effect = DragDropEffects.Copy; // ..the effect is copy..
+            }
+            // if the sender is the list box containing the current photos in the current photo album..
+            else if (e.Data.GetDataPresent(typeof(PhotoAlbumEntry)) &&
+                (sender.Equals(pnTrash)))
+            {
+                e.Effect = DragDropEffects.Move; // moved..
             }
             else
             {
@@ -653,110 +901,6 @@ namespace vamp
                     EnumerateFolder(albumName,
                         folderSelectDialog.FileName);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Enumerates the folder's contents containing the photos to be added to the album and then adds a new photo album to the database.
-        /// </summary>
-        /// <param name="albumName">Name of the photo album to be added in to the database.</param>
-        /// <param name="albumFolder">The folder to be enumerated into the photo album.</param>
-        public void EnumerateFolder(string albumName, string albumFolder)
-        {
-            // create a new list of photo album entries..
-            List<PhotoAlbumEntry> entries = new List<PhotoAlbumEntry>();
-
-            // get the image files in the given folder..
-            IEnumerable<FileEnumeratorFileEntry> files = FileEnumerator.GetFilesPath(albumFolder, FileEnumerator.FiltersImage);
-
-            // set the first date to a ridiculous value - as I except this program not to be used at the year of 9999 :-) ..
-            DateTime dateTimeMin = DateTime.MaxValue;
-
-            // loop through the found image files..
-            foreach(var file in files)
-            {
-                // hash the photo file's contents to identify the photo file..
-                MD5 mD5 = MD5.Create(); // create a MD5 hash algorithm..
-
-                // hash the contents of the photo file..
-                IOHash.MD5AppendFile(file.FileNameWithPath, ref mD5); 
-                IOHash.MD5FinalizeBlock(ref mD5);
-
-                // get the hash string value..
-                string md5str = IOHash.MD5GetHashString(ref mD5);
-                mD5.Dispose(); // dispose of the MD5 class instance..
-
-                // a date and time for when the photo was taken..
-                DateTime dateTime;
-
-                try // preparing for everything..
-                {
-                    // get the meta data directories from the image file..
-                    var directories = ImageMetadataReader.ReadMetadata(file.FileNameWithPath);
-
-                    //gGet the original date time Exif tag value..
-                    var subIfdDirectory = directories.OfType<ExifSubIfdDirectory>().FirstOrDefault();
-                    dateTime = subIfdDirectory !=
-                        null ? // a null value makes it now..
-                        subIfdDirectory.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal) : DateTime.Now;
-                }
-                catch (Exception ex) // something went wrong so do log the reason.. (ex avoids the EventArgs e in all cases!)..
-                {
-                    dateTime = DateTime.Now; // an exception makes it now..
-                    ExceptionLogger.LogError(ex); // do note that this needs to be "bound" to the application..
-                }
-
-                // update the first photo time taken value..
-                if (dateTime < dateTimeMin)
-                {
-                    dateTimeMin = dateTime; // set the minimum date as the album date..
-                }
-
-                // add a new photo album entry to the list..
-                entries.Add(new PhotoAlbumEntry()
-                {
-                    DATETIME = dateTime, // the date and time the photo was taken..
-
-                    // set the file name based on if the file is in the default directory or not..
-                    FILENAME = file.FileNameWithPath.StartsWith(Settings.PhotoBaseDir, StringComparison.InvariantCultureIgnoreCase) ?
-                                 file.FileNameWithPath.Substring(Settings.PhotoBaseDir.Length).TrimStart(Path.DirectorySeparatorChar) :
-                                 file.FileNameWithPath,
-                    BASEDIROVERRIDE = string.Empty, // kind of useless..
-
-                    // the free description of date and time is empty at this time..
-                    DATETIME_FREE = string.Empty, 
-
-                    // set the default description from the file name..
-                    DESCRIPTION = file.FileNameNoExtension,
-
-                    // set the MD5 hash value..
-                    MD5HASH = md5str,
-
-                    // set the photo album's name..
-                    NAME = albumName,
-
-                    // the tag text for a new entry can be empty..
-                    TAGTEXT = string.Empty,
-                });                
-            }
-
-            // sort the entries be their dates and times..
-            entries.Sort((x, y) => x.DATETIME.CompareTo(y.DATETIME));
-
-            // add the PHOTOALBUM to the collections of photo albums..
-            photoAlbums.Add(new PHOTOALBUM
-            {
-                // set the first date and time the photo was taken in the photo album..
-                FIRSTDATE = dateTimeMin, 
-                BASEDIROVERRIDE = string.Empty, // kind of useless..
-                NAME = albumName // set the album's name..
-            });
-
-            // save the photo album into the database..
-            if (Database.InsertPhotoAlbum(photoAlbums.LastOrDefault(), entries))
-            {
-                // if success select the inserted album..
-                ListAlbums(photoAlbums.LastOrDefault());
             }
         }
 
@@ -799,6 +943,9 @@ namespace vamp
                         UpdatePhotoAlbumEntry(currentPhotoAlbumEntries[i]);
                     }
                 }
+
+                // set the album changed value to true..
+                AlbumChanged = true;
             }
             else if (sender.Equals(btPhotoDateTimeSet))
             {
@@ -823,68 +970,60 @@ namespace vamp
 
                 // update the current photo album entry..
                 UpdatePhotoAlbumEntry(currentPhotoAlbumEntry);
+
+                // set the album changed value to true..
+                AlbumChanged = true;
             }
         }
 
-        /// <summary>
-        /// Updates a given photo album entry to the list box.
-        /// </summary>
-        /// <param name="photoAlbumEntry">The photo album entry to update to the list box.</param>
-        private void UpdatePhotoAlbumEntry(PhotoAlbumEntry photoAlbumEntry)
+        private void mnuDelete_Click(object sender, EventArgs e)
         {
-            // avoid exceptions by disregarding null values..
-            if (photoAlbumEntry == null)
+            // a flag indicating if any albums were actually deleted..
+            bool albumsDeleted = false;
+
+            // loop through the selected photo albums..
+            foreach (PHOTOALBUM photoAlbum in lbPhotoAlbumList.SelectedItems)
             {
-                return;
+                // confirm for each deletion request of a photo album (precious memories)..
+                if (MessageBox.Show(
+                    DBLangEngine.GetMessage("msgConfirmPhotoAlbumDelete",
+                        "Are you sure you want to delete the photo album named: '{0}'?|A confirmation question for a photo album delete request",
+                        photoAlbum.NAME),
+                    DBLangEngine.GetMessage("msgConfirm",
+                        "Confirm|A short message indicating that a some action should be confirmed by the user"),
+                     MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    // if yes then delete..
+                    Database.DeletePhotoAlbum(photoAlbum.NAME);
+
+                    // set the something deleted flag to true..
+                    albumsDeleted = true;
+                }
             }
 
-            // find an index for the given photo album entry..
-            int index = photoAlbumEntries.FindIndex(f => f.MD5HASH == photoAlbumEntry.MD5HASH);
-            if (index != -1) // only allow non-negative indices..
+            // some photo albums were deleted reload the album list..
+            if (albumsDeleted)
             {
-                photoAlbumEntries[index] = photoAlbumEntry; // set the value..
-            }
-
-            // find an index to the given photo album entry from the list box containing them..
-            index = FindListBoxIndex(lbPhotosInAlbum, photoAlbumEntry, "MD5HASH"); // ..with an MD5HASH value..
-            if (index != -1) // only allow non-negative indices..
-            {
-                changeEventsSuspended = true; // indicate to discard all change event handlers..
-                lbPhotosInAlbum.Items[index] = photoAlbumEntry; // set the item..
-
-                // refresh the display member values, as they don't automatically refresh if a same object is
-                // re-assigned..
-                lbPhotosInAlbum.RefreshItems(); 
-                changeEventsSuspended = false; // indicate to enable all change event handlers..
+                ListAlbums();
             }
         }
 
-        /// <summary>
-        /// Updates the photo album into the internal list and into the list box.
-        /// </summary>
-        /// <param name="albumEntry">The album to update.</param>
-        private void UpdatePhotoAlbum(PHOTOALBUM albumEntry)
+        // a user requested the changes to be discarded..
+        private void pnUndoSave_Click(object sender, EventArgs e)
         {
-            // find an index for the given photo album..
-            int index = photoAlbums.FindIndex(f => f.NAME == albumEntry.PreviousName);
-            if (index != -1) // only allow non-negative indices..
-            {
-                photoAlbums[index] = albumEntry; // set the value..
-            }
+            // set the album changed value to false..
+            AlbumChanged = false;
 
-            // find an index to the given photo album from the list box containing them..
-            index = FindListBoxIndex(lbPhotoAlbumList, albumEntry, "NAME");
-            if (index != -1)
-            {
-                changeEventsSuspended = true; // indicate to discard all change event handlers..
-                lbPhotoAlbumList.Items[index] = albumEntry; // set the item..
-
-                // refresh the display member values, as they don't automatically refresh if a same object is
-                // re-assigned..
-                lbPhotoAlbumList.RefreshItems();
-                changeEventsSuspended = false; // indicate to enable all change event handlers..
-            }
+            // some changes a in the "cache" so reload the list of albums..
+            ListAlbums(currentAlbum);
         }
+
+        private void FormPhotoAlbumEditor_Load(object sender, EventArgs e)
+        {
+            // set the album changed value to false..
+            AlbumChanged = false;
+        }
+
 
         /// <summary>
         /// Finds the index to an item in a ListBox.
@@ -941,6 +1080,9 @@ namespace vamp
         {
             // ..so do reflect the possible changes into the database..
             Database.UpdatePhotoAlbum(currentAlbum, currentPhotoAlbumEntries);
+
+            // set the album changed value to false..
+            AlbumChanged = false;
         }
 
         // a new tag was requested to be added to a current photo album entry and 
@@ -980,6 +1122,54 @@ namespace vamp
 
                 // update the currently selected photo album entry with the new tag..
                 UpdatePhotoAlbumEntry(currentPhotoAlbumEntry);
+
+                // set the album changed value to true..
+                AlbumChanged = true;
+            }
+        }
+
+        // an indicator if the current photo album was changed..
+        private bool _AlbumChanged = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the current photo album has changed. This flag also affects the state of the GUI.
+        /// </summary>
+        private bool AlbumChanged
+        {
+            get
+            {
+                // return the flag's value..
+                return _AlbumChanged;
+            }
+
+            set
+            {
+                _AlbumChanged = value;
+
+                // set the image of the save button according to the flag's value..
+                pnSave.BackgroundImage = value ?
+                    Properties.Resources.save_changes : // enabled..
+                    UtilsMisc.MakeGrayscale3(Properties.Resources.save_changes); // disabled..
+
+                // set the image of undo save button according to the flag's value..
+                pnUndoSave.BackgroundImage = value ?
+                    Properties.Resources.undo_save_changes : // enabled..
+                    UtilsMisc.MakeGrayscale3(Properties.Resources.undo_save_changes); // disabled..
+
+
+                // set some of the GUI controls to enabled/disabled state according to the flag's value..
+                pnSave.Enabled = value;
+                lbPhotoAlbumList.Enabled = !value; 
+                mnuNew.Enabled = !value;
+                mnuExportSelectedXML.Enabled = !value;
+                mnuImportXML.Enabled = !value;
+                mnuExportSelectedSQL.Enabled = !value;
+                mnuImportSQL.Enabled = !value;
+                mnuDelete.Enabled = !value;
+                mnuSaveChanges.Enabled = value;
+                pnUndoSave.Enabled = value;
+                mnuUndoChanges.Enabled = value;
+                // END: set some of the GUI controls to enabled/disabled state according to the flag's value..
             }
         }
 
@@ -996,6 +1186,9 @@ namespace vamp
 
             // update the currently selected photo album entry with the new description..
             UpdatePhotoAlbumEntry(currentPhotoAlbumEntry);
+
+            // set the album changed value to true..
+            AlbumChanged = true;
         }
 
         // a time taken free description value was changed..
@@ -1011,6 +1204,9 @@ namespace vamp
 
             // update the currently selected photo album entry with the new description..
             UpdatePhotoAlbumEntry(currentPhotoAlbumEntry);
+
+            // set the album changed value to true..
+            AlbumChanged = true;
         }
 
         // the search string for the photo tags was changed..
@@ -1048,6 +1244,7 @@ namespace vamp
                 ListEntryTags(currentPhotoAlbumEntry);
             }
         }
+        #endregion
 
         #region ImportExport        
         /// <summary>
@@ -1231,6 +1428,9 @@ namespace vamp
 
             // update the photo album into the internal list and into the list box..
             UpdatePhotoAlbum(currentAlbum);
+
+            // set the album changed value to true..
+            AlbumChanged = true;
         }
 
         // imports a SQL file into the database..
@@ -1250,37 +1450,5 @@ namespace vamp
             }
         }
         #endregion
-
-        private void mnuDelete_Click(object sender, EventArgs e)
-        {
-            // a flag indicating if any albums were actually deleted..
-            bool albumsDeleted = false;
-
-            // loop through the selected photo albums..
-            foreach (PHOTOALBUM photoAlbum in lbPhotoAlbumList.SelectedItems)
-            {
-                // confirm for each deletion request of a photo album (precious memories)..
-                if (MessageBox.Show(
-                    DBLangEngine.GetMessage("msgConfirmPhotoAlbumDelete",
-                        "Are you sure you want to delete the photo album named: '{0}'?|A confirmation question for a photo album delete request",
-                        photoAlbum.NAME),
-                    DBLangEngine.GetMessage("msgConfirm",
-                        "Confirm|A short message indicating that a some action should be confirmed by the user"),
-                     MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                {
-                    // if yes then delete..
-                    Database.DeletePhotoAlbum(photoAlbum.NAME);
-
-                    // set the something deleted flag to true..
-                    albumsDeleted = true;
-                }
-            }
-
-            // some photo albums were deleted reload the album list..
-            if (albumsDeleted)
-            {
-                ListAlbums();
-            }
-        }
     }
 }

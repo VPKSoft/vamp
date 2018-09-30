@@ -533,6 +533,16 @@ namespace vamp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Save {
+            get {
+                object obj = ResourceManager.GetObject("Save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap save_changes {
             get {
                 object obj = ResourceManager.GetObject("save_changes", resourceCulture);
@@ -606,6 +616,26 @@ namespace vamp.Properties {
         internal static System.Drawing.Bitmap tv_series_mod {
             get {
                 object obj = ResourceManager.GetObject("tv_series_mod", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap undo_save {
+            get {
+                object obj = ResourceManager.GetObject("undo_save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap undo_save_changes {
+            get {
+                object obj = ResourceManager.GetObject("undo_save_changes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

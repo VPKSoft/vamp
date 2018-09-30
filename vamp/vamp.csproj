@@ -444,6 +444,9 @@
     <None Include="Resources\sand_class_steel_blue.png" />
     <None Include="Resources\view_refresh2.png" />
     <None Include="Resources\image_not_found.png" />
+    <None Include="Resources\undo_save_changes.png" />
+    <None Include="Resources\undo_save.png" />
+    <None Include="Resources\Save.png" />
     <Content Include="VPKSoft.ico" />
     <Content Include="x64\MediaInfo.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

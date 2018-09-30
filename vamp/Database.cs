@@ -1343,6 +1343,45 @@ namespace vamp
             // run the SQL sentence against the database..
             return ExecuteArbitrarySQL(sql);
         }
+
+        /// <summary>
+        /// Deletes the photo album's file entry from the database.
+        /// </summary>
+        /// <param name="albumName">Name of the photo album of which photo album entry to delete.</param>
+        /// <param name="photoAlbumEntry">A photo album entry belonging to the photo album to remove from the photo album.</param>
+        /// <returns>True if the deletion was successful; otherwise false.</returns>
+        public static bool DeletePhotoAlbumFile(string albumName, PhotoAlbumEntry photoAlbumEntry)
+        {
+            // create a SQL sentence to delete a single photo file from a photo album with a given name and MD5HASH value..
+            string sql = string.Join(Environment.NewLine,
+                // delete the photo file entry that belongs to the given album..
+                $"DELETE FROM PHOTOFILE WHERE MD5HASH =  {QS(photoAlbumEntry.MD5HASH)} AND ",
+                "MD5HASH NOT IN ",
+                // ..but not those photo file entries that belong to other photo albums as well..                
+                $"  (SELECT MD5HASH FROM PHOTOALBUMLINK WHERE NAME <> {QS(albumName)}); ",
+                Environment.NewLine,
+
+                // delete the photo data tag entries that belongs to the given album and the given photo file entry..
+                $"DELETE FROM PHOTODATATAG WHERE MD5HASH =  {QS(photoAlbumEntry.MD5HASH)} AND ",
+                "MD5HASH NOT IN ",
+                // ..but not those photo file entries that belong to other photo albums as well..
+                $"  (SELECT MD5HASH FROM PHOTOALBUMLINK WHERE NAME <> {QS(albumName)}); ",
+                Environment.NewLine,
+
+                // delete the photo data entry that belongs to the given album and matches the given photo file entry..
+                $"DELETE FROM PHOTODATA WHERE MD5HASH =  {QS(photoAlbumEntry.MD5HASH)} AND ",
+                "MD5HASH NOT IN ",
+                // ..but not those photo data entries that belong to other photo albums as well..
+                $"  (SELECT MD5HASH FROM PHOTOALBUMLINK WHERE NAME <> {QS(albumName)}); ",
+                Environment.NewLine,
+
+                // delete the photo album link entry that belong to the given album and matches the given photo file entry..
+                $"DELETE FROM PHOTOALBUMLINK WHERE NAME = {QS(albumName)} AND MD5HASH = {QS(photoAlbumEntry.MD5HASH)}; ",
+                Environment.NewLine);
+
+            // run the SQL sentence against the database..
+            return ExecuteArbitrarySQL(sql);
+        }
         #endregion
 
         #region TMdb
@@ -2313,6 +2352,7 @@ namespace vamp
         }
         #endregion
     }
+
     #region PhotoClasses    
     /// <summary>
     /// A class describing the PHOTOALBUM table in the database.
@@ -2351,5 +2391,4 @@ namespace vamp
         public string TAGTEXT { get; set; }
     }
     #endregion
-
 }

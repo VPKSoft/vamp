@@ -312,4 +312,7 @@
   <data name="msgConfirmPhotoAlbumDelete" xml:space="preserve">
     <value>Are you sure you want to delete the photo album named: '{0}'?|A confirmation question for a photo album delete request</value>
   </data>
+  <data name="msgConfirmPhotoAlbumDeleteItemDelete" xml:space="preserve">
+    <value>Are you sure you want to delete the photo '{0}' from the photo album named: '{1}'?|A confirmation question for a photo album item's delete request</value>
+  </data>
 </root>

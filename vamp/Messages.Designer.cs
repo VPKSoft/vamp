@@ -151,6 +151,15 @@ namespace vamp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete the photo &apos;{0}&apos; from the photo album named: &apos;{1}&apos;?|A confirmation question for a photo album item&apos;s delete request.
+        /// </summary>
+        internal static string msgConfirmPhotoAlbumDeleteItemDelete {
+            get {
+                return ResourceManager.GetString("msgConfirmPhotoAlbumDeleteItemDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database cache loading|As in data from the SQLite database is being cached in to the memory.
         /// </summary>
         internal static string msgDatabaseCacheLoading {
