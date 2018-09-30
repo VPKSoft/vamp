@@ -5,7 +5,7 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 
 ## Todo
 * ~~Document the code~~
-* Make the photo album editor stable (done: 27%, 29.09.18)
+* Make the photo album editor stable (done: 89%, 30.09.18)
 * ~~Fix the unique name conflict on the photo album editor~~ (fixed: 25.09.18)
 * ~~Speed up the video browser control~~
 * ~~Allow the video browser for to display a file name instead of a complete description of a TV show season episode~~
