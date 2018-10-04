@@ -113,8 +113,8 @@
     <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.3\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
     </Reference>
-    <Reference Include="VPKSoft.LangLib, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VPKSoft.LangLib.1.0.0.8\lib\net461\VPKSoft.LangLib.dll</HintPath>
+    <Reference Include="VPKSoft.LangLib, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.LangLib.1.0.0.9\lib\net461\VPKSoft.LangLib.dll</HintPath>
     </Reference>
     <Reference Include="VPKSoft.SecureAPIKey, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.SecureAPIKey.1.0.0\lib\net45\VPKSoft.SecureAPIKey.dll</HintPath>
@@ -152,6 +152,12 @@
     </Compile>
     <Compile Include="FormDialogBase.Designer.cs">
       <DependentUpon>FormDialogBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormDialogConfirmQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDialogConfirmQuery.designer.cs">
+      <DependentUpon>FormDialogConfirmQuery.cs</DependentUpon>
     </Compile>
     <Compile Include="FormDialogError.cs">
       <SubType>Form</SubType>
@@ -290,6 +296,9 @@
     <EmbeddedResource Include="FormDialogBase.resx">
       <DependentUpon>FormDialogBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormDialogConfirmQuery.resx">
+      <DependentUpon>FormDialogConfirmQuery.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormDialogError.resx">
       <DependentUpon>FormDialogError.cs</DependentUpon>
     </EmbeddedResource>
@@ -427,7 +436,6 @@
     <None Include="Resources\powered_by_rectangle_green_the_movie_db.png" />
     <None Include="Resources\settings.png" />
     <None Include="Resources\tmdb_primary_light_green.png" />
-    <Content Include="DBLocalization.exe" />
     <None Include="Resources\Exit.png" />
     <None Include="Resources\List.png" />
     <None Include="Resources\Download.png" />
@@ -447,6 +455,8 @@
     <None Include="Resources\undo_save_changes.png" />
     <None Include="Resources\undo_save.png" />
     <None Include="Resources\Save.png" />
+    <Content Include="DBLocalization.exe" />
+    <None Include="Resources\question_confirm.png" />
     <Content Include="VPKSoft.ico" />
     <Content Include="x64\MediaInfo.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

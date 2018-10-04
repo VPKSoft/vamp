@@ -502,6 +502,15 @@ namespace vamp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove the item named: &apos;{0}&apos;?|A confirmation question to remove some item from a some somewhere.
+        /// </summary>
+        internal static string msgRemoveItem {
+            get {
+                return ResourceManager.GetString("msgRemoveItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Repeat|A text describing a button tool-tip of a button to toggle playback repeat mode.
         /// </summary>
         internal static string msgRepeat {

@@ -179,19 +179,119 @@ namespace vamp
         #endregion
 
         #region GUILogic
+        // if the database is in the cache mode, do so the cache loading state..
         private void DataBase_DatabaseLoading(object sender, DatabaseLoadingEventArgs e)
         {
+            // the base cache is being loaded into the memory..
             if (e.DatabaseLoadingType == DatabaseLoadingType.Caching)
             {
+                // ..so set the splash screen's status to display the base cache load state..
                 FormSplash.SetStatus(FormSplash.MsgDatabaseCacheLoading, e.CurrentValue, e.EndValue);
             }
+            // the media location data is being cached into the memory..
             else if (e.DatabaseLoadingType == DatabaseLoadingType.CachingMediaLocations)
             {
                 FormSplash.SetStatus(FormSplash.MsgDatabaseMediaLocationCacheLoading, e.CurrentValue, e.EndValue);
             }
+            // the photo album data is being cached into the memory from the database..
             else if (e.DatabaseLoadingType == DatabaseLoadingType.CachingPhotoFileLocations)
             {
                 FormSplash.SetStatus(FormSplash.MsgDatabasePhotoCacheLoading, e.CurrentValue, e.EndValue);
+            }
+        }
+
+        // user has requested an item to be deleted from a context list..
+        private void vlbMain_ButtonClicked(object sender, VPKSoft.VisualListBox.ListBoxButtonClickEventArgs e)
+        {
+            // a selected item was requested to be deleted from the content list box with a context of "PLAYFILE"..
+            if (locationContext == "PLAYFILE")
+            {
+                // get the selected item and..
+                KeyValuePair<string, string> item = (KeyValuePair<string, string>)e.Item;
+
+                // ..show the confirmation dialog so items won't be deleted by accident..
+                if (FormDialogConfirmQuery.Execute(
+                        DBLangEngine.GetMessage("msgRemoveItem",
+                        "Remove the item named: '{0}'?|A confirmation question to remove some item from a some somewhere", item.Value)))
+                {
+                    // remove the selected browsed path from the database..
+                    Database.RemoveLocation(MediaLocationType.MediaLocationBrowsedPath, item.Key, locationContext);
+
+                    // remove the item from the list box..
+                    vlbMain.Items.RemoveAt(e.ItemIndex);
+                }
+            }
+            // a selected item was requested to be deleted from the content list box with a context of "PHOTOS"..
+            else if (locationContext == "PHOTOS")
+            {
+                // get the selected item and..
+                KeyValuePair<string, string> album = (KeyValuePair<string, string>)e.Item;
+
+                // ..show the confirmation dialog so items won't be deleted by accident..
+                if (FormDialogConfirmQuery.Execute(
+                        DBLangEngine.GetMessage("msgRemoveItem",
+                        "Remove the item named: '{0}'?|A confirmation question to remove some item from a some somewhere", album.Value)))
+                {
+                    // remove the selected photo album from the database..
+                    Database.DeletePhotoAlbum(album.Value);
+
+                    // remove the item from the list box..
+                    vlbMain.Items.RemoveAt(e.ItemIndex);
+                }
+            }
+            // a selected item was requested to be deleted from the content list box with a context of "WWW"..
+            else if (locationContext == "WWW")
+            {
+                // get the selected item and..
+                KeyValuePair<string, string> item = (KeyValuePair<string, string>)e.Item;
+
+                // ..show the confirmation dialog so items won't be deleted by accident..
+                if (FormDialogConfirmQuery.Execute(
+                        DBLangEngine.GetMessage("msgRemoveItem",
+                        "Remove the item named: '{0}'?|A confirmation question to remove some item from a some somewhere", item.Value)))
+                {
+                    // remove the selected WWW location from the database..
+                    Database.RemoveLocation(MediaLocationType.MediaLocationURL, item.Key, locationContext);
+
+                    // remove the item from the list box..
+                    vlbMain.Items.RemoveAt(e.ItemIndex);
+                }
+            }
+            // a selected item was requested to be deleted from the content list box with a context of "SERIES"..
+            else if (locationContext == "SERIES")
+            {
+                // get the selected item and..
+                KeyValuePair<string, string> item = (KeyValuePair<string, string>)e.Item;
+
+                // ..show the confirmation dialog so items won't be deleted by accident..
+                if (FormDialogConfirmQuery.Execute(
+                        DBLangEngine.GetMessage("msgRemoveItem",
+                        "Remove the item named: '{0}'?|A confirmation question to remove some item from a some somewhere", item.Value)))
+                {
+                    // remove the selected TV series location from the database..
+                    Database.RemoveLocation(MediaLocationType.MediaLocationSeries, item.Key, locationContext);
+
+                    // remove the item from the list box..
+                    vlbMain.Items.RemoveAt(e.ItemIndex);
+                }
+            }
+            // a selected item was requested to be deleted from the content list box with a context of "MOVIE"..
+            else if (locationContext == "MOVIE")
+            {
+                // get the selected item and..
+                KeyValuePair<string, string> item = (KeyValuePair<string, string>)e.Item;
+
+                // ..show the confirmation dialog so items won't be deleted by accident..
+                if (FormDialogConfirmQuery.Execute(
+                        DBLangEngine.GetMessage("msgRemoveItem",
+                        "Remove the item named: '{0}'?|A confirmation question to remove some item from a some somewhere", item.Value)))
+                {
+                    // remove the selected movie "collection" location from the database..
+                    Database.RemoveLocation(MediaLocationType.MediaLocationMovie, item.Key, locationContext);
+
+                    // remove the item from the list box..
+                    vlbMain.Items.RemoveAt(e.ItemIndex);
+                }
             }
         }
 
@@ -604,7 +704,7 @@ namespace vamp
                         Database.GetStatistic(FileType.TVSeasonEpisode, MediaLocationType.MediaLocationSeries, "SERIES", filterDirectory);
 
                     // execute the FormSelectMovie to get the statistic of a video file the users wishes to watch..
-                    statistic = FormSelectMovie.Execute(statistics, Settings.TVShowEpisodeFileNameTitle, 
+                    statistic = FormSelectMovie.Execute(statistics, Settings.TVShowEpisodeFileNameTitle,
                         ref previousVideoDetailIndex, ref previousVideoIndex);
                 },
                 () => // a time consuming operation has finished..
@@ -724,6 +824,8 @@ namespace vamp
                 }
                 else
                 {
+                    // don't let the indices affect the possible next list displayed by the
+                    // FormSelectMovie form..
                     previousVideoIndex = -1;
                     previousVideoDetailIndex = -1;
                 }
@@ -763,7 +865,7 @@ namespace vamp
                     PlayFolder = Path.GetDirectoryName(file); // save the previous folder which was browsed..
 
                     // save the selected location of the file to the database..
-                    Database.AddLocation(MediaLocationType.MediaLocationBrowsedPath, folder, string.Empty, string.Empty, "PLAYFILE");
+                    Database.AddLocation(MediaLocationType.MediaLocationBrowsedPath, Path.GetDirectoryName(file), string.Empty, string.Empty, "PLAYFILE");
 
                     // run the VLC based video playback form with the given file..
                     FormPlayer.InitPlayerForm(new FileInfo(file), out _);
@@ -846,7 +948,7 @@ namespace vamp
                           UtilsMisc.MakeGrayscale3(Properties.Resources.settings);
 
             pnPlayFile.BackgroundImage =
-                enabled ? Properties.Resources.play : 
+                enabled ? Properties.Resources.play :
                           UtilsMisc.MakeGrayscale3(Properties.Resources.play);
 
             pnMovies.BackgroundImage =
@@ -919,7 +1021,7 @@ namespace vamp
         /// Gets or sets the previous playback statistics used with the FormSelectMovie form.
         /// </summary>
         private PlaybackStatistics PreviousPlaybackStatistics
-        {          
+        {
             set
             {
                 _PreviousPlaybackStatistics = value;
@@ -931,7 +1033,7 @@ namespace vamp
                 PlaybackStatistics result = _PreviousPlaybackStatistics;
                 _PreviousPlaybackStatistics = null;
                 return result;
-            }            
+            }
         }
         #endregion
 
@@ -1045,10 +1147,5 @@ namespace vamp
             RunInBackground(action, null, false);
         }
         #endregion
-
-        private void vlbMain_ButtonClicked(object sender, VPKSoft.VisualListBox.ListBoxButtonClickEventArgs e)
-        {
-            // TODO:: delete from the database..
-        }
     }
 }
