@@ -4,19 +4,11 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 * Do note that this is in state of beta version and is to be updated soon..
 
 ## Todo
-* ~~Document the code~~
 * Make the photo album editor stable (done: 89%, 30.09.18)
-* ~~Fix the unique name conflict on the photo album editor~~ (fixed: 25.09.18)
-* ~~Speed up the video browser control~~
-* ~~Allow the video browser for to display a file name instead of a complete description of a TV show season episode~~
 * ~~Check the dicrectory existence when importing photo albums~~ (done: 29.09.18)
 * ~~Add a button the rename a photo album from the photo album editor~~ (done: 25.09.18)
-* ~~Crash handler --> just kill self~~
-* ~~Prevent a crasch when no internet connection is available~~
-* ~~Don't display delete files~~
-* Make the remove buttons work or hide them
+* ~~Make the remove buttons work or hide them~~ (done: 04.10.18)
 * Make the DVD playback to work
-* ~~Grayscale the main window while an operation is running~~
 * ~~Make the installer to remove local user saved data~~ (done: 29.09.18, with a confirmation question..)
 * Continue to write this readme!
 
@@ -38,6 +30,8 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 * [MediaInfoDotNet](https://github.com/cschlote/MediaInfoDotNet) - Wrapper Library for MediaInfo Library. Automatically chooses 32 and 64 bit library.
 * [Aha-Soft 16x16 Free Application Icons](http://www.small-icons.com/packs/16x16-free-application-icons.htm) - A small icon set of 16x16 icons in various image formats.
 * [MetadataExtractor](https://github.com/drewnoakes/metadata-extractor-dotnet) - MetadataExtractor is a straightforward .NET library for reading metadata from image and movie files.
+* [Owner-drawn trackbar(slider)](https://www.codeproject.com/Articles/17395/Owner-drawn-trackbar-slider) - Implementing a Windows Forms owner-drawn trackbar (slider) control in C#.
+© Michal Brylka
 
 ## Attribution
 This software is powered by the [TMDb.](https://www.themoviedb.org)
