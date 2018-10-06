@@ -4,12 +4,8 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 * Do note that this is in state of beta version and is to be updated soon..
 
 ## Todo
-* Make the photo album editor stable (done: 89%, 30.09.18)
-* ~~Check the dicrectory existence when importing photo albums~~ (done: 29.09.18)
-* ~~Add a button the rename a photo album from the photo album editor~~ (done: 25.09.18)
-* ~~Make the remove buttons work or hide them~~ (done: 04.10.18)
+* Make the photo album editor stable (done: 100%, 06.10.18)
 * Make the DVD playback to work
-* ~~Make the installer to remove local user saved data~~ (done: 29.09.18, with a confirmation question..)
 * Continue to write this readme!
 
 
