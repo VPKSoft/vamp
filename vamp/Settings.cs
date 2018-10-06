@@ -25,6 +25,7 @@ along with vamp#.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
+using System.Globalization;
 using System.IO;
 using VPKSoft.ConfLib; // (C): https://www.vpksoft.net/2015-03-31-13-33-28/libraries/conflib, GNU Lesser General Public License Version 3
 using VPKSoft.ErrorLogger; // (C): https://www.vpksoft.net, GNU Lesser General Public License Version 3
@@ -86,6 +87,7 @@ namespace vamp
                 TMDBEnabled = TMDBEnabled;
                 TMDbImagesCacheDir = TMDbImagesCacheDir;
                 TVShowEpisodeFileNameTitle = TVShowEpisodeFileNameTitle;
+                Culture = Culture;
                 // END: create dummy self to self assignments so the default setting values go the config.sqlite database..
 
                 // indicate that the settings have now been initialized..
@@ -191,6 +193,30 @@ namespace vamp
                 Init(); // initialize the Conflib if not yet initialized..
                 _TVShowBaseDir = value; // set the value..
                 Conflib["database/tv_base_dir"] = value; // save the value to the config.sqlite database..
+            }
+        }
+
+        // the current language (Culture) to be used with the software..
+        private static CultureInfo _Culture = null;
+
+        /// <summary>
+        /// Gets or sets the current language (Culture) to be used with the software's localization.
+        /// </summary>
+        public static CultureInfo Culture
+        {
+            get
+            {
+                Init(); // initialize the Conflib if not yet initialized..
+                return _Culture == null ?
+                    new CultureInfo(Conflib["language/culture", "en-US"].ToString()) :
+                    _Culture;
+            }
+
+            set
+            {
+                Init(); // initialize the Conflib if not yet initialized..
+                _Culture = value;
+                Conflib["language/culture"] = _Culture.Name;
             }
         }
 

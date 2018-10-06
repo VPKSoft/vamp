@@ -73,6 +73,7 @@
             this.tbFilterTags = new System.Windows.Forms.TextBox();
             this.pnTrash = new System.Windows.Forms.Panel();
             this.pnSave = new System.Windows.Forms.Panel();
+            this.lbItemDragDescription = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,7 +94,6 @@
             this.odSQL = new System.Windows.Forms.OpenFileDialog();
             this.sdXML = new System.Windows.Forms.SaveFileDialog();
             this.odXML = new System.Windows.Forms.OpenFileDialog();
-            this.lbItemDragDescription = new System.Windows.Forms.Label();
             this.tlpMain.SuspendLayout();
             this.tlpPhotosInAlbum.SuspendLayout();
             this.cmsCopyTags.SuspendLayout();
@@ -707,6 +707,16 @@
             this.pnSave.TabIndex = 7;
             this.pnSave.Click += new System.EventHandler(this.pnSave_Click);
             // 
+            // lbItemDragDescription
+            // 
+            this.tlpMain.SetColumnSpan(this.lbItemDragDescription, 2);
+            this.lbItemDragDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbItemDragDescription.Location = new System.Drawing.Point(246, 536);
+            this.lbItemDragDescription.Name = "lbItemDragDescription";
+            this.lbItemDragDescription.Size = new System.Drawing.Size(156, 75);
+            this.lbItemDragDescription.TabIndex = 9;
+            this.lbItemDragDescription.Text = "Drag photo files or photo file tags here to delete them from the database -->";
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -856,16 +866,6 @@
             // 
             this.odXML.DefaultExt = "*.xml";
             this.odXML.Filter = "XML Files|*.xml";
-            // 
-            // lbItemDragDescription
-            // 
-            this.tlpMain.SetColumnSpan(this.lbItemDragDescription, 2);
-            this.lbItemDragDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbItemDragDescription.Location = new System.Drawing.Point(246, 536);
-            this.lbItemDragDescription.Name = "lbItemDragDescription";
-            this.lbItemDragDescription.Size = new System.Drawing.Size(156, 75);
-            this.lbItemDragDescription.TabIndex = 9;
-            this.lbItemDragDescription.Text = "Drag photo files or photo file tags here to delete them from the database -->";
             // 
             // FormPhotoAlbumEditor
             // 

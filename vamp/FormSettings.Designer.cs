@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.lbSelectLanguageDescription = new System.Windows.Forms.Label();
             this.cbUseFileNameForTVShowEpisodeNamingValue = new System.Windows.Forms.CheckBox();
             this.lbUseFileNameForTVShowEpisodeNamingDescription = new System.Windows.Forms.Label();
             this.btSelectTMDbImagesCacheDir = new System.Windows.Forms.Button();
@@ -54,6 +55,7 @@
             this.btSelectPhotoFolder = new System.Windows.Forms.Button();
             this.btOK = new VPKSoft.ImageButton.ImageButton();
             this.btCancel = new VPKSoft.ImageButton.ImageButton();
+            this.cmbSelectLanguageValue = new System.Windows.Forms.ComboBox();
             this.tlpMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +70,7 @@
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMain.Controls.Add(this.lbSelectLanguageDescription, 0, 9);
             this.tlpMain.Controls.Add(this.cbUseFileNameForTVShowEpisodeNamingValue, 1, 8);
             this.tlpMain.Controls.Add(this.lbUseFileNameForTVShowEpisodeNamingDescription, 0, 8);
             this.tlpMain.Controls.Add(this.btSelectTMDbImagesCacheDir, 2, 7);
@@ -90,12 +93,14 @@
             this.tlpMain.Controls.Add(this.btSelectMovieFolder, 2, 1);
             this.tlpMain.Controls.Add(this.btSelectTVShowFolder, 2, 2);
             this.tlpMain.Controls.Add(this.btSelectPhotoFolder, 2, 3);
-            this.tlpMain.Controls.Add(this.btOK, 0, 10);
-            this.tlpMain.Controls.Add(this.btCancel, 1, 10);
+            this.tlpMain.Controls.Add(this.btOK, 0, 11);
+            this.tlpMain.Controls.Add(this.btCancel, 1, 11);
+            this.tlpMain.Controls.Add(this.cmbSelectLanguageValue, 1, 9);
             this.tlpMain.Location = new System.Drawing.Point(16, 15);
             this.tlpMain.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.tlpMain.Name = "tlpMain";
-            this.tlpMain.RowCount = 11;
+            this.tlpMain.RowCount = 12;
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -107,9 +112,20 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpMain.Size = new System.Drawing.Size(1316, 717);
+            this.tlpMain.Size = new System.Drawing.Size(1316, 755);
             this.tlpMain.TabIndex = 0;
+            // 
+            // lbSelectLanguageDescription
+            // 
+            this.lbSelectLanguageDescription.AutoSize = true;
+            this.lbSelectLanguageDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSelectLanguageDescription.Location = new System.Drawing.Point(17, 510);
+            this.lbSelectLanguageDescription.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
+            this.lbSelectLanguageDescription.Name = "lbSelectLanguageDescription";
+            this.lbSelectLanguageDescription.Size = new System.Drawing.Size(353, 25);
+            this.lbSelectLanguageDescription.TabIndex = 24;
+            this.lbSelectLanguageDescription.Text = "Language (a restart is required):";
+            this.lbSelectLanguageDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cbUseFileNameForTVShowEpisodeNamingValue
             // 
@@ -380,7 +396,7 @@
             this.btOK.BackColor = System.Drawing.SystemColors.Control;
             this.btOK.ButtonImage = global::vamp.Properties.Resources.OK;
             this.btOK.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btOK.Location = new System.Drawing.Point(2, 623);
+            this.btOK.Location = new System.Drawing.Point(2, 661);
             this.btOK.Margin = new System.Windows.Forms.Padding(2);
             this.btOK.Name = "btOK";
             this.btOK.Padding = new System.Windows.Forms.Padding(2);
@@ -395,7 +411,7 @@
             this.btCancel.ButtonImage = global::vamp.Properties.Resources.Cancel;
             this.tlpMain.SetColumnSpan(this.btCancel, 2);
             this.btCancel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btCancel.Location = new System.Drawing.Point(814, 623);
+            this.btCancel.Location = new System.Drawing.Point(814, 661);
             this.btCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btCancel.Name = "btCancel";
             this.btCancel.Padding = new System.Windows.Forms.Padding(2);
@@ -404,13 +420,24 @@
             this.btCancel.Text = "Cancel";
             this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
             // 
+            // cmbSelectLanguageValue
+            // 
+            this.cmbSelectLanguageValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbSelectLanguageValue.DisplayMember = "DisplayName";
+            this.cmbSelectLanguageValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSelectLanguageValue.FormattingEnabled = true;
+            this.cmbSelectLanguageValue.Location = new System.Drawing.Point(616, 507);
+            this.cmbSelectLanguageValue.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.cmbSelectLanguageValue.Name = "cmbSelectLanguageValue";
+            this.cmbSelectLanguageValue.Size = new System.Drawing.Size(586, 33);
+            this.cmbSelectLanguageValue.TabIndex = 25;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1348, 747);
+            this.ClientSize = new System.Drawing.Size(1348, 785);
             this.Controls.Add(this.tlpMain);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -420,8 +447,8 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormSettings";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "vamp# settings";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormSettings_KeyDown);
             this.tlpMain.ResumeLayout(false);
             this.tlpMain.PerformLayout();
@@ -457,5 +484,7 @@
         private System.Windows.Forms.Label lbTMDbImagesCacheDirDescription;
         private System.Windows.Forms.Label lbUseFileNameForTVShowEpisodeNamingDescription;
         private System.Windows.Forms.CheckBox cbUseFileNameForTVShowEpisodeNamingValue;
+        private System.Windows.Forms.Label lbSelectLanguageDescription;
+        private System.Windows.Forms.ComboBox cmbSelectLanguageValue;
     }
 }

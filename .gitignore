@@ -164,6 +164,9 @@ DocProject/Help/html
 # Installer executables
 installer/*.exe
 
+#DBLangEngine localization executable
+vamp/DBLocalization.exe
+
 # Click-Once directory
 publish/
 
@@ -332,3 +335,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 /intaller/setup_vampsharp_1_0_0_0.exe
+/vamp/DBLocalization.exe

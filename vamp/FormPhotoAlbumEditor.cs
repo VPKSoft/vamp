@@ -63,9 +63,99 @@ namespace vamp
         List<PhotoAlbumEntry> photoAlbumEntries = new List<PhotoAlbumEntry>();
 
         // a flag indicating whether the GUI should react to change events..
-        private bool changeEventsSuspended = true; 
+        private bool changeEventsSuspended = true;
 
-        private PHOTOALBUM currentAlbum; // the currently selected album..
+        private void SetAlbumEditEnabled(bool albumEditEnabled)
+        {
+            dtpPhotoAlbumFirstDateValue.Enabled = albumEditEnabled;
+            dtpPhotoAlbumFirstTimeValue.Enabled = albumEditEnabled;
+            lbPhotoTagValues.Enabled = albumEditEnabled;
+            btAddTag.Enabled = albumEditEnabled;
+            pnTrash.Enabled = albumEditEnabled;
+            btSetAlbumName.Enabled = albumEditEnabled;
+            dtpTimeTakenValueDate.Enabled = albumEditEnabled;
+            dtpTimeTakenValueTime.Enabled = albumEditEnabled;
+            btPhotoDateTimeSet.Enabled = albumEditEnabled;
+            tbTimeTakenTextValue.Enabled = albumEditEnabled;
+            tbAddTag.Enabled = albumEditEnabled;
+            tbPhotoAlbumNameValue.Enabled = albumEditEnabled;
+            tbFilterTags.Enabled = albumEditEnabled;
+            btPhotoAlbumFirstDateTimeSet.Enabled = albumEditEnabled;
+            tbPhotoDescriptionValue.Enabled = albumEditEnabled;
+            lbPhotoAlbumTagListValues.Enabled = albumEditEnabled;
+
+            if (!albumEditEnabled)
+            {
+                tbFilterTags.Text = string.Empty;
+                lbPhotoTagValues.Items.Clear();
+                tbAddTag.Text = string.Empty;
+                tbTimeTakenTextValue.Text = string.Empty;
+                lbPhotosInAlbum.Items.Clear();
+                tbPhotoAlbumNameValue.Text = string.Empty;
+                tbPhotoDescriptionValue.Text = string.Empty;
+                ivPhoto.Image = null;
+            }
+
+            // set the image of the trash bin button according to the flag's value..
+            pnTrash.BackgroundImage = albumEditEnabled ?
+                Properties.Resources.rbin : // enabled..
+                UtilsMisc.MakeGrayscale3(Properties.Resources.rbin); // disabled..
+        }
+
+        // a field to save the CurrentAlbum property value..
+        private PHOTOALBUM _CurrentAlbum = null;
+
+        /// <summary>
+        /// The currently selected album.
+        /// </summary>
+        private PHOTOALBUM CurrentAlbum
+        {
+            get
+            {
+                // return the value..
+                return _CurrentAlbum;
+            }
+
+            set
+            {
+                // set the album editing enabled based on the value..
+                SetAlbumEditEnabled(_CurrentAlbum != null);
+
+                // save the value..
+                _CurrentAlbum = value;
+
+                // set the previous album to null as well in case of a null value..
+                if (value == null)
+                {
+                    _PreviousAlbum = null;
+                }
+            }
+        }
+
+        // a field to save the PreviousAlbum property value..
+        private PHOTOALBUM _PreviousAlbum = null;
+
+        /// <summary>
+        /// A copy instance of the CurrentAlbum property value. 
+        /// </summary>
+        private PHOTOALBUM PreviousAlbum
+        {
+            get => _PreviousAlbum;
+
+            set
+            {
+                // in this case always make a copy..
+                if (value != null) // ..except with null value..
+                {
+                    _PreviousAlbum = new PHOTOALBUM(value);
+                }
+                else
+                {
+                    // a null value just gets to be set..
+                    _PreviousAlbum = value;
+                }
+            }
+        }
 
         // the contents of the currently selected album..
         List<PhotoAlbumEntry> currentPhotoAlbumEntries;
@@ -188,6 +278,9 @@ namespace vamp
 
             lbPhotoAlbumList.Items.Clear(); // ..and add them to the list box..
 
+            // clear the previous list of photoAlbumEntries as the will be re-enumerated..
+            photoAlbumEntries.Clear(); 
+
             // loop through the photo albums..
             foreach (PHOTOALBUM photoAlbum in photoAlbums)
             {
@@ -222,6 +315,7 @@ namespace vamp
                     }
                 }
             }
+            SetAlbumEditEnabled(selectPhotoAlbum != null);
         }
 
         /// <summary>
@@ -264,7 +358,7 @@ namespace vamp
             // set the form's title..
             Text = DBLangEngine.GetMessage("msgVampPhotoAlbumEditor",
                 "vamp# photo album editor|A title for the photo album editor") +
-                $" [{currentAlbum.NAME} / '{Path.Combine(photoAlbumEntry.BASEDIROVERRIDE, photoAlbumEntry.FILENAME)}']";
+                $" [{CurrentAlbum.NAME} / '{Path.Combine(photoAlbumEntry.BASEDIROVERRIDE, photoAlbumEntry.FILENAME)}']";
 
             // create a new image only if one exists in the file system..
             if (File.Exists(Path.Combine(photoAlbumEntry.BASEDIROVERRIDE, photoAlbumEntry.FILENAME)))
@@ -551,7 +645,7 @@ namespace vamp
             }
 
             // find an index to the given photo album from the list box containing them..
-            index = FindListBoxIndex(lbPhotoAlbumList, albumEntry, "NAME");
+            index = FindListBoxIndex(lbPhotoAlbumList, albumEntry, "PreviousName");
             if (index != -1)
             {
                 changeEventsSuspended = true; // indicate to discard all change event handlers..
@@ -666,6 +760,11 @@ namespace vamp
 
         private void lbPhotoAlbumList_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (changeEventsSuspended) // no change events are allowed..
+            {
+                return; // ..so do return..
+            }
+
             changeEventsSuspended = true; // indicate to discard all change event handlers..
 
             // set the form's title..
@@ -673,26 +772,29 @@ namespace vamp
                 "vamp# photo album editor|A title for the photo album editor");
 
             // set the current album value..
-            currentAlbum = (PHOTOALBUM)((ListBox)sender).SelectedItem;
+            CurrentAlbum = (PHOTOALBUM)((ListBox)sender).SelectedItem;
+
+            // save the current album's value so the change(s) may be undone..
+            PreviousAlbum = CurrentAlbum;
 
             // avoid exceptions by disregarding null values..
-            if (currentAlbum == null)
+            if (CurrentAlbum == null)
             {
                 changeEventsSuspended = false; // indicate to enable all change event handlers..
                 return;
             }
 
             // set the album name to the corresponding text box..
-            tbPhotoAlbumNameValue.Text = currentAlbum.NAME;
+            tbPhotoAlbumNameValue.Text = CurrentAlbum.NAME;
 
             // set the date value of the date of when the first photo was taken..
-            dtpPhotoAlbumFirstDateValue.Value = currentAlbum.FIRSTDATE;
+            dtpPhotoAlbumFirstDateValue.Value = CurrentAlbum.FIRSTDATE;
 
             // set the date value of the time of when the first photo was taken..
-            dtpPhotoAlbumFirstTimeValue.Value = currentAlbum.FIRSTDATE;
+            dtpPhotoAlbumFirstTimeValue.Value = CurrentAlbum.FIRSTDATE;
 
             // list the album's contents..
-            ListAlbumContents(currentAlbum.NAME);
+            ListAlbumContents(CurrentAlbum.NAME);
 
             changeEventsSuspended = false; // indicate to enable all change event handlers..
         }
@@ -781,6 +883,8 @@ namespace vamp
                 // set the tag text of the current entry by joining the list into a comma delimited string..
                 List<string> tags = currentPhotoTags.Select(f => f.TAGTEXT).ToList();
                 currentPhotoAlbumEntry.TAGTEXT = string.Join(", ", tags); // ..so join the tags..
+
+                lbPhotoTagValues.Items.Remove(tagText);
 
                 // set the album changed value to true..
                 AlbumChanged = true;
@@ -928,16 +1032,16 @@ namespace vamp
                 second = dtpPhotoAlbumFirstTimeValue.Value.Second; // get the second..
 
                 // construct a date and time from the variables set before and set the value..
-                currentAlbum.FIRSTDATE = new DateTime(year, month, day, hour, minute, second);
+                CurrentAlbum.FIRSTDATE = new DateTime(year, month, day, hour, minute, second);
 
                 // all the photos in the photo album with lesser date are to be updated to a new date and time value..
                 for (int i = 0; i < currentPhotoAlbumEntries.Count; i++)
                 {
                     // if the date the photo was taken is lesser than the photo album's date..
-                    if (currentPhotoAlbumEntries[i].DATETIME < currentAlbum.FIRSTDATE)
+                    if (currentPhotoAlbumEntries[i].DATETIME < CurrentAlbum.FIRSTDATE)
                     {
                         // ..update the date..
-                        currentPhotoAlbumEntries[i].DATETIME = currentAlbum.FIRSTDATE;
+                        currentPhotoAlbumEntries[i].DATETIME = CurrentAlbum.FIRSTDATE;
 
                         // update the current photo album entry..
                         UpdatePhotoAlbumEntry(currentPhotoAlbumEntries[i]);
@@ -962,10 +1066,10 @@ namespace vamp
                 currentPhotoAlbumEntry.DATETIME = new DateTime(year, month, day, hour, minute, second);
 
                 // if to photo album's date is larger than a single photo album entry's value..
-                if (currentAlbum.FIRSTDATE > currentPhotoAlbumEntry.DATETIME)
+                if (CurrentAlbum.FIRSTDATE > currentPhotoAlbumEntry.DATETIME)
                 {
                     // ..set the date to match the lower date..
-                    currentAlbum.FIRSTDATE = currentPhotoAlbumEntry.DATETIME;
+                    CurrentAlbum.FIRSTDATE = currentPhotoAlbumEntry.DATETIME;
                 }
 
                 // update the current photo album entry..
@@ -1006,6 +1110,7 @@ namespace vamp
             {
                 ListAlbums();
             }
+            AlbumChanged = false;
         }
 
         // a user requested the changes to be discarded..
@@ -1014,14 +1119,31 @@ namespace vamp
             // set the album changed value to false..
             AlbumChanged = false;
 
+
+            photoAlbumEntries.RemoveAll(f => f.NAME == PreviousAlbum.NAME);
+
+            //CurrentAlbum.NAME = CurrentAlbum.PreviousName;
+            //CurrentAlbum = PreviousAlbum;
+
+            // re-fetch the album from the database..
+            List<PhotoAlbumEntry> entries = Database.GetPhotoAlbum(PreviousAlbum.NAME);
+
+             photoAlbumEntries.AddRange(entries);         
+
             // some changes a in the "cache" so reload the list of albums..
-            ListAlbums(currentAlbum);
+            ListAlbums(CurrentAlbum);
         }
 
         private void FormPhotoAlbumEditor_Load(object sender, EventArgs e)
         {
             // set the album changed value to false..
             AlbumChanged = false;
+
+            // disable the editors in the GUI at form's load..
+            CurrentAlbum = null;
+
+            // no need to be suspended at this moment..
+            changeEventsSuspended = false;
         }
 
 
@@ -1079,7 +1201,7 @@ namespace vamp
         private void pnSave_Click(object sender, EventArgs e)
         {
             // ..so do reflect the possible changes into the database..
-            Database.UpdatePhotoAlbum(currentAlbum, currentPhotoAlbumEntries);
+            Database.UpdatePhotoAlbum(CurrentAlbum, currentPhotoAlbumEntries);
 
             // set the album changed value to false..
             AlbumChanged = false;
@@ -1395,8 +1517,8 @@ namespace vamp
         {
             // get the localized default name for a new album or use a previous name for the
             // selected album..
-            string albumName = currentAlbum != null ?
-                currentAlbum.NAME :
+            string albumName = CurrentAlbum != null ?
+                CurrentAlbum.NAME :
                 FormDialogPhotoAlbumQueryName.Execute(photoAlbums,
                 DBLangEngine.GetMessage("msgNewPhotoAlbum", "New photo album|A text describing a new photo album"));
 
@@ -1412,7 +1534,7 @@ namespace vamp
             }
 
             // set the new name if valid..
-            currentAlbum.NAME = albumName.Trim() == string.Empty ? currentAlbum.NAME : albumName.Trim();
+            CurrentAlbum.NAME = albumName.Trim() == string.Empty ? CurrentAlbum.NAME : albumName.Trim();
 
             // update the name to the photo album's entries as well..
             for (int i = 0; i < currentPhotoAlbumEntries.Count; i++)
@@ -1427,7 +1549,7 @@ namespace vamp
             UpdatePhotoAlbumEntry(currentPhotoAlbumEntry);
 
             // update the photo album into the internal list and into the list box..
-            UpdatePhotoAlbum(currentAlbum);
+            UpdatePhotoAlbum(CurrentAlbum);
 
             // set the album changed value to true..
             AlbumChanged = true;

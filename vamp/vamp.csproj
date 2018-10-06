@@ -550,7 +550,9 @@
     <PostBuildEvent>XCOPY "$(ProjectDir)libvlc_x86" "$(TargetDir)libvlc_x86" /S /Y /I /D
 XCOPY "$(ProjectDir)libvlc_x64" "$(TargetDir)libvlc_x64" /S /Y /I /D
 
-COPY "$(SolutionDir)thanks_to.pdf" "$(TargetDir)"
+COPY /Y "$(SolutionDir)thanks_to.pdf" "$(TargetDir)"
+
+COPY /Y "$(ProjectDir)DBLocalization.exe" "$(TargetDir)"
 
 XCOPY  "$(SolutionDir)packages\Geckofx45.45.0.34\content\Firefox" "$(TargetDir)Firefox_x86" /S /Y /I /D
 XCOPY  "$(SolutionDir)packages\Geckofx45.64.45.0.34\content\Firefox" "$(TargetDir)Firefox_x64" /S /Y /I /D

@@ -28,6 +28,8 @@ using System;
 using VPKSoft.LangLib; // (C): http://www.vpksoft.net/, GNU Lesser General Public License Version 3
 using FolderSelect; // (C): https://www.lyquidity.com/devblog/?p=136, no license
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace vamp
 {
@@ -77,6 +79,12 @@ namespace vamp
             tbTMDbImagesCacheDirValue.Text = Settings.TMDbImagesCacheDir;
             cdTMDbEnabledValue.Checked = Settings.TMDBEnabled;
             cbUseFileNameForTVShowEpisodeNamingValue.Checked = Settings.TVShowEpisodeFileNameTitle;
+
+            List<CultureInfo> cultures = DBLangEngine.GetLocalizedCultures();
+
+            cmbSelectLanguageValue.Items.AddRange(cultures.ToArray());
+            cmbSelectLanguageValue.SelectedItem = Settings.Culture;
+
             // END: just load the settings..
         }
 
@@ -95,6 +103,7 @@ namespace vamp
             Settings.TMDbImagesCacheDir = tbTMDbImagesCacheDirValue.Text;
             Settings.TMDBEnabled = cdTMDbEnabledValue.Checked;
             Settings.TVShowEpisodeFileNameTitle = cbUseFileNameForTVShowEpisodeNamingValue.Checked;
+            Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
             // END: just save the settings..
         }
 

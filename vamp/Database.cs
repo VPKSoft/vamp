@@ -2360,6 +2360,26 @@ namespace vamp
     public class PHOTOALBUM
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="PHOTOALBUM"/> class with the given PHOTOALBUM class instance.
+        /// </summary>
+        /// <param name="photoAlbum">A PHOTOALBUM class instance to initialize the new instance with.</param>
+        public PHOTOALBUM(PHOTOALBUM photoAlbum)
+        {
+            NAME = photoAlbum.NAME;
+            BASEDIROVERRIDE = photoAlbum.BASEDIROVERRIDE;
+            FIRSTDATE = photoAlbum.FIRSTDATE;
+            PreviousName = photoAlbum.PreviousName;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PHOTOALBUM"/> class.
+        /// </summary>
+        public PHOTOALBUM()
+        {
+
+        }
+
+        /// <summary>
         /// Gets or sets the NAME column's value.
         /// </summary>
         public string NAME { get; set; }

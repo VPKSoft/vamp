@@ -74,6 +74,7 @@ namespace vamp
                     ExceptionLogger.Bind(1); // bind before any visual objects are created..
                     ExceptionLogger.ApplicationCrash += ExceptionLogger_ApplicationCrash;
                     Settings.InitSettings();
+                    DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
                     Application.Run(new FormSettings());
                     ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully..
                     return;
@@ -90,6 +91,7 @@ namespace vamp
                     ExceptionLogger.Bind(2); // bind before any visual objects are created..
                     ExceptionLogger.ApplicationCrash += ExceptionLogger_ApplicationCrash;
                     Settings.InitSettings();
+                    DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
                     Application.Run(new FormPhotoAlbumEditor());
                     ExceptionLogger.UnBind(); // unbind so the truncate thread is stopped successfully..
                     return;
@@ -144,6 +146,7 @@ namespace vamp
             }
 
             Settings.InitSettings();
+            DBLangEngine.UseCulture = Settings.Culture; // set the localization value..
 
             ExceptionLogger.LogMessage(AppDomain.CurrentDomain.BaseDirectory);
 
