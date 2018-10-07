@@ -58,7 +58,7 @@ namespace vamp
             DBLangEngine.InitalizeLanguage("vamp.Messages");
 
             // prevent the form from growing larger than the size of the screen..
-            MaximumSize = Screen.PrimaryScreen.Bounds.Size;
+            //MaximumSize = Screen.PrimaryScreen.Bounds.Size;
 
             // load the settings..
             LoadSettings();
