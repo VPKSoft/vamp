@@ -37,6 +37,7 @@
             this.tlpVolume = new System.Windows.Forms.TableLayoutPanel();
             this.btnVolume = new System.Windows.Forms.Panel();
             this.sliderVolume = new MB.Controls.ColorSlider();
+            this.sliderRating = new VPKSoft.ImageSlider.ImageSlider();
             this.pnButtons = new System.Windows.Forms.Panel();
             this.btnContextMenuBase = new System.Windows.Forms.Panel();
             this.btnContextMenu = new System.Windows.Forms.Panel();
@@ -64,9 +65,11 @@
             this.lbInQueue = new System.Windows.Forms.Label();
             this.lbCurrentSong = new VPKSoft.ImageButton.ImageButton();
             this.tlpFind = new System.Windows.Forms.TableLayoutPanel();
+            this.tbFind = new VPKSoft.VisualTextBox.VisualTextBox();
             this.lbFind = new System.Windows.Forms.Label();
             this.tlpSideMargin = new System.Windows.Forms.TableLayoutPanel();
             this.pnListBoxBase = new System.Windows.Forms.Panel();
+            this.lbMusic = new VPKSoft.VisualListBox.VisualListBox();
             this.lbError = new System.Windows.Forms.Label();
             this.tmSongState = new System.Windows.Forms.Timer(this.components);
             this.mnuContext = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -74,9 +77,6 @@
             this.mnuLoadSavedQueue = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuAppendToQueue = new System.Windows.Forms.ToolStripMenuItem();
-            this.sliderRating = new VPKSoft.ImageSlider.ImageSlider();
-            this.tbFind = new VPKSoft.VisualTextBox.VisualTextBox();
-            this.lbMusic = new VPKSoft.VisualListBox.VisualListBox();
             this.tlpMain.SuspendLayout();
             this.tlpPopDown.SuspendLayout();
             this.tlpVolume.SuspendLayout();
@@ -239,6 +239,21 @@
             this.sliderVolume.ValueChanged += new System.EventHandler(this.sliderVolume_ValueChanged);
             this.sliderVolume.MouseEnter += new System.EventHandler(this.ToolTipEnter);
             this.sliderVolume.MouseLeave += new System.EventHandler(this.ToolTipLeave);
+            // 
+            // sliderRating
+            // 
+            this.sliderRating.Enabled = false;
+            this.sliderRating.ImageOffValue = ((System.Drawing.Image)(resources.GetObject("sliderRating.ImageOffValue")));
+            this.sliderRating.ImageOnValue = global::vamp.Properties.Resources.orange_star;
+            this.sliderRating.Location = new System.Drawing.Point(234, 3);
+            this.sliderRating.Maximum = 500;
+            this.sliderRating.Name = "sliderRating";
+            this.sliderRating.Size = new System.Drawing.Size(183, 39);
+            this.sliderRating.SliderImage = ((System.Drawing.Image)(resources.GetObject("sliderRating.SliderImage")));
+            this.sliderRating.TabIndex = 2;
+            this.sliderRating.ValueChanged += new System.EventHandler(this.sliderRating_ValueChanged);
+            this.sliderRating.MouseEnter += new System.EventHandler(this.ToolTipEnter);
+            this.sliderRating.MouseLeave += new System.EventHandler(this.ToolTipLeave);
             // 
             // pnButtons
             // 
@@ -637,6 +652,24 @@
             this.tlpFind.Size = new System.Drawing.Size(1252, 65);
             this.tlpFind.TabIndex = 6;
             // 
+            // tbFind
+            // 
+            this.tbFind.BorderColor = System.Drawing.Color.SkyBlue;
+            this.tbFind.BorderWidth = 1;
+            this.tbFind.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbFind.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbFind.ForeColor = System.Drawing.Color.White;
+            this.tbFind.Location = new System.Drawing.Point(125, 0);
+            this.tbFind.Margin = new System.Windows.Forms.Padding(0);
+            this.tbFind.Name = "tbFind";
+            this.tbFind.Size = new System.Drawing.Size(1127, 65);
+            this.tbFind.TabIndex = 0;
+            this.tbFind.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tbFind.TextChanged += new System.EventHandler(this.tbFind_TextChanged);
+            this.tbFind.Click += new System.EventHandler(this.tbFind_Enter);
+            this.tbFind.Enter += new System.EventHandler(this.tbFind_Enter);
+            this.tbFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbFind_KeyDown);
+            // 
             // lbFind
             // 
             this.lbFind.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -674,6 +707,56 @@
             this.pnListBoxBase.Name = "pnListBoxBase";
             this.pnListBoxBase.Size = new System.Drawing.Size(1252, 328);
             this.pnListBoxBase.TabIndex = 0;
+            // 
+            // lbMusic
+            // 
+            this.lbMusic.BackColor = System.Drawing.Color.Black;
+            this.lbMusic.BackColorAlternative = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.lbMusic.DisplayMember = "";
+            this.lbMusic.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbMusic.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbMusic.ForeColor = System.Drawing.Color.White;
+            this.lbMusic.ForeColorAlternative = System.Drawing.Color.Gainsboro;
+            this.lbMusic.HoverBackColor = System.Drawing.Color.Black;
+            this.lbMusic.HoverBackColorAlternative = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.lbMusic.HoverEnabled = false;
+            this.lbMusic.HoverForeColor = System.Drawing.Color.White;
+            this.lbMusic.HoverForeColorAlternative = System.Drawing.Color.Gainsboro;
+            this.lbMusic.Items.AddRange(new object[] {
+            "testing 0...",
+            "testing 1...",
+            "testing 2...",
+            "testing 3...",
+            "testing 4...",
+            "testing 5...",
+            "testing 6...",
+            "testing 7...",
+            "testing 8...",
+            "testing 9...",
+            "testing 0...",
+            "testing 1...",
+            "testing 2...",
+            "testing 3...",
+            "testing 4...",
+            "testing 5...",
+            "testing 6...",
+            "testing 7...",
+            "testing 8...",
+            "testing 9..."});
+            this.lbMusic.Location = new System.Drawing.Point(0, 0);
+            this.lbMusic.Margin = new System.Windows.Forms.Padding(0);
+            this.lbMusic.Name = "lbMusic";
+            this.lbMusic.RightImage = global::vamp.Properties.Resources.Cancel;
+            this.lbMusic.SelectedIndex = -1;
+            this.lbMusic.SelectedItem = null;
+            this.lbMusic.SelectionColor = System.Drawing.SystemColors.Highlight;
+            this.lbMusic.SelectionColorAlternative = System.Drawing.SystemColors.Highlight;
+            this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbMusic.Size = new System.Drawing.Size(1252, 328);
+            this.lbMusic.TabIndex = 0;
+            this.lbMusic.ValueMember = "";
+            this.lbMusic.ButtonClicked += new VPKSoft.VisualListBox.ListBoxExtension.OnButtonClicked(this.lbMusic_ButtonClicked);
+            this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
             // 
             // lbError
             // 
@@ -738,89 +821,7 @@
             this.mnuAppendToQueue.Text = "Append a saved queue";
             this.mnuAppendToQueue.Click += new System.EventHandler(this.mnuLoadSavedQueue_Click);
             // 
-            // sliderRating
-            // 
-            this.sliderRating.Enabled = false;
-            this.sliderRating.ImageOffValue = ((System.Drawing.Image)(resources.GetObject("sliderRating.ImageOffValue")));
-            this.sliderRating.ImageOnValue = global::vamp.Properties.Resources.orange_star;
-            this.sliderRating.Location = new System.Drawing.Point(234, 3);
-            this.sliderRating.Maximum = 500;
-            this.sliderRating.Name = "sliderRating";
-            this.sliderRating.Size = new System.Drawing.Size(183, 39);
-            this.sliderRating.SliderImage = ((System.Drawing.Image)(resources.GetObject("sliderRating.SliderImage")));
-            this.sliderRating.TabIndex = 2;
-            this.sliderRating.ValueChanged += new System.EventHandler(this.sliderRating_ValueChanged);
-            this.sliderRating.MouseEnter += new System.EventHandler(this.ToolTipEnter);
-            this.sliderRating.MouseLeave += new System.EventHandler(this.ToolTipLeave);
-            // 
-            // tbFind
-            // 
-            this.tbFind.BorderColor = System.Drawing.Color.SkyBlue;
-            this.tbFind.BorderWidth = 1;
-            this.tbFind.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbFind.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbFind.ForeColor = System.Drawing.Color.White;
-            this.tbFind.Location = new System.Drawing.Point(125, 0);
-            this.tbFind.Margin = new System.Windows.Forms.Padding(0);
-            this.tbFind.Name = "tbFind";
-            this.tbFind.Size = new System.Drawing.Size(1127, 65);
-            this.tbFind.TabIndex = 0;
-            this.tbFind.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.tbFind.TextChanged += new System.EventHandler(this.tbFind_TextChanged);
-            this.tbFind.Click += new System.EventHandler(this.tbFind_Enter);
-            this.tbFind.Enter += new System.EventHandler(this.tbFind_Enter);
-            this.tbFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbFind_KeyDown);
-            // 
-            // lbMusic
-            // 
-            this.lbMusic.BackColor = System.Drawing.Color.Black;
-            this.lbMusic.BackColorAlternative = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.lbMusic.DisplayMember = "";
-            this.lbMusic.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbMusic.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbMusic.ForeColor = System.Drawing.Color.White;
-            this.lbMusic.ForeColorAlternative = System.Drawing.Color.Gainsboro;
-            this.lbMusic.HoverBackColor = System.Drawing.Color.Black;
-            this.lbMusic.HoverBackColorAlternative = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.lbMusic.HoverEnabled = false;
-            this.lbMusic.HoverForeColor = System.Drawing.Color.White;
-            this.lbMusic.HoverForeColorAlternative = System.Drawing.Color.Gainsboro;
-            this.lbMusic.Items.AddRange(new object[] {
-            "testing 0...",
-            "testing 1...",
-            "testing 2...",
-            "testing 3...",
-            "testing 4...",
-            "testing 5...",
-            "testing 6...",
-            "testing 7...",
-            "testing 8...",
-            "testing 9...",
-            "testing 0...",
-            "testing 1...",
-            "testing 2...",
-            "testing 3...",
-            "testing 4...",
-            "testing 5...",
-            "testing 6...",
-            "testing 7...",
-            "testing 8...",
-            "testing 9..."});
-            this.lbMusic.Location = new System.Drawing.Point(0, 0);
-            this.lbMusic.Margin = new System.Windows.Forms.Padding(0);
-            this.lbMusic.Name = "lbMusic";
-            this.lbMusic.RightImage = global::vamp.Properties.Resources.Cancel;
-            this.lbMusic.SelectedIndex = -1;
-            this.lbMusic.SelectedItem = null;
-            this.lbMusic.SelectionColor = System.Drawing.SystemColors.Highlight;
-            this.lbMusic.SelectionColorAlternative = System.Drawing.SystemColors.Highlight;
-            this.lbMusic.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbMusic.Size = new System.Drawing.Size(1252, 328);
-            this.lbMusic.TabIndex = 0;
-            this.lbMusic.ValueMember = "";
-            this.lbMusic.DoubleClick += new System.EventHandler(this.lbMusic_DoubleClick);
-            // 
-            // AmpMusicPlayerForm
+            // FormAmpMusicPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

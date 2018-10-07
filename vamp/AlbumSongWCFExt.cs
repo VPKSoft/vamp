@@ -60,6 +60,32 @@ namespace vamp
         }
 
         /// <summary>
+        /// Creates a AlbumSongWCF class instance of a given AlbumSongWCFExt class instance.
+        /// </summary>
+        /// <param name="songWCFExt">An AlbumSongWCFExt class instance to covert to AlbumSongWCF class instance.</param>
+        /// <returns>An AlbumSongWCF class instance of a given AlbumSongWCFExt class instance.</returns>
+        public static AlbumSongWCF FromExt(AlbumSongWCFExt songWCFExt)
+        {
+            AlbumSongWCF result = new AlbumSongWCF();
+            result.Album = songWCFExt.Album;
+            result.Artist = songWCFExt.Artist;
+            result.Duration = songWCFExt.Duration;
+            result.FullFileName = songWCFExt.FullFileName;
+            result.ID = songWCFExt.ID;
+            result.OverrideName = songWCFExt.OverrideName;
+            result.QueueIndex = songWCFExt.QueueIndex;
+            result.Rating = songWCFExt.Rating;
+            result.SongName = songWCFExt.SongName;
+            result.SongNameNoQueue = songWCFExt.SongNameNoQueue;
+            result.TagStr = songWCFExt.TagStr;
+            result.Title = songWCFExt.Title;
+            result.Track = songWCFExt.Track;
+            result.Volume = songWCFExt.Volume;
+            result.Year = songWCFExt.Year;
+            return result;
+        }
+
+        /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         public override string ToString()

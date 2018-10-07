@@ -750,6 +750,19 @@ namespace vamp
             }
         }
 
+        // a user requested a song to be removed from the amp#'s current database..
+        private void lbMusic_ButtonClicked(object sender, VPKSoft.VisualListBox.ListBoxButtonClickEventArgs e)
+        {
+            ClientAction(() =>
+            {
+                // create an AlbumSongWCF class instance from the selected item in the list..
+                AlbumSongWCF removeSong = AlbumSongWCFExt.FromExt((AlbumSongWCFExt)e.Item);
+
+                // ask the amp# remote API to remove to song..
+                cli.RemoveSongFromAlbum(removeSong);
+            });
+        }
+
         // handle the keyboard events, KeyPreview = true..
         private void AmpMusicPlayerForm_KeyDown(object sender, KeyEventArgs e)
         {
@@ -767,6 +780,7 @@ namespace vamp
                     e.Handled = true; // the key event was handled..
                     e.SuppressKeyPress = true; // suppress the event..
                 }
+                return; // don't allow the key press to be delegated..
             }
             else if (e.KeyCode == Keys.Add || e.KeyValue == 187)  // a queue of selected item(s) was requested..
             {
@@ -789,15 +803,45 @@ namespace vamp
 
                 e.Handled = true; // the key event was handled..
                 e.SuppressKeyPress = true; // suppress the event..
+                return; // don't allow the key press to be delegated..
+            }
+            // a deletion was requested for the selected songs in the album..
+            else if (e.KeyCode == Keys.Delete)
+            {
+                if (lbMusic.SelectedItems.Count > 0) // if nothing is selected there is nothing to do..
+                {
+                    // initialize a list of AlbumSongWCF class instances to be removed from the album..
+                    List<AlbumSongWCF> deleteList = new List<AlbumSongWCF>();
+
+                    // fill the list of AlbumSongWCF class instances for the deletion..
+                    foreach (AlbumSongWCFExt mf in lbMusic.SelectedItems) 
+                    {
+                        deleteList.Add(AlbumSongWCFExt.FromExt(mf));
+                        ClientAction(() => cli.RemoveSongFromAlbum(mf));
+                    }
+
+                    // loop through the list of AlbumSongWCF class instances..
+                    foreach (AlbumSongWCF albumSongWCF in deleteList)
+                    {
+                        ClientAction(() =>
+                        {
+                            // ask the amp# remote API to remove to song..
+                            cli.RemoveSongFromAlbum(albumSongWCF);
+                        });
+                    }
+                }
+                e.Handled = true; // the key event was handled..
+                e.SuppressKeyPress = true; // suppress the event..
+                return; // don't allow the key press to be delegated..
             }
             else if (e.KeyCode == Keys.Up || // these keys don't need to be delegated to the search text box..
-                    e.KeyCode == Keys.Down ||
-                    e.KeyCode == Keys.PageDown ||
-                    e.KeyCode == Keys.PageUp ||
-                    e.KeyCode == Keys.Shift ||
-                    e.KeyCode == Keys.Control ||
-                    e.KeyCode == Keys.Return ||
-                    e.KeyCode == Keys.F2)
+                e.KeyCode == Keys.Down ||
+                e.KeyCode == Keys.PageDown ||
+                e.KeyCode == Keys.PageUp ||
+                e.KeyCode == Keys.Shift ||
+                e.KeyCode == Keys.Control ||
+                e.KeyCode == Keys.Return ||
+                e.KeyCode == Keys.F2)
             {
                 return; // but no suppress either..
             }
