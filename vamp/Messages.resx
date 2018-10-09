@@ -318,4 +318,7 @@
   <data name="msgRemoveItem" xml:space="preserve">
     <value>Remove the item named: '{0}'?|A confirmation question to remove some item from a some somewhere</value>
   </data>
+  <data name="msgBrowserHome" xml:space="preserve">
+    <value>Home|A tool tip to indicate that the browser navigates to the page it was started from</value>
+  </data>
 </root>

@@ -457,6 +457,7 @@
     <None Include="Resources\Save.png" />
     <Content Include="DBLocalization.exe" />
     <None Include="Resources\question_confirm.png" />
+    <None Include="Resources\browser_home.png" />
     <Content Include="VPKSoft.ico" />
     <Content Include="x64\MediaInfo.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

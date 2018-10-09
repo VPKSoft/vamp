@@ -433,7 +433,8 @@ namespace vamp
         /// Disable or enable the tool bar under the location list box.
         /// </summary>
         /// <param name="enabled">If true the tool bar will be visible.</param>
-        private void ToggleListboxPanel(bool enabled)
+        /// <param name="refreshButton">If true the refresh button is visible.</param>
+        private void ToggleListboxPanel(bool enabled, bool refreshButton)
         {
             if (enabled) // to tool bar was set to be enabled..
             {
@@ -444,6 +445,9 @@ namespace vamp
                 tlpListBoxHolder.RowStyles[1] = // ..so a row style is required..
                     new RowStyle(SizeType.Absolute,
                     tlpExitBase.Height + 1 + (int)(buttonList.Count * 0.5));
+
+                // hide the refresh button if not required..
+                pnTMDbRefresh.Visible = refreshButton;
             }
             else // the tool bar was set to be disabled..
             {
@@ -537,7 +541,7 @@ namespace vamp
                     vlbMain.Items.Add(new KeyValuePair<string, string>(location.LOCATION, location.DESCRIPTION));
                 }
                 vlbMain.DisplayMember = "Value"; // set the list box display member..
-                ToggleListboxPanel(false); // hide the "tool bar" under the list box..
+                ToggleListboxPanel(false, false); // hide the "tool bar" under the list box..
             }
             // a photo album "browser" was requested..
             else if (control.Tag.ToString() == "PHOTOS")
@@ -556,7 +560,7 @@ namespace vamp
                     vlbMain.Items.Add(new KeyValuePair<string, string>(location.LOCATION, location.DESCRIPTION));
                 }
                 vlbMain.DisplayMember = "Value"; // set the list box display member..
-                ToggleListboxPanel(false); // hide the "tool bar" under the list box..
+                ToggleListboxPanel(false, false); // hide the "tool bar" under the list box..
             }
             else if (control.Tag.ToString() == "SERIES")
             {
@@ -574,7 +578,7 @@ namespace vamp
                 }
                 vlbMain.DisplayMember = "Value"; // set the list box display member..
 
-                ToggleListboxPanel(true); // show the "tool bar" under the list box..
+                ToggleListboxPanel(true, true); // show the "tool bar" under the list box..
             }
             // a Youtube TV interface was requested..
             else if (control.Tag.ToString() == "YOUTUBE")
@@ -606,7 +610,7 @@ namespace vamp
                 }
 
                 vlbMain.DisplayMember = "Value"; // set the list box display member..
-                ToggleListboxPanel(true); // show the "tool bar" under the list box..
+                ToggleListboxPanel(true, false); // show the "tool bar" under the list box..
             }
             // music player was requested..
             else if (control.Tag.ToString() == "MUSIC")
@@ -617,7 +621,7 @@ namespace vamp
                 pnMouseHower.Visible = true; // show the panel containing the "action" image..
                 pnActionImage.Visible = true; // show the "action" image..
                 tlpListBoxHolder.Visible = false; // hide the content list box..
-                ToggleListboxPanel(false); // hide the "tool bar" under the list box..
+                ToggleListboxPanel(false, false); // hide the "tool bar" under the list box..
             }
             // an exit "button" was requested..
             else if (control.Tag.ToString() == "EXIT")
@@ -628,7 +632,7 @@ namespace vamp
                 pnMouseHower.Visible = true; // show the panel containing the "action" image..
                 pnActionImage.Visible = true; // show the "action" image..
                 tlpListBoxHolder.Visible = false; // hide the content list box..
-                ToggleListboxPanel(false); // hide the "tool bar" under the list box..
+                ToggleListboxPanel(false, false); // hide the "tool bar" under the list box..
             }
             else if (control.Tag.ToString() == "MOVIE")
             {
@@ -646,7 +650,7 @@ namespace vamp
                 }
                 vlbMain.DisplayMember = "Value"; // set the list box display member..
 
-                ToggleListboxPanel(true); // show the "tool bar" under the list box..
+                ToggleListboxPanel(true, true); // show the "tool bar" under the list box..
             }
         }
 

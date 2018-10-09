@@ -128,6 +128,7 @@ namespace vamp
                 new FormSelectSubtitle();
                 new FormDialogSelectFileOrDirectory();
                 new FormWebBrowserGecko(string.Empty);
+                new FormWebBrowserChromium(string.Empty);
                 new FormDialogSelectPlaybackPosition();
                 new FormDialogSelectLocation();
                 new FormAmpMusicPlayer();

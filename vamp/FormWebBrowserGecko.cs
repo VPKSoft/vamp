@@ -42,12 +42,15 @@ namespace vamp
         // Useless code: private read-only ChromiumWebBrowser browser = null; // A ChromiumWebBrowser class..
         GeckoWebBrowser browser = new GeckoWebBrowser { Dock = DockStyle.Fill };
 
+        private string startURL = null; // the starting URL the browser was displayed with..
+
         #region MassiveConstructor        
         /// <summary>
         /// Initializes a new instance of the <see cref="FormWebBrowserGecko"/> class.
         /// </summary>
-        /// <param name="Url">The URL to show in the Gecko-based web browser control as string.</param>
-        public FormWebBrowserGecko(string Url)
+        /// <param name="URL">The URL to show in the Gecko-based web browser control as string.</param>
+        /// <param name="homeButton">An indicator whether to show the home button on the browser bar.</param>
+        public FormWebBrowserGecko(string URL, bool homeButton = true)
         {
             InitializeComponent();
 
@@ -62,10 +65,13 @@ namespace vamp
             DBLangEngine.InitalizeLanguage("vamp.Messages");
 
             Controls.Add(browser); // add the Gecko Web Browser to the form's controls
-            browser.Navigate(Url);
+            browser.Navigate(URL);
+            startURL = URL;
 
             browser.Navigated += Browser_Navigated; // subscribe to an event to a browser URL changed..
             browser.NavigationError += Browser_NavigationError; // subscribe to an event to a browser "error"..
+            browser.CanGoBackChanged += Browser_CanGoBackwardFormardChanged; // the state if navigation backwards has changed..
+            browser.CanGoForwardChanged += Browser_CanGoBackwardFormardChanged; // the state if navigation forwards has changed..
 
             m_GlobalHook = Hook.GlobalEvents(); // The Gecko Web Browser prevents the Form from getting mouse signals, so we add this (Gma.System.MouseKeyHook) event handler..
                                                 // (C): https://github.com/gmamaladze/globalmousekeyhook, MIT license
@@ -76,6 +82,13 @@ namespace vamp
 
             lbToolTip.Text = string.Empty; // No too-tip as there is nothing to show at this time..
 
+            if (!homeButton) // if home button is disabled..
+            {
+                // ..set the indices accordingly..
+                btnCloseBrowser.Tag = 3;
+                btnBrowserHome.Tag = -1;
+            }
+
             SetButtonImages(); // Set the control buttons states to match the browser's state..
         }
         #endregion
@@ -83,6 +96,22 @@ namespace vamp
         #region GeckoWebBrowserEvents
         // the browser navigated to an URL..
         private void Browser_Navigated(object sender, GeckoNavigatedEventArgs e)
+        {
+            // set the button states..
+            SetButtons();
+        }
+
+        // the browsers state of whether backwards or forwards navigation has changed..
+        private void Browser_CanGoBackwardFormardChanged(object sender, EventArgs e)
+        {
+            // set the button states..
+            SetButtons();
+        }
+
+        /// <summary>
+        /// Sets the button states depending on the browser's state.
+        /// </summary>
+        private void SetButtons()
         {
             if (this.IsHandleCreated) // an exception might occur: "Invoke or BeginInvoke cannot be called on a control until the window handle has been created."
             {
@@ -96,7 +125,6 @@ namespace vamp
             {
                 SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
             }
-
         }
 
         private void Browser_NavigationError(object sender, Gecko.Events.GeckoNavigationErrorEventArgs e)
@@ -125,6 +153,8 @@ namespace vamp
             {
                 browser.Navigated -= Browser_Navigated; // release the event handlers..
                 browser.NavigationError -= Browser_NavigationError;
+                browser.CanGoBackChanged -= Browser_CanGoBackwardFormardChanged;
+                browser.CanGoForwardChanged -= Browser_CanGoBackwardFormardChanged;
             }
 
             try
@@ -155,11 +185,31 @@ namespace vamp
         #endregion
 
         #region Layout
+        // remove s the "buttons" from the parent panel if their index (Tag) equals -1..
+        void RemoveHiddenButtons()
+        {
+            for (int i = pnButtons.Controls.Count - 1; i >= 0; i--)
+            {
+                if (pnButtons.Controls[i].GetType() != typeof(Panel)) // We use Panel class instances as buttons..
+                {
+                    continue; // So, if not panel then do nothing..
+                }
+
+                // remove the hidden "button"..
+                if (pnButtons.Controls[i].Tag.ToString() == "-1")
+                {
+                    pnButtons.Controls.RemoveAt(i);
+                }
+            }
+        }
+
         /// <summary>
         /// Does to resizing of the browser control buttons to scale for the current screen resolution (full screen).
         /// </summary>
         private void ResizeButtons()
         {
+            RemoveHiddenButtons(); // remove the "disabled" buttons from their parent panel..
+
             int spacing = 1920 / 100 + 1; // my screen width.. voodoo and/or hoodoo magic :-)
             int leftStart = Width - (pnButtons.Height * pnButtons.Controls.Count) - (pnButtons.Controls.Count * spacing); // Calculate the most left position for the browser control buttons
             leftStart /= 2; // some division for some reason
@@ -211,6 +261,10 @@ namespace vamp
             {
                 toolTip = DBLangEngine.GetMessage("msgUrl", "URL|A tool-tip for a browser URL address");
             }
+            else if (sender.Equals(btnBrowserHome))
+            {
+                toolTip = DBLangEngine.GetMessage("msgBrowserHome", "Home|A tool tip to indicate that the browser navigates to the page it was started from");
+            }
 
             lbToolTip.Text = toolTip;
         }
@@ -233,7 +287,7 @@ namespace vamp
                 UtilsMisc.MakeGrayscale3(Properties.Resources.back);
 
             btnForward.BackgroundImage =  // browser forward button image..
-                btnBack.Enabled ? Properties.Resources.forward :
+                btnForward.Enabled ? Properties.Resources.forward :
                 UtilsMisc.MakeGrayscale3(Properties.Resources.forward);
         }
 
@@ -254,17 +308,18 @@ namespace vamp
             else if (btn.Equals(btnRefresh)) // if the wind forward was clicked..
             {
                 browser.Reload();
-                SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
             }
             else if (btn.Equals(btnBack))
             {
                 browser.GoBack();
-                SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
             }
             else if (btn.Equals(btnForward))
             {
                 browser.GoForward();
-                SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
+            }
+            else if (btn.Equals(btnBrowserHome))
+            {
+                browser.Navigate(startURL);
             }
         }
 
@@ -292,6 +347,43 @@ namespace vamp
                 e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
                 e.Handled = true; // This is handled..
                 Close();
+            }
+            else if (
+                (e.KeyCode == Keys.Back && (!e.Alt && !e.Shift && !e.Control)) ||
+                (e.KeyCode == Keys.Left && (e.Alt && !e.Shift && !e.Control)) ||
+                (e.KeyCode == Keys.BrowserBack && !e.Alt && !e.Control && !e.Shift))
+            {
+              browser.GoBack();
+                e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
+                e.Handled = true; // This is handled..
+            }
+            else if ((e.KeyCode == Keys.Back && (!e.Alt && e.Shift && !e.Control)) ||
+                    (e.KeyCode == Keys.Right && (e.Alt && !e.Shift && !e.Control)) ||
+                    (e.KeyCode == Keys.BrowserForward && !e.Alt && !e.Control && !e.Shift))
+            {
+               browser.GoForward();
+                e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
+                e.Handled = true; // This is handled..
+            }
+            else if (e.KeyCode == Keys.F5 && !e.Alt && !e.Shift)
+            {
+                if (e.Control)
+                {
+                    browser.Reload(GeckoLoadFlags.BypassCache);
+                }
+                else
+                {
+                    browser.Reload();
+                }
+                e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
+                e.Handled = true; // This is handled..
+            }
+            else if ((e.KeyCode == Keys.Home && (!e.Control && !e.Shift && e.Alt)) ||
+                     (e.KeyCode == Keys.BrowserHome && (!e.Control && !e.Shift && !e.Alt)))
+            {
+                browser.Navigate(startURL);
+                e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
+                e.Handled = true; // This is handled..
             }
         }
         #endregion

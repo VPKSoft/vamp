@@ -106,6 +106,15 @@ namespace vamp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home|A tool tip to indicate that the browser navigates to the page it was started from.
+        /// </summary>
+        internal static string msgBrowserHome {
+            get {
+                return ResourceManager.GetString("msgBrowserHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh|A tool-tip for a browser refresh button.
         /// </summary>
         internal static string msgBrowserRefresh {

@@ -41,12 +41,15 @@ namespace vamp
     {
         private readonly ChromiumWebBrowser browser = null; // A ChromiumWebBrowser class..
 
+        private string startURL = null; // the starting URL the browser was displayed with..
+
         #region MassiveConstructor        
         /// <summary>
         /// Initializes a new instance of the <see cref="FormWebBrowserChromium"/> class.
         /// </summary>
         /// <param name="URL">The URL.</param>
-        public FormWebBrowserChromium(string URL)
+        /// <param name="homeButton">An indicator whether to show the home button on the browser bar.</param>
+        public FormWebBrowserChromium(string URL, bool homeButton = true)
         {
             InitializeComponent();
 
@@ -59,6 +62,8 @@ namespace vamp
             }
 
             DBLangEngine.InitalizeLanguage("vamp.Messages");
+
+            startURL = URL;
 
             browser = new ChromiumWebBrowser(URL) // Create a ChromiumWebBrowser and add it to the form
             {
@@ -79,6 +84,13 @@ namespace vamp
             m_GlobalHook.KeyDown += GlobalKeyDown; // Add a global KeyDown event..
 
             lbToolTip.Text = string.Empty; // No too-tip as there is nothing to show at this time..
+
+            if (!homeButton) // if home button is disabled..
+            {
+                // ..set the indices accordingly..
+                btnCloseBrowser.Tag = 3;
+                btnBrowserHome.Tag = -1;
+            }
 
             SetButtonImages(); // Set the control buttons states to match the browser's state..
         }
@@ -169,11 +181,31 @@ namespace vamp
         #endregion
 
         #region Layout
+        // remove s the "buttons" from the parent panel if their index (Tag) equals -1..
+        void RemoveHiddenButtons()
+        {
+            for (int i = pnButtons.Controls.Count - 1; i >= 0; i--)
+            {
+                if (pnButtons.Controls[i].GetType() != typeof(Panel)) // We use Panel class instances as buttons..
+                {
+                    continue; // So, if not panel then do nothing..
+                }
+
+                // remove the hidden "button"..
+                if (pnButtons.Controls[i].Tag.ToString() == "-1")
+                {
+                    pnButtons.Controls.RemoveAt(i);
+                }
+            }
+        }
+
         /// <summary>
         /// Does to resizing of the browser control buttons to scale for the current screen resolution (full screen).
         /// </summary>
         private void ResizeButtons()
         {
+            RemoveHiddenButtons(); // remove the "disabled" buttons from their parent panel..
+
             int spacing = 1920 / 100 + 1; // my screen width.. voodoo and/or hoodoo magic :-)
             int leftStart = Width - (pnButtons.Height * pnButtons.Controls.Count) - (pnButtons.Controls.Count * spacing); // Calculate the most left position for the browser control buttons
             leftStart /= 2; // some division for some reason
@@ -225,6 +257,10 @@ namespace vamp
             {
                 toolTip = DBLangEngine.GetMessage("msgUrl", "URL|A tool-tip for a browser URL address");
             }
+            else if (sender.Equals(btnBrowserHome))
+            {
+                toolTip = DBLangEngine.GetMessage("msgBrowserHome", "Home|A tool tip to indicate that the browser navigates to the page it was started from");
+            }
 
             lbToolTip.Text = toolTip;
         }
@@ -247,7 +283,7 @@ namespace vamp
                 UtilsMisc.MakeGrayscale3(Properties.Resources.back);
 
             btnForward.BackgroundImage =  // browser forward button image..
-                btnBack.Enabled ? Properties.Resources.forward :
+                btnForward.Enabled ? Properties.Resources.forward :
                 UtilsMisc.MakeGrayscale3(Properties.Resources.forward);
         }
 
@@ -268,17 +304,21 @@ namespace vamp
             else if (btn.Equals(btnRefresh)) // if the wind forward was clicked..
             {
                 browser.GetBrowser().Reload();
-                SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
+//                SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
             }
             else if (btn.Equals(btnBack))
             {
                 browser.GetBrowser().GoBack();
-                SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
+//                SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
             }
             else if (btn.Equals(btnForward))
             {
                 browser.GetBrowser().GoForward();
-                SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
+//                SetButtonStates(); // sets the button states to enabled / disabled depending on the browser component's state..
+            }
+            else if (btn.Equals(btnBrowserHome))
+            {
+                browser.Load(startURL);
             }
         }
 
@@ -305,6 +345,36 @@ namespace vamp
                 e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
                 e.Handled = true; // This is handled..
                 Close();
+            }
+            else if (
+                (e.KeyCode == Keys.Back && (!e.Alt && !e.Shift && !e.Control)) ||
+                (e.KeyCode == Keys.Left && (e.Alt && !e.Shift && !e.Control)) ||
+                (e.KeyCode == Keys.BrowserBack && !e.Alt && !e.Control && !e.Shift))
+            {
+                browser.GetBrowser().GoBack();
+                e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
+                e.Handled = true; // This is handled..
+            }
+            else if ((e.KeyCode == Keys.Back && (!e.Alt && e.Shift && !e.Control)) ||
+                    (e.KeyCode == Keys.Right && (e.Alt && !e.Shift && !e.Control)) ||
+                    (e.KeyCode == Keys.BrowserForward && !e.Alt && !e.Control && !e.Shift))
+            {
+                browser.GetBrowser().GoForward();
+                e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
+                e.Handled = true; // This is handled..
+            }
+            else if (e.KeyCode == Keys.F5 && !e.Alt && !e.Shift)
+            {
+                browser.GetBrowser().Reload(e.Control);
+                e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
+                e.Handled = true; // This is handled..
+            }
+            else if ((e.KeyCode == Keys.Home && (!e.Control && !e.Shift && e.Alt)) || 
+                     (e.KeyCode == Keys.BrowserHome && (!e.Control && !e.Shift && !e.Alt)))
+            {
+                browser.Load(startURL);
+                e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
+                e.Handled = true; // This is handled..
             }
         }
         #endregion

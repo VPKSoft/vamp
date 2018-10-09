@@ -37,6 +37,7 @@
             this.btnBack = new System.Windows.Forms.Panel();
             this.btnRefresh = new System.Windows.Forms.Panel();
             this.lbUrl = new System.Windows.Forms.Label();
+            this.btnBrowserHome = new System.Windows.Forms.Panel();
             this.tlpPopDown.SuspendLayout();
             this.pnButtons.SuspendLayout();
             this.SuspendLayout();
@@ -87,6 +88,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpPopDown.SetColumnSpan(this.pnButtons, 5);
+            this.pnButtons.Controls.Add(this.btnBrowserHome);
             this.pnButtons.Controls.Add(this.btnCloseBrowser);
             this.pnButtons.Controls.Add(this.btnForward);
             this.pnButtons.Controls.Add(this.btnBack);
@@ -101,12 +103,12 @@
             // 
             this.btnCloseBrowser.BackgroundImage = global::vamp.Properties.Resources.web_button_exit;
             this.btnCloseBrowser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnCloseBrowser.Location = new System.Drawing.Point(517, 5);
+            this.btnCloseBrowser.Location = new System.Drawing.Point(670, 5);
             this.btnCloseBrowser.Margin = new System.Windows.Forms.Padding(0);
             this.btnCloseBrowser.Name = "btnCloseBrowser";
             this.btnCloseBrowser.Size = new System.Drawing.Size(125, 80);
             this.btnCloseBrowser.TabIndex = 24;
-            this.btnCloseBrowser.Tag = "3";
+            this.btnCloseBrowser.Tag = "4";
             this.btnCloseBrowser.Click += new System.EventHandler(this.CommonClickHandler);
             this.btnCloseBrowser.MouseEnter += new System.EventHandler(this.ToolTipEnter);
             this.btnCloseBrowser.MouseLeave += new System.EventHandler(this.ToolTipLeave);
@@ -173,7 +175,21 @@
             this.lbUrl.MouseEnter += new System.EventHandler(this.ToolTipEnter);
             this.lbUrl.MouseLeave += new System.EventHandler(this.ToolTipLeave);
             // 
-            // WebBrowserFormGecko
+            // btnYoutubeHome
+            // 
+            this.btnBrowserHome.BackgroundImage = global::vamp.Properties.Resources.browser_home;
+            this.btnBrowserHome.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnBrowserHome.Location = new System.Drawing.Point(470, 14);
+            this.btnBrowserHome.Margin = new System.Windows.Forms.Padding(0);
+            this.btnBrowserHome.Name = "btnBrowserHome";
+            this.btnBrowserHome.Size = new System.Drawing.Size(125, 80);
+            this.btnBrowserHome.TabIndex = 26;
+            this.btnBrowserHome.Tag = "3";
+            this.btnBrowserHome.Click += new System.EventHandler(this.CommonClickHandler);
+            this.btnBrowserHome.MouseEnter += new System.EventHandler(this.ToolTipEnter);
+            this.btnBrowserHome.MouseLeave += new System.EventHandler(this.ToolTipLeave);
+            // 
+            // FormWebBrowserGecko
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Black;
@@ -204,5 +220,6 @@
         private System.Windows.Forms.Panel btnForward;
         private System.Windows.Forms.Panel btnBack;
         private System.Windows.Forms.Panel btnCloseBrowser;
+        private System.Windows.Forms.Panel btnBrowserHome;
     }
 }
