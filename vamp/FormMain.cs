@@ -305,7 +305,7 @@ namespace vamp
             if (sender.Equals(lbCopyright))
             {
                 // ..so just go to web site of the current "developer"..
-                new FormWebBrowserGecko("http://www.vpksoft.net").Show();
+                new FormWebBrowserGecko("https://www.vpksoft.net/2015-03-31-13-33-28/vamp").Show();
                 return; // .. and return..
             }
             // the credits (thanks to) label was clicked..

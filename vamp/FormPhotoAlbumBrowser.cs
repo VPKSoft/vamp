@@ -340,8 +340,7 @@ namespace vamp
             }
             // only handle this key if the VPKSoft.ImagePanel is not in a keyboard zoom / pan mode..
             else if (e.KeyCode == Keys.Right && !pbPhoto.KeyboardZooming) 
-            {
-                
+            {                
                 DisplayNextImage();
                 e.SuppressKeyPress = true; // A "delegation" of this key is not needed..
                 e.Handled = true; // This is handled..

@@ -20,7 +20,7 @@ namespace vamp
         private IKeyboardMouseEvents m_GlobalHook = null;
 
         // This will be set to indicate if the navigation control bar is visible or not.
-        private bool popupHidden = true;
+        private bool popupHidden = false;
         #endregion
 
         #region MassiveConstructor
@@ -156,6 +156,8 @@ namespace vamp
 
             popupHidden = true; // We need to know if the control bar is hidden or not..
 
+            pnMain.Size = new System.Drawing.Size(pnMain.Width, Height - pnMain.Top * 3);
+
             tlpPopDown.Anchor = AnchorStyles.None; // Set its position of the screen
             tlpPopDown.Left = 0;
             tlpPopDown.Width = Width;
@@ -179,6 +181,9 @@ namespace vamp
             tlpPopDown.Left = 0;
             tlpPopDown.Width = Width;
             tlpPopDown.Top = Height - tlpPopDown.Height;
+
+            pnMain.Size = new System.Drawing.Size(pnMain.Width, tlpPopDown.Top - pnMain.Top * 3);
+
             tlpPopDown.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
         }
         #endregion

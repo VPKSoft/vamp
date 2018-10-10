@@ -28,38 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.pnMain = new System.Windows.Forms.Panel();
             this.tlpPopDown = new System.Windows.Forms.TableLayoutPanel();
             this.pnButtons = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Panel();
-            this.tlpMain.SuspendLayout();
             this.tlpPopDown.SuspendLayout();
             this.pnButtons.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tlpMain
-            // 
-            this.tlpMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlpMain.ColumnCount = 1;
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.Controls.Add(this.pnMain, 0, 0);
-            this.tlpMain.Location = new System.Drawing.Point(12, 12);
-            this.tlpMain.Name = "tlpMain";
-            this.tlpMain.RowCount = 2;
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
-            this.tlpMain.Size = new System.Drawing.Size(836, 536);
-            this.tlpMain.TabIndex = 0;
-            // 
             // pnMain
             // 
-            this.pnMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnMain.Location = new System.Drawing.Point(3, 3);
+            this.pnMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnMain.Location = new System.Drawing.Point(12, 12);
             this.pnMain.Name = "pnMain";
-            this.pnMain.Size = new System.Drawing.Size(830, 530);
+            this.pnMain.Size = new System.Drawing.Size(836, 524);
             this.pnMain.TabIndex = 1;
             // 
             // tlpPopDown
@@ -118,14 +102,13 @@
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(860, 560);
             this.Controls.Add(this.tlpPopDown);
-            this.Controls.Add(this.tlpMain);
+            this.Controls.Add(this.pnMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormViewPDF";
             this.ShowInTaskbar = false;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormViewPDF_FormClosing);
             this.Shown += new System.EventHandler(this.FormViewPDF_Shown);
-            this.tlpMain.ResumeLayout(false);
             this.tlpPopDown.ResumeLayout(false);
             this.pnButtons.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -133,8 +116,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TableLayoutPanel tlpMain;
         private System.Windows.Forms.Panel pnMain;
         private System.Windows.Forms.TableLayoutPanel tlpPopDown;
         private System.Windows.Forms.Panel pnButtons;
