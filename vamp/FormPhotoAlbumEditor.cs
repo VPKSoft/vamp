@@ -1119,7 +1119,6 @@ namespace vamp
             // set the album changed value to false..
             AlbumChanged = false;
 
-
             photoAlbumEntries.RemoveAll(f => f.NAME == PreviousAlbum.NAME);
 
             //CurrentAlbum.NAME = CurrentAlbum.PreviousName;
@@ -1525,6 +1524,12 @@ namespace vamp
             // get a name for the photo album..
             albumName = FormDialogPhotoAlbumQueryName.Execute(photoAlbums,
                 albumName);
+
+            // this indicates that the user canceled the dialog..
+            if (albumName.Trim() == string.Empty)
+            {
+                return; // ..so do return..
+            }
 
             tbPhotoAlbumNameValue.Text = albumName;
 
