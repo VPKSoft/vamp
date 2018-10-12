@@ -7,6 +7,7 @@ A lightweight open source HTPC software for video, audio and photo playback for 
 * Write instructions for the software
 * Make the DVD playback to work
 * Continue to write this readme!
+* Make the main window keyboard-usable
 
 
 ## Credits
