@@ -558,7 +558,7 @@ COPY /Y "$(ProjectDir)DBLocalization.exe" "$(TargetDir)"
 XCOPY  "$(SolutionDir)packages\Geckofx45.45.0.34\content\Firefox" "$(TargetDir)Firefox_x86" /S /Y /I /D
 XCOPY  "$(SolutionDir)packages\Geckofx45.64.45.0.34\content\Firefox" "$(TargetDir)Firefox_x64" /S /Y /I /D
 
-</PostBuildEvent>
+COPY /Y "$(SolutionDir)installer\instructions\vamp# instructions.pdf" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
