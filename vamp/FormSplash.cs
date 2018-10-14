@@ -24,6 +24,7 @@ along with vamp#.  If not, see <http://www.gnu.org/licenses/>.
 */
 #endregion
 
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using VPKSoft.LangLib; // (C): http://www.vpksoft.net/, GNU Lesser General Public License Version 3
@@ -70,6 +71,9 @@ namespace vamp
             MsgReady = DBLangEngine.GetMessage("msgReady", "Ready|As in some operation is ready");
             MsgPercentage = DBLangEngine.GetMessage("msgPercentage", "{0} %|An indicator of percentage");
             // END: initialize static localized messages..
+
+            // set the version to be seen..
+            lbVersion.Text = "v." + Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>

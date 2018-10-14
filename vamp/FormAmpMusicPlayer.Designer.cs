@@ -746,7 +746,7 @@
             this.lbMusic.Location = new System.Drawing.Point(0, 0);
             this.lbMusic.Margin = new System.Windows.Forms.Padding(0);
             this.lbMusic.Name = "lbMusic";
-            this.lbMusic.RightImage = global::vamp.Properties.Resources.Cancel;
+            this.lbMusic.RightImage = global::vamp.Properties.Resources.remove;
             this.lbMusic.SelectedIndex = -1;
             this.lbMusic.SelectedItem = null;
             this.lbMusic.SelectionColor = System.Drawing.SystemColors.Highlight;

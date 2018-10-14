@@ -50,6 +50,15 @@ namespace vamp
             bool runSetting = false;
             bool runPhotoAlbumEditor = false;
 
+            Process localizeProcess = Utils.CreateDBLocalizeProcess(VPKSoft.Utils.Paths.AppInstallDir);
+            //localizeProcess.
+
+            if (localizeProcess != null)
+            {
+                localizeProcess.Start();
+                return;
+            }
+
             foreach (string arg in args)
             {
                 if (arg == "--configure")

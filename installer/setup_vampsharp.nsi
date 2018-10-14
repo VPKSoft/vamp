@@ -27,7 +27,7 @@ Name "vamp#"
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.0.0.3
+!define VERSION 1.0.0.4
 !define COMPANY VPKSoft
 !define URL http://www.vpksoft.net
 
@@ -78,12 +78,12 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE Finnish
 
 # Installer attributes
-OutFile setup_vampsharp_1_0_0_3.exe
+OutFile setup_vampsharp_1_0_0_4.exe
 InstallDir "$PROGRAMFILES64\vamp#"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.0.0.3
+VIProductVersion 1.0.0.4
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "vamp# installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
@@ -115,12 +115,16 @@ Section -Main SEC0000
    
    
     SetOutPath $INSTDIR
+	
+	File ".\instructions\vamp# instructions.pdf"
+	
     File /r /x .svn ..\vamp\bin\Release\*.*
 	
 	File ..\thanks_to.odt
 
 	File ..\settings.ico
 	File ..\album_editor.ico
+	File ..\languages.ico
 
     /*	
 	SetOutPath $INSTDIR\libvlc_x64
@@ -144,6 +148,8 @@ Section -Main SEC0000
     CreateShortcut "$SMPROGRAMS\$StartMenuGroup\vamp#.lnk" $INSTDIR\vamp#.exe	
 	CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(SettingsDesc).lnk" $INSTDIR\vamp#.exe "--configure" "$INSTDIR\settings.ico" 0
 	CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(PhotoEditorDesc).lnk" $INSTDIR\vamp#.exe "--photos" "$INSTDIR\album_editor.ico" 0
+	CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(InstructionsDesc).lnk" "$INSTDIR\vamp# instructions.pdf"
+	CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(LocalizeDesc).lnk" "$INSTDIR\vamp#.exe" '"--localize=$LOCALAPPDATA\vamp#\lang.sqlite" ' "$INSTDIR\languages.ico" 0
 	
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
@@ -184,6 +190,8 @@ Section /o -un.Main UNSEC0000
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\vamp#.lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(SettingsDesc).lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(PhotoEditorDesc).lnk"
+	Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(InstructionsDesc).lnk"
+	Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(LocalizeDesc).lnk"	
 
 	RMDir /r /REBOOTOK $INSTDIR
 	
@@ -242,4 +250,10 @@ LangString PhotoEditorDesc ${LANG_ENGLISH} "vamp# photo album editor"
 
 LangString DeleteUserData ${LANG_FINNISH} "Poista paikalliset käyttäjätiedot?"
 LangString DeleteUserData ${LANG_ENGLISH} "Delete local user data?"
+
+LangString InstructionsDesc ${LANG_FINNISH} "vamp# ohjeet - englanti (Yhdysvallat)"
+LangString InstructionsDesc ${LANG_ENGLISH} "vamp# instructions - English (United states)"
+
+LangString LocalizeDesc ${LANG_FINNISH} "Lokalisointi"
+LangString LocalizeDesc ${LANG_ENGLISH} "Localization"
 #END: localization..

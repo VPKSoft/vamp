@@ -179,6 +179,18 @@ namespace vamp
         #endregion
 
         #region GUILogic
+        // listen to the main window's key down events..
+        private void FormMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F1 && !e.Alt && !e.Control && !e.Shift)
+            {
+                // someone might want to see the usage instruction - weird huh..
+                FormViewPDF.Execute(Path.Combine(Paths.AppInstallDir, "vamp# instructions.pdf"));
+                e.SuppressKeyPress = true; // suppress the key presses on valid keys..
+                e.Handled = true; // set the Handled property to true..            }
+            }
+        }
+
         // if the database is in the cache mode, do so the cache loading state..
         private void DataBase_DatabaseLoading(object sender, DatabaseLoadingEventArgs e)
         {

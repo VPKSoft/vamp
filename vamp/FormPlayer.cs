@@ -896,7 +896,7 @@ namespace vamp
                 UtilsMisc.MakeGrayscale3(Properties.Resources.subtitle);
 
             btnVolume.BackgroundImage = // volume button image..
-                btnVolume.Enabled ? Properties.Resources.volume :
+                btnVolume.Enabled ? (muted ? Properties.Resources.volume_off : Properties.Resources.volume) :
                 UtilsMisc.MakeGrayscale3(Properties.Resources.volume);
         }
 

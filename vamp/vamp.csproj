@@ -113,8 +113,8 @@
     <Reference Include="VPKSoft.ErrorLogger, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.ErrorLogger.1.0.0.3\lib\net45\VPKSoft.ErrorLogger.dll</HintPath>
     </Reference>
-    <Reference Include="VPKSoft.LangLib, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VPKSoft.LangLib.1.0.0.9\lib\net461\VPKSoft.LangLib.dll</HintPath>
+    <Reference Include="VPKSoft.LangLib, Version=1.0.1.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VPKSoft.LangLib.1.0.1.2\lib\net461\VPKSoft.LangLib.dll</HintPath>
     </Reference>
     <Reference Include="VPKSoft.SecureAPIKey, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VPKSoft.SecureAPIKey.1.0.0\lib\net45\VPKSoft.SecureAPIKey.dll</HintPath>
@@ -455,9 +455,9 @@
     <None Include="Resources\undo_save_changes.png" />
     <None Include="Resources\undo_save.png" />
     <None Include="Resources\Save.png" />
-    <Content Include="DBLocalization.exe" />
     <None Include="Resources\question_confirm.png" />
     <None Include="Resources\browser_home.png" />
+    <Content Include="DBLocalization.exe" />
     <Content Include="VPKSoft.ico" />
     <Content Include="x64\MediaInfo.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

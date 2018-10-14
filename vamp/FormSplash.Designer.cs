@@ -31,17 +31,17 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSplash));
             this.pnSplash = new System.Windows.Forms.Panel();
             this.tlpSplash = new System.Windows.Forms.TableLayoutPanel();
-            this.lbSizer1 = new System.Windows.Forms.Label();
+            this.lbVersion = new System.Windows.Forms.Label();
             this.lbCopyright = new System.Windows.Forms.Label();
             this.lbLoading = new System.Windows.Forms.Label();
             this.pbWait = new System.Windows.Forms.PictureBox();
             this.lbVamp = new System.Windows.Forms.Label();
             this.pnTMDb = new System.Windows.Forms.Panel();
             this.tlpSlashSub = new System.Windows.Forms.TableLayoutPanel();
+            this.lbLoadingItemValueDone = new System.Windows.Forms.Label();
             this.lbLoadingItemValue = new System.Windows.Forms.Label();
             this.lbLoadingItem = new System.Windows.Forms.Label();
             this.lbPercentage = new System.Windows.Forms.Label();
-            this.lbLoadingItemValueDone = new System.Windows.Forms.Label();
             this.pnSplash.SuspendLayout();
             this.tlpSplash.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbWait)).BeginInit();
@@ -66,7 +66,7 @@
             this.tlpSplash.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tlpSplash.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.tlpSplash.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tlpSplash.Controls.Add(this.lbSizer1, 1, 3);
+            this.tlpSplash.Controls.Add(this.lbVersion, 1, 3);
             this.tlpSplash.Controls.Add(this.lbCopyright, 0, 3);
             this.tlpSplash.Controls.Add(this.lbLoading, 1, 0);
             this.tlpSplash.Controls.Add(this.pbWait, 2, 0);
@@ -85,22 +85,22 @@
             this.tlpSplash.Size = new System.Drawing.Size(725, 506);
             this.tlpSplash.TabIndex = 0;
             // 
-            // lbSizer1
+            // lbVersion
             // 
-            this.lbSizer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lbVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbSizer1.AutoSize = true;
-            this.lbSizer1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbSizer1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSizer1.ForeColor = System.Drawing.Color.Black;
-            this.lbSizer1.Location = new System.Drawing.Point(241, 400);
-            this.lbSizer1.Margin = new System.Windows.Forms.Padding(0);
-            this.lbSizer1.Name = "lbSizer1";
-            this.lbSizer1.Size = new System.Drawing.Size(241, 106);
-            this.lbSizer1.TabIndex = 9;
-            this.lbSizer1.Text = "© VPKSoft 2018  ";
-            this.lbSizer1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbVersion.AutoSize = true;
+            this.lbVersion.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbVersion.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbVersion.ForeColor = System.Drawing.Color.White;
+            this.lbVersion.Location = new System.Drawing.Point(241, 400);
+            this.lbVersion.Margin = new System.Windows.Forms.Padding(0);
+            this.lbVersion.Name = "lbVersion";
+            this.lbVersion.Size = new System.Drawing.Size(241, 106);
+            this.lbVersion.TabIndex = 9;
+            this.lbVersion.Text = "© VPKSoft 2018  ";
+            this.lbVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbCopyright
             // 
@@ -195,6 +195,21 @@
             this.tlpSlashSub.Size = new System.Drawing.Size(719, 312);
             this.tlpSlashSub.TabIndex = 11;
             // 
+            // lbLoadingItemValueDone
+            // 
+            this.lbLoadingItemValueDone.AutoSize = true;
+            this.tlpSlashSub.SetColumnSpan(this.lbLoadingItemValueDone, 2);
+            this.lbLoadingItemValueDone.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbLoadingItemValueDone.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbLoadingItemValueDone.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbLoadingItemValueDone.ForeColor = System.Drawing.Color.DarkGray;
+            this.lbLoadingItemValueDone.Location = new System.Drawing.Point(192, 208);
+            this.lbLoadingItemValueDone.Margin = new System.Windows.Forms.Padding(0);
+            this.lbLoadingItemValueDone.Name = "lbLoadingItemValueDone";
+            this.lbLoadingItemValueDone.Size = new System.Drawing.Size(446, 104);
+            this.lbLoadingItemValueDone.TabIndex = 12;
+            this.lbLoadingItemValueDone.Text = "-";
+            // 
             // lbLoadingItemValue
             // 
             this.lbLoadingItemValue.AutoSize = true;
@@ -237,21 +252,6 @@
             this.lbPercentage.Text = "0 %";
             this.lbPercentage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lbLoadingItemValueDone
-            // 
-            this.lbLoadingItemValueDone.AutoSize = true;
-            this.tlpSlashSub.SetColumnSpan(this.lbLoadingItemValueDone, 2);
-            this.lbLoadingItemValueDone.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbLoadingItemValueDone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbLoadingItemValueDone.Font = new System.Drawing.Font("Arial Rounded MT Bold", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbLoadingItemValueDone.ForeColor = System.Drawing.Color.DarkGray;
-            this.lbLoadingItemValueDone.Location = new System.Drawing.Point(192, 208);
-            this.lbLoadingItemValueDone.Margin = new System.Windows.Forms.Padding(0);
-            this.lbLoadingItemValueDone.Name = "lbLoadingItemValueDone";
-            this.lbLoadingItemValueDone.Size = new System.Drawing.Size(446, 104);
-            this.lbLoadingItemValueDone.TabIndex = 12;
-            this.lbLoadingItemValueDone.Text = "-";
-            // 
             // FormSplash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,7 +284,7 @@
         private System.Windows.Forms.Label lbVamp;
         private System.Windows.Forms.Label lbLoading;
         private System.Windows.Forms.PictureBox pbWait;
-        private System.Windows.Forms.Label lbSizer1;
+        private System.Windows.Forms.Label lbVersion;
         private System.Windows.Forms.Label lbCopyright;
         private System.Windows.Forms.Panel pnTMDb;
         private System.Windows.Forms.TableLayoutPanel tlpSlashSub;
