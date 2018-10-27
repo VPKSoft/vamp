@@ -87,7 +87,7 @@ namespace vamp
                                 while (!(line = sr.ReadLine()).EndsWith("--ENDVER " + DBVer))
                                 {
                                     // add the lines to the DBScriptBlock class instance..
-                                    scriptBlock.SQLBlock.Add(line); 
+                                    scriptBlock.SQLBlock.Add(line);
                                 }
                                 DBVer++; // increase the database version by one..
                                 sqlBlocks.Add(scriptBlock); // add the DBScriptBlock class instance to the list..
@@ -107,7 +107,7 @@ namespace vamp
                     // an assumption is made that the version of the SQLite database can now be checked..
                     using (SQLiteCommand command = new SQLiteCommand(conn))
                     {
-                        try 
+                        try
                         {
                             // check the current SQLite database version..
                             command.CommandText = "SELECT IFNULL(MAX(DBVERSION), 0) AS VER FROM DBVERSION; ";
@@ -132,6 +132,13 @@ namespace vamp
                         }
                     }
 
+                    // avoid to run the last block multiple times..
+                    if (dbVersion > 0)
+                    {
+                        // ..if the database version is larger than 0..
+                        sqlBlocks.RemoveAt(0);
+                    }
+
                     // loop through the list of DBScriptBlock class instances starting from the next SQL script version..
                     for (int i = dbVersion; i < sqlBlocks.Count; i++)
                     {
@@ -148,7 +155,7 @@ namespace vamp
                                 command.CommandText = exec;
                                 command.ExecuteNonQuery();
                             }
-                        } 
+                        }
                         catch
                         {
                             // indicate that a block execution failed..
@@ -157,7 +164,7 @@ namespace vamp
                         }
 
                         // construct a SQL sentence to update the SQLite database version..
-                        exec =  "INSERT INTO DBVERSION(DBVERSION) " + Environment.NewLine +
+                        exec = "INSERT INTO DBVERSION(DBVERSION) " + Environment.NewLine +
                                 "SELECT " + sqlBlocks[i].DBVer + " " + Environment.NewLine +
                                 "WHERE NOT EXISTS(SELECT 1 FROM DBVERSION WHERE DBVERSION = " + sqlBlocks[i].DBVer + "); " + Environment.NewLine;
                         // update the SQLite database version (DBVERSION table)..
