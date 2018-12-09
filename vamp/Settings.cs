@@ -380,6 +380,31 @@ namespace vamp
             }
         }
 
+        // a value indicating whether to the database will update automatically for new files..
+        private static bool? _AutoDBUpdate = null;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use the database will update automatically for new files on startup.
+        /// </summary>
+        public static bool AutoDBUpdate
+        {
+            get
+            {
+                Init(); // initialize the Conflib if not yet initialized..
+                return _AutoDBUpdate == null ?
+                    // definitely assume true..
+                    bool.Parse(Conflib["misc/autodb_update", true.ToString()]) :
+                    (bool)_AutoDBUpdate;
+            }
+
+            set
+            {
+                Init(); // initialize the Conflib if not yet initialized..
+                _AutoDBUpdate = value; // set the value..
+                Conflib["misc/autodb_update"] = value.ToString(); // save the value to the config.sqlite database..
+            }
+        }
+
         // a value indicating if the settings have been initialized to defaults or not..
         private static bool? _SettingsInitialized = null;
 

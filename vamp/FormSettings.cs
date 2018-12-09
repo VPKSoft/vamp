@@ -79,6 +79,7 @@ namespace vamp
             tbTMDbImagesCacheDirValue.Text = Settings.TMDbImagesCacheDir;
             cdTMDbEnabledValue.Checked = Settings.TMDBEnabled;
             cbUseFileNameForTVShowEpisodeNamingValue.Checked = Settings.TVShowEpisodeFileNameTitle;
+            cbAutoDatabaseUpdateValue.Checked = Settings.AutoDBUpdate;
 
             List<CultureInfo> cultures = DBLangEngine.GetLocalizedCultures();
 
@@ -104,6 +105,7 @@ namespace vamp
             Settings.TMDBEnabled = cdTMDbEnabledValue.Checked;
             Settings.TVShowEpisodeFileNameTitle = cbUseFileNameForTVShowEpisodeNamingValue.Checked;
             Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
+            Settings.AutoDBUpdate = cbAutoDatabaseUpdateValue.Checked;
             // END: just save the settings..
         }
 

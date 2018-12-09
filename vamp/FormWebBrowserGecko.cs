@@ -73,12 +73,14 @@ namespace vamp
             browser.CanGoBackChanged += Browser_CanGoBackwardFormardChanged; // the state if navigation backwards has changed..
             browser.CanGoForwardChanged += Browser_CanGoBackwardFormardChanged; // the state if navigation forwards has changed..
 
+            
             m_GlobalHook = Hook.GlobalEvents(); // The Gecko Web Browser prevents the Form from getting mouse signals, so we add this (Gma.System.MouseKeyHook) event handler..
                                                 // (C): https://github.com/gmamaladze/globalmousekeyhook, MIT license
 
             m_GlobalHook.MouseMove += M_GlobalHook_MouseMove; // Add a global MouseMove event..
             m_GlobalHook.MouseDown += M_GlobalHook_MouseDown; // Add a global MouseDown event..
             m_GlobalHook.KeyDown += GlobalKeyDown; // Add a global KeyDown event..
+            
 
             lbToolTip.Text = string.Empty; // No too-tip as there is nothing to show at this time..
 
@@ -90,6 +92,8 @@ namespace vamp
             }
 
             SetButtonImages(); // Set the control buttons states to match the browser's state..
+
+            browser.EnableDefaultFullscreen();
         }
         #endregion
 

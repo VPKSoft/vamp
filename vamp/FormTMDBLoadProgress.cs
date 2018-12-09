@@ -89,14 +89,19 @@ namespace vamp
                 previousPercentage = -1;
             }
 
+            int currentPercentage = 0;
+
             // calculate the current percentage value..
-            int currentPercentage = currentValue * 100 / maximumValue;
+            if (maximumValue != 0)
+            { 
+                currentPercentage = currentValue * 100 / maximumValue;
+            }
 
             // only update the current percentage value if it has been changed..
             if (currentPercentage != previousPercentage)
             {
                 // set the percentage text..
-                progress.lbPercentage.Text = string.Format(formatPercentage, currentValue * 100 / maximumValue);
+                progress.lbPercentage.Text = string.Format(formatPercentage, currentPercentage == 0 ? "-" : currentPercentage.ToString());
 
                 // refresh the form..
                 progress.Refresh();

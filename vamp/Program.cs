@@ -34,6 +34,7 @@ using System.Diagnostics;
 using VPKSoft.ErrorLogger; // (C): http://www.vpksoft.net/, GNU Lesser General Public License Version 3
 using Gecko; // (C): https://bitbucket.org/geckofx/geckofx-45.0, Mozilla Public License
 using CefSharp; // (C): https://github.com/cefsharp/CefSharp/, Modified BSD (3-clause BSD license)
+using CefSharp.WinForms;
 
 namespace vamp
 {
@@ -207,6 +208,9 @@ namespace vamp
             GeckoPreferences.User["browser.cache.check doc frequency"] = 3;
             GeckoPreferences.User["browser.cache.disk.capacity"] = 50000;
             GeckoPreferences.User["browser.cache.memory.capacity()"] = -1;
+            GeckoPreferences.User["full-screen-api.enabled"] = true;
+
+
             FormSplash.SetStatus(FormSplash.MsgInitGeckoFXEngine, 100);
         }
 

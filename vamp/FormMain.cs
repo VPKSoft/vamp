@@ -941,6 +941,16 @@ namespace vamp
                 Activate();
                 TopMost = false;
             }
+
+            // if the automatic database update is enabled..
+            if (Settings.AutoDBUpdate)
+            {
+                // ..do the update then.. for movies..
+                GetNewFiles(FileType.Movie, MediaLocationType.MediaLocationMovie, "MOVIE");
+
+                // for TV shows..
+                GetNewFiles(FileType.TVSeasonEpisode, MediaLocationType.MediaLocationSeries, "SERIES");
+            }
         }
 
         /// <summary>
@@ -1056,36 +1066,14 @@ namespace vamp
         #region TMDbRefresh
         private void pnTMDbRefresh_Click(object sender, EventArgs e)
         {
-            if (!Settings.TMDBEnabled || !easyClientConfigured)
+            // update the new files to the database..
+            if (locationContext == "SERIES")
             {
-                return;
+                GetNewFiles(FileType.TVSeasonEpisode, MediaLocationType.MediaLocationSeries, locationContext);
             }
-
-            // a TV series location was requested to be added..
-            if (locationContext == "SERIES" || locationContext == "MOVIE")
+            else if (locationContext == "MOVIE")
             {
-                IEnumerable<VideoFileStatistic> statistics =
-                    Database.GetStatistic(
-                        locationContext == "SERIES" ? FileType.TVSeasonEpisode : FileType.Movie,
-                        locationContext == "SERIES" ? MediaLocationType.MediaLocationSeries : MediaLocationType.MediaLocationMovie,
-                        locationContext);
-
-                int current = 0;
-                int max = statistics.Count();
-
-                FormTMDBLoadProgress.ShowProgress(current, max, easyClientConfigured);
-                foreach (VideoFileStatistic statistic in statistics)
-                {
-                    // only get statistics for files where the TMDb fetch hasn't been done and
-                    // no TMDb ID has been given to a file..
-                    if (statistic.TMDbFetched && statistic.TMDbDetails.ID > 0)
-                    {
-                        FormTMDBLoadProgress.ShowProgress(current++, max, easyClientConfigured);
-                        continue;
-                    }
-                    Database.SetTMDbInfo(statistic.FileNameFull, easy, easyClientConfigured);
-                }
-                FormTMDBLoadProgress.EndProgress();
+                GetNewFiles(FileType.Movie, MediaLocationType.MediaLocationMovie, locationContext);
             }
         }
         #endregion
@@ -1161,6 +1149,88 @@ namespace vamp
         private void RunInBackground(Action action)
         {
             RunInBackground(action, null, false);
+        }
+        #endregion
+
+        #region DatabaseHelpers
+        /// <summary>
+        /// Updates missing files which have appeared to a directory since the directory was added to the list of file system locations.
+        /// </summary>
+        /// <param name="fileType">A file type enumeration of the video file's type.</param>
+        /// <param name="mediaLocationType">A MediaLocationType enumeration to indicate the type of the media location.</param>
+        /// <param name="context">A value for the CONTEXT column from the MEDIALOCATION table.</param>
+        /// <remarks>
+        /// Only valid parameter combinations are: 
+        /// FileType.Movie, MediaLocationType.MediaLocationMovie, "MOVIE" and 
+        /// FileType.TVSeasonEpisode, MediaLocationType.MediaLocationSeries, "SERIES".
+        /// </remarks>
+        public void GetNewFiles(FileType fileType, MediaLocationType mediaLocationType, string context)
+        {
+            // check the parameter validity..
+            if (!(fileType == FileType.Movie && mediaLocationType == MediaLocationType.MediaLocationMovie && context == "MOVIE") &&
+                !(fileType == FileType.TVSeasonEpisode && mediaLocationType == MediaLocationType.MediaLocationSeries && context == "SERIES"))
+            {
+                return;
+            }
+
+            // display the progress dialog..
+            FormTMDBLoadProgress.ShowProgress(0, 0, easyClientConfigured);
+
+            // Get the video file statistics to a collection from the database..
+            List<VideoFileStatistic> statistics = new List<VideoFileStatistic>();
+
+            // add the content determined by the fileType, mediaLocationType and context parameters to the collection..
+            statistics.AddRange(Database.GetStatistic(fileType, mediaLocationType, context));
+
+            // get the media location directories from the collection..
+            var paths = statistics.Where(f => f.FileType == fileType).
+                Select(f => Path.GetDirectoryName(f.FileNameFull)).Distinct();
+
+            // get the media location file names from the collection..
+            var files = statistics.Where(f => f.FileType == fileType).
+                Select(f => f.FileNameFull).Distinct();
+
+            // initialize a collection of files FileEnumeratorFileEntry class instances..
+            List<FileEnumeratorFileEntry> fileListSeries = new List<FileEnumeratorFileEntry>();
+
+            foreach (string path in paths)
+            {
+                // add the files which are not in the collection (database) to the collection..
+                fileListSeries.AddRange( 
+                    FileEnumerator.RecurseFiles(
+                        path, 
+                        FileEnumerator.FiltersVideoVlcNoBinNoIso).
+                        Where(f => !files.Contains(f.FileNameWithPath)));
+            }
+
+            // initialize a list of file names..
+            List<string> fileNames = new List<string>();
+
+            // add the full file names to the collection..
+            fileNames.AddRange(fileListSeries.Select(f => f.FileNameWithPath));
+
+            // add the full file names of the files of which TMDb data hasn't been fetched to the collection..
+            fileNames.AddRange(
+                statistics.Where(f => f.FileType == fileType && !f.TMDbFetched && Settings.TMDBEnabled).
+                Select(f => f.FileNameFull));
+
+            // only do this if the collection isn't empty..
+            if (fileNames.Count > 0)
+            {
+                // enumerate through the collection..
+                for (int i = 0; i < fileNames.Count; i++)
+                {
+                    Database.SetFile(fileNames[i]);
+                    Database.SetTMDbInfo(fileNames[i], easy, easyClientConfigured);
+                    if (easyClientConfigured)
+                    {
+                        // update the progress to the user..
+                        FormTMDBLoadProgress.ShowProgress(i + 1, fileNames.Count, easyClientConfigured);
+                    }
+                }
+            }
+            // close the progress dialog..
+            FormTMDBLoadProgress.EndProgress();
         }
         #endregion
     }

@@ -56,6 +56,8 @@
             this.btOK = new VPKSoft.ImageButton.ImageButton();
             this.btCancel = new VPKSoft.ImageButton.ImageButton();
             this.cmbSelectLanguageValue = new System.Windows.Forms.ComboBox();
+            this.lbAutoDatabaseUpdateDescription = new System.Windows.Forms.Label();
+            this.cbAutoDatabaseUpdateValue = new System.Windows.Forms.CheckBox();
             this.tlpMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +70,8 @@
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMain.Controls.Add(this.cbAutoDatabaseUpdateValue, 1, 10);
+            this.tlpMain.Controls.Add(this.lbAutoDatabaseUpdateDescription, 0, 10);
             this.tlpMain.Controls.Add(this.lbSelectLanguageDescription, 0, 9);
             this.tlpMain.Controls.Add(this.cbUseFileNameForTVShowEpisodeNamingValue, 1, 8);
             this.tlpMain.Controls.Add(this.lbUseFileNameForTVShowEpisodeNamingDescription, 0, 8);
@@ -91,13 +95,14 @@
             this.tlpMain.Controls.Add(this.btSelectMovieFolder, 2, 1);
             this.tlpMain.Controls.Add(this.btSelectTVShowFolder, 2, 2);
             this.tlpMain.Controls.Add(this.btSelectPhotoFolder, 2, 3);
-            this.tlpMain.Controls.Add(this.btOK, 0, 11);
-            this.tlpMain.Controls.Add(this.btCancel, 1, 11);
+            this.tlpMain.Controls.Add(this.btOK, 0, 12);
+            this.tlpMain.Controls.Add(this.btCancel, 1, 12);
             this.tlpMain.Controls.Add(this.cmbSelectLanguageValue, 1, 9);
             this.tlpMain.Location = new System.Drawing.Point(16, 15);
             this.tlpMain.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.tlpMain.Name = "tlpMain";
-            this.tlpMain.RowCount = 12;
+            this.tlpMain.RowCount = 13;
+            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -431,6 +436,31 @@
             this.cmbSelectLanguageValue.Size = new System.Drawing.Size(586, 33);
             this.cmbSelectLanguageValue.TabIndex = 25;
             // 
+            // lbAutoDatabaseUpdateDescription
+            // 
+            this.lbAutoDatabaseUpdateDescription.AutoSize = true;
+            this.lbAutoDatabaseUpdateDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbAutoDatabaseUpdateDescription.Location = new System.Drawing.Point(17, 567);
+            this.lbAutoDatabaseUpdateDescription.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
+            this.lbAutoDatabaseUpdateDescription.Name = "lbAutoDatabaseUpdateDescription";
+            this.lbAutoDatabaseUpdateDescription.Size = new System.Drawing.Size(419, 25);
+            this.lbAutoDatabaseUpdateDescription.TabIndex = 26;
+            this.lbAutoDatabaseUpdateDescription.Text = "Automatic database update on startup:";
+            this.lbAutoDatabaseUpdateDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cbAutoDatabaseUpdateValue
+            // 
+            this.cbAutoDatabaseUpdateValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAutoDatabaseUpdateValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            this.cbAutoDatabaseUpdateValue.Location = new System.Drawing.Point(620, 567);
+            this.cbAutoDatabaseUpdateValue.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
+            this.cbAutoDatabaseUpdateValue.Name = "cbAutoDatabaseUpdateValue";
+            this.cbAutoDatabaseUpdateValue.Size = new System.Drawing.Size(578, 25);
+            this.cbAutoDatabaseUpdateValue.TabIndex = 27;
+            this.cbAutoDatabaseUpdateValue.UseVisualStyleBackColor = true;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
@@ -483,5 +513,7 @@
         private System.Windows.Forms.CheckBox cbUseFileNameForTVShowEpisodeNamingValue;
         private System.Windows.Forms.Label lbSelectLanguageDescription;
         private System.Windows.Forms.ComboBox cmbSelectLanguageValue;
+        private System.Windows.Forms.CheckBox cbAutoDatabaseUpdateValue;
+        private System.Windows.Forms.Label lbAutoDatabaseUpdateDescription;
     }
 }
