@@ -295,6 +295,29 @@ namespace vamp
             }
         }
 
+        // a value indicating how to display the "progress", i.e. watched items on a location.
+        private static int _ItemWatchedDisplayType = 0;
+
+        /// <summary>
+        /// Gets or sets a value indicating how to display the "progress", i.e. watched items on a location.
+        /// </summary>
+        public static int ItemWatchedDisplayType
+        {
+            get
+            {
+                Init(); // initialize the Conflib if not yet initialized..
+                return int.Parse(Conflib["misc/item_count_displaytype", 0.ToString()]);
+            }
+
+            set
+            {
+                Init(); // initialize the Conflib if not yet initialized..
+                _ItemWatchedDisplayType = value;
+                Conflib["misc/item_count_displaytype"] = value.ToString();
+            }
+        }
+
+
         // a value indicating where the poster/still images from the TMDb should be cached in the file system..
         private static string _TMDbImagesCacheDir = string.Empty;
 

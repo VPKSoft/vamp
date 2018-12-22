@@ -259,6 +259,42 @@ namespace vamp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Count|Watched items of a location should be displayed as how many items has been watched compared to total item count..
+        /// </summary>
+        internal static string msgItemCount {
+            get {
+                return ResourceManager.GetString("msgItemCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  [{0}/{1}]|A string formatted as how many items from a location has been watched..
+        /// </summary>
+        internal static string msgItemCountFormat {
+            get {
+                return ResourceManager.GetString("msgItemCountFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  [{0:0.0}%]|A string formatted as how many much of items in percentage from a location has been watched..
+        /// </summary>
+        internal static string msgItemCountPercentageFormat {
+            get {
+                return ResourceManager.GetString("msgItemCountPercentageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percentage|Watched items of a location should be displayed as a percentage number of how many items has been watched compared to total item count..
+        /// </summary>
+        internal static string msgItemPercentage {
+            get {
+                return ResourceManager.GetString("msgItemPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rating|Rating for a item in a play list.
         /// </summary>
         internal static string msgItemRating {

@@ -263,6 +263,21 @@ namespace vamp
         /// A date and time for this media location item (used with photos, e.g.).
         /// </summary>
         public string DATE { get; set; } = "0000-00-00 00:00:00.000";
+
+        /// <summary>
+        /// A percentage of how much of the media location contents have been watched.
+        /// </summary>
+        public double WATHED_PERCENTAGE { get; set; } = 0;
+
+        /// <summary>
+        /// An amount of how many items in a location have been watched.
+        /// </summary>
+        public int COUNT_WATCHED { get; set; } = 0;
+
+        /// <summary>
+        /// An amount of how many items in total the location contains.
+        /// </summary>
+        public int COUNT_ALL { get; set; } = 0;
     }
     #endregion
 
@@ -523,17 +538,22 @@ namespace vamp
             recordsAffected = GetRecordsAffected("SELECT COUNT(*) + (SELECT COUNT(*) FROM PHOTOALBUM) FROM MEDIALOCATION ");
             currentRecord = 0; // the current record being processed..
 
-            sql = // bad database design so make sure we get something .. IFNULL(NULLIF()) ..
+    sql = // bad database design so make sure we get something .. IFNULL(NULLIF()) ..
                 string.Format(
                 "SELECT X.* FROM( " + Environment.NewLine +
-                "SELECT ID, IFNULL(NULLIF(PARENT_LOCATION, ''), LOCATION) AS LOCATION, " + Environment.NewLine +
-                "IFNULL(NULLIF(PARENT_LOCATION, ''), LOCATION) AS PARENT_LOCATION, " + Environment.NewLine +
-                "DESCRIPTION, TYPE, CONTEXT, '0000-00-00 00:00:00.000' AS FIRSTDATE " + Environment.NewLine +
-                "FROM MEDIALOCATION " + Environment.NewLine +
+                "SELECT ML.ID, IFNULL(NULLIF(ML.PARENT_LOCATION, ''), LOCATION) AS LOCATION, " + Environment.NewLine +
+                "IFNULL(NULLIF(ML.PARENT_LOCATION, ''), LOCATION) AS PARENT_LOCATION, " + Environment.NewLine +
+                "ML.DESCRIPTION, ML.TYPE, ML.CONTEXT, '0000-00-00 00:00:00.000' AS FIRSTDATE, " + Environment.NewLine +
+                "IFNULL(WS.WATHED_PERCENTAGE, 0.0) AS WATHED_PERCENTAGE, IFNULL(WS.COUNT_WATCHED, 0) AS COUNT_WATCHED, " + Environment.NewLine +
+                "IFNULL(WS.COUNT_ALL, 0) AS COUNT_ALL " + Environment.NewLine +
+                "FROM MEDIALOCATION ML " + Environment.NewLine +
+                // left join in case there is an error in the view..
+                "  LEFT OUTER JOIN V_WATCHED_STATISTICS WS ON (WS.ID = ML.ID) " + Environment.NewLine +
                 "UNION " + Environment.NewLine +
                 "SELECT -1 AS ID, IFNULL(BASEDIROVERRIDE, {0}) AS LOCATION," + Environment.NewLine +
                 "IFNULL(BASEDIROVERRIDE, {1}) AS PARENT_LOCATION, " + Environment.NewLine +
-                "NAME AS DESCRIPTION, 3 AS TYPE, 'PHOTOS' AS CONTEXT, FIRSTDATE " + Environment.NewLine +
+                "NAME AS DESCRIPTION, 3 AS TYPE, 'PHOTOS' AS CONTEXT, FIRSTDATE, " + Environment.NewLine +
+                "0.0 AS WATHED_PERCENTAGE, 0 AS COUNT_WATCHED, 0 AS COUNT_ALL " + Environment.NewLine +
                 "FROM PHOTOALBUM) AS X " + Environment.NewLine +
                 "ORDER BY X.FIRSTDATE, X.DESCRIPTION " + Environment.NewLine +
                 "COLLATE NOCASE " + Environment.NewLine, QS(Settings.PhotoBaseDir), QS(Settings.PhotoBaseDir));
@@ -564,7 +584,10 @@ namespace vamp
                             DESCRIPTION = dr.GetString(3),
                             TYPE = (MediaLocationType)dr.GetInt32(4),
                             CONTEXT = dr.GetString(5),
-                            DATE = dr.GetString(6)
+                            DATE = dr.GetString(6),
+                            WATHED_PERCENTAGE = dr.GetDouble(7),
+                            COUNT_WATCHED = dr.GetInt32(8),
+                            COUNT_ALL = dr.GetInt32(9)
                         });
                     currentRecord++; // increase the amount of records processed..
 
@@ -634,8 +657,8 @@ namespace vamp
             foreach (VIDEOFILE videoFile in fileCache) // these are new VIDEOFILE entries in with a condition that the file name and size are unique..
             {
                 sql += string.Format(
-                "INSERT INTO VIDEOFILE(FILENAME, FILENAMEFULL, FILESIZE, VOLUME, PLAYBACKPOSITION, LENGTH, PLAYED, FILETYPE, TMDBFETCHED) " + Environment.NewLine +
-                "SELECT {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}; " + Environment.NewLine, // .. a semicolon is required for
+                "INSERT INTO VIDEOFILE(FILENAME, FILENAMEFULL, FILESIZE, VOLUME, PLAYBACKPOSITION, LENGTH, PLAYED, FILETYPE, TMDBFETCHED, FILEPATH) " + Environment.NewLine +
+                "SELECT {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}; " + Environment.NewLine, // .. a semicolon is required for
                 QS(videoFile.FILENAME), // the values..                             // multiple statements..
                 QS(videoFile.FILENAMEFULL),
                 videoFile.FILESIZE,
@@ -644,7 +667,8 @@ namespace vamp
                 videoFile.LENGTH,
                 videoFile.PLAYED ? 1 : 0,
                 (int)videoFile.FILETYPE,
-                videoFile.TMDBFETCHED ? 1 : 0);
+                videoFile.TMDBFETCHED ? 1 : 0,
+                QS(videoFile.FILEPATH));
             }
 
             ExecuteArbitrarySQL(sql); // run the sentence against the database..
@@ -681,29 +705,41 @@ namespace vamp
         /// </summary>
         /// <param name="fileName">A full file name of the video file.</param>
         /// <param name="detailExt">A TMDbDetailExt class instance which stores the TMDb database data.</param>
+        /// <param name="overrideFileType">If the weird detection algorithm for a file type shouldn't be trusted, this will override the file type.</param>
         /// <param name="position">A position where the playback was (milliseconds).</param>
         /// <param name="length">A length of the video file (milliseconds).</param>
         /// <param name="played">A value indicating if the video was watched / played to the end or not.
         /// <para/>A user sleep mode is not expected to be accounted for.</param>
         /// <param name="volume">A volume value to save for this video file - in case it was adjusted.</param>
-        public static void SetFile(string fileName, TMDbDetailExt detailExt, long position = 0, long length = 0, bool played = false, float volume = 100.0f)
+        public static void SetFile(string fileName, TMDbDetailExt detailExt, FileType overrideFileType = FileType.Unknown, long position = 0, long length = 0, bool played = false, float volume = 100.0f)
         {
-            SetFile(fileName, position, length, played, volume, detailExt);
+            SetFile(fileName, overrideFileType, position, length, played, volume, detailExt);
         }
 
         /// <summary>
         /// A conditional database or cache insert or update for a video file.
         /// </summary>
         /// <param name="fileName">A full file name of the video file.</param>
+        /// <param name="overrideFileType">If the weird detection algorithm for a file type shouldn't be trusted, this will override the file type.</param>
         /// <param name="position">A position where the playback was (milliseconds).</param>
         /// <param name="length">A length of the video file (milliseconds).</param>
         /// <param name="played">A value indicating if the video was watched / played to the end or not.
         /// <para/>A user sleep mode is not expected to be accounted for.</param>
         /// <param name="volume">A volume value to save for this video file - in case it was adjusted.</param>
         /// <param name="detailExt">A TMDbDetailExt class instance which stores the TMDb database data.</param>
-        public static void SetFile(string fileName, long position = 0, long length = 0, bool played = false, float volume = 100.0f, TMDbDetailExt detailExt = null)
+        public static void SetFile(string fileName, FileType overrideFileType = FileType.Unknown, long position = 0, long length = 0, bool played = false, float volume = 100.0f, TMDbDetailExt detailExt = null)
         {
-            FileType fileType = GetFileType(fileName); // get the file type with "weird algorithm"..
+            FileType fileType;
+
+            if (overrideFileType != FileType.Unknown) // if the override file type is set to another value than unknown..
+            {
+                fileType = overrideFileType; // ..use the given FileType parameter..
+            }
+            else
+            {
+                fileType = GetFileType(fileName); // get the file type with "weird algorithm"..
+            }
+
             FileInfo fileInfo = new FileInfo(fileName); // file info can give a size of a file..
             if (cacheInitialized) // if the whole VIDEOFILE table from the database was read to a cache..
             {
@@ -723,7 +759,8 @@ namespace vamp
                         LENGTH = length,
                         PLAYED = played,
                         FILETYPE = fileType,
-                        TMDBFETCHED = false
+                        TMDBFETCHED = false,
+                        FILEPATH = Path.GetDirectoryName(fileName)
                     });
                 }
                 else // if the DMDb details where updated, then update then to cache..
@@ -739,8 +776,8 @@ namespace vamp
             {
                 string sql = // .. do a conditional insert based on the full file name and file size..
                     string.Format(
-                    "INSERT INTO VIDEOFILE(FILENAME, FILENAMEFULL, FILESIZE, VOLUME, PLAYBACKPOSITION, LENGTH, PLAYED, FILETYPE, TMDBFETCHED) " + Environment.NewLine +
-                    "SELECT {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8} " + Environment.NewLine +
+                    "INSERT INTO VIDEOFILE(FILENAME, FILENAMEFULL, FILESIZE, VOLUME, PLAYBACKPOSITION, LENGTH, PLAYED, FILETYPE, TMDBFETCHED, FILEPATH) " + Environment.NewLine +
+                    "SELECT {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9} " + Environment.NewLine +
                     "WHERE NOT EXISTS(SELECT * FROM VIDEOFILE WHERE FILENAME = {9} AND FILESIZE = {10}) ",
                     QS(Path.GetFileName(fileName)),
                     QS(fileName),
@@ -752,7 +789,9 @@ namespace vamp
                     (int)fileType,
                     detailExt != null ? 1 : 0, // if the given parameter is not null..
                     QS(Path.GetFileName(fileName)),
-                    fileInfo.Length);
+                    fileInfo.Length,
+                    QS(Path.GetDirectoryName(fileName))
+                    );
 
                 ExecuteArbitrarySQL(sql); // run the sentence against the database..
             }
@@ -1080,10 +1119,14 @@ namespace vamp
             {
                 string sql = string.Format( // format the SQL query..
                                             // bad database design so make sure we get something .. IFNULL(NULLIF()) ..
-                    "SELECT ID, IFNULL(NULLIF(PARENT_LOCATION, ''), LOCATION) AS LOCATION, " + Environment.NewLine +
-                    "IFNULL(NULLIF(PARENT_LOCATION, ''), LOCATION) AS PARENT_LOCATION, " + Environment.NewLine +
-                    "DESCRIPTION, TYPE, CONTEXT " + Environment.NewLine +
-                    "FROM MEDIALOCATION " + Environment.NewLine +
+                    "SELECT ML.ID, IFNULL(NULLIF(ML.PARENT_LOCATION, ''), ML.LOCATION) AS LOCATION, " + Environment.NewLine +
+                    "IFNULL(NULLIF(ML.PARENT_LOCATION, ''), ML.LOCATION) AS PARENT_LOCATION, " + Environment.NewLine +
+                    "ML.DESCRIPTION, ML.TYPE, ML.CONTEXT, " + Environment.NewLine +
+                    "IFNULL(WS.WATHED_PERCENTAGE, 0.0) AS WATHED_PERCENTAGE, IFNULL(WS.COUNT_WATCHED, 0) AS COUNT_WATCHED, " + Environment.NewLine +
+                    "IFNULL(WS.COUNT_ALL, 0) AS COUNT_ALL " + Environment.NewLine +
+                    "FROM MEDIALOCATION ML " + Environment.NewLine +
+                    // left join in case there is an error in the view..
+                    "  LEFT OUTER JOIN V_WATCHED_STATISTICS WS ON (WS.ID = ML.ID) " + Environment.NewLine +
                     "WHERE TYPE = {0} AND CONTEXT = {1} COLLATE NOCASE ",
                     (int)mediaLocationType,
                     QS(context));
@@ -1094,7 +1137,8 @@ namespace vamp
                     sql = string.Format(
                         "SELECT -1 AS ID, IFNULL(BASEDIROVERRIDE, {0}) AS LOCATION, " + Environment.NewLine +
                         "IFNULL(BASEDIROVERRIDE, {1}) AS PARENT_LOCATION, " + Environment.NewLine +
-                        "NAME AS DESCRIPTION, 3 AS TYPE, 'PHOTOS' AS CONTEXT " + Environment.NewLine +
+                        "NAME AS DESCRIPTION, 3 AS TYPE, 'PHOTOS' AS CONTEXT, " + Environment.NewLine +
+                        "0.0 AS WATHED_PERCENTAGE, 0 AS COUNT_WATCHED, 0 AS COUNT_ALL " + Environment.NewLine +
                         "FROM PHOTOALBUM ORDER BY FIRSTDATE, DESCRIPTION " + Environment.NewLine +
                         "COLLATE NOCASE " + Environment.NewLine, QS(Settings.PhotoBaseDir), QS(Settings.PhotoBaseDir));
                 }
@@ -1119,7 +1163,10 @@ namespace vamp
                                 PARENT_LOCATION = dr.GetString(2),
                                 DESCRIPTION = dr.GetString(3),
                                 TYPE = (MediaLocationType)dr.GetInt32(4),
-                                CONTEXT = dr.GetString(5)
+                                CONTEXT = dr.GetString(5),
+                                WATHED_PERCENTAGE = dr.GetDouble(6),
+                                COUNT_WATCHED = dr.GetInt32(7),
+                                COUNT_ALL = dr.GetInt32(8)
                             });
                     }
                 }
@@ -1427,9 +1474,10 @@ namespace vamp
         /// Sets the TMDb database information for a given file if found.
         /// </summary>
         /// <param name="fileName">A file name to set the TMDb database information to.</param>
+        /// <param name="overrideFileType">If the weird detection algorithm for a file type shouldn't be trusted, this will override the file type.</param>
         /// <param name="easy">A TMdbEasy client instance.</param>
         /// <param name="easyClientConfigured">An indicator if the TMdbEasy client is configured.</param>
-        public static void SetTMDbInfo(string fileName, EasyClient easy, bool easyClientConfigured)
+        public static void SetTMDbInfo(string fileName, FileType overrideFileType, EasyClient easy, bool easyClientConfigured)
         {
             TMDbDetail detail = null;
 
@@ -1505,7 +1553,7 @@ namespace vamp
             }
 
             // for the caching purposes, keep the cache updated..
-            SetFile(fileName, detailExt);
+            SetFile(fileName, detailExt, overrideFileType);
 
             // update the database or cache..
             UpdateFile(fileName, detailExt);

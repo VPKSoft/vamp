@@ -40,6 +40,7 @@ using System.Diagnostics;
 using System.Linq;
 using VPKSoft.ErrorLogger; // (C): https://www.vpksoft.net, GNU Lesser General Public License Version 3
 using System.Threading;
+using System.Globalization;
 
 namespace vamp
 {
@@ -405,7 +406,7 @@ namespace vamp
                         FormTMDBLoadProgress.ShowProgress(current, max, easyClientConfigured);
                         foreach (FileEnumeratorFileEntry file in files)
                         {
-                            Database.SetTMDbInfo(file.FileNameWithPath, easy, easyClientConfigured);
+                            Database.SetTMDbInfo(file.FileNameWithPath, FileType.TVSeasonEpisode, easy, easyClientConfigured);
                             FormTMDBLoadProgress.ShowProgress(++current, max, easyClientConfigured);
                         }
                         FormTMDBLoadProgress.EndProgress();
@@ -428,7 +429,7 @@ namespace vamp
                         FormTMDBLoadProgress.ShowProgress(current, max, easyClientConfigured);
                         foreach (FileEnumeratorFileEntry file in files)
                         {
-                            Database.SetTMDbInfo(file.FileNameWithPath, easy, easyClientConfigured);
+                            Database.SetTMDbInfo(file.FileNameWithPath, FileType.Movie, easy, easyClientConfigured);
                             FormTMDBLoadProgress.ShowProgress(++current, max, easyClientConfigured);
                         }
                         FormTMDBLoadProgress.EndProgress();
@@ -584,9 +585,54 @@ namespace vamp
                 // get a list of TV show season directories in the database..
                 List<MEDIALOCATION> locations = Database.GetLocations(MediaLocationType.MediaLocationSeries, locationContext);
                 vlbMain.Items.Clear(); // ..and add them to the list box..
+
+                // get a localized format for the watched item count..
+                string itemCountFormat =
+                    DBLangEngine.GetMessage("msgItemCountFormat",
+                    " [{0}/{1}]|A string formatted as how many items from a location has been watched.");
+
+
+                // get a localized format for the watched items percentage amount..
+                string itemCountPercentageFormat =
+                    DBLangEngine.GetMessage("msgItemCountPercentageFormat",
+                    " [{0:0.0}%]|A string formatted as how many much of items in percentage from a location has been watched.");
+
+                try
+                {
+                    // test the format..
+                    string.Format(itemCountFormat, 0, 0);
+
+                    // test the other format..
+                    string.Format(CultureInfo.InvariantCulture, itemCountPercentageFormat, 0.0);
+                }
+                catch
+                {
+                    // the localization went somehow wrong, so make a valid format..
+                    itemCountFormat = " [{0}/{1}]";
+
+                    // AGAIN: the localization went somehow wrong, so make a valid format..
+                    itemCountFormat = " [{0:0.0}%]";
+                }
+
                 foreach (MEDIALOCATION location in locations)
                 {
-                    vlbMain.Items.Add(new KeyValuePair<string, string>(location.LOCATION, location.DESCRIPTION));
+                    // set the display value based on the format setting..
+                    string displayValue;
+
+                    if (Settings.ItemWatchedDisplayType == 0)
+                    {
+                        displayValue = string.Format(itemCountFormat,
+                        location.COUNT_WATCHED, location.COUNT_ALL);
+                    }
+                    else
+                    {
+                        displayValue = string.Format(CultureInfo.InvariantCulture, itemCountPercentageFormat,
+                        location.WATHED_PERCENTAGE);
+                    }
+
+                    vlbMain.Items.Add(
+                        new KeyValuePair<string, string>(location.LOCATION,
+                        location.DESCRIPTION + displayValue));
                 }
                 vlbMain.DisplayMember = "Value"; // set the list box display member..
 
@@ -655,10 +701,55 @@ namespace vamp
 
                 // get a list of TV show season directories in the database..
                 List<MEDIALOCATION> locations = Database.GetLocations(MediaLocationType.MediaLocationMovie, locationContext);
+
+                // get a localized format for the watched item count..
+                string itemCountFormat =
+                    DBLangEngine.GetMessage("msgItemCountFormat",
+                    " [{0}/{1}]|A string formatted as how many items from a location has been watched.");
+
+
+                // get a localized format for the watched items percentage amount..
+                string itemCountPercentageFormat =
+                    DBLangEngine.GetMessage("msgItemCountPercentageFormat",
+                    " [{0:0.0}%]|A string formatted as how many much of items in percentage from a location has been watched.");
+
+                try
+                {
+                    // test the format..
+                    string.Format(itemCountFormat, 0, 0);
+
+                    // test the other format..
+                    string.Format(CultureInfo.InvariantCulture, itemCountPercentageFormat, 0.0);
+                }
+                catch
+                {
+                    // the localization went somehow wrong, so make a valid format..
+                    itemCountFormat = " [{0}/{1}]";
+
+                    // AGAIN: the localization went somehow wrong, so make a valid format..
+                    itemCountFormat = " [{0:0.0}%]";
+                }
+
                 vlbMain.Items.Clear(); // ..and add them to the list box..
                 foreach (MEDIALOCATION location in locations)
                 {
-                    vlbMain.Items.Add(new KeyValuePair<string, string>(location.LOCATION, location.DESCRIPTION));
+                    // set the display value based on the format setting..
+                    string displayValue;
+
+                    if (Settings.ItemWatchedDisplayType == 0)
+                    {
+                        displayValue = string.Format(itemCountFormat,
+                        location.COUNT_WATCHED, location.COUNT_ALL);
+                    }
+                    else
+                    {
+                        displayValue = string.Format(CultureInfo.InvariantCulture, itemCountPercentageFormat,
+                        location.WATHED_PERCENTAGE);
+                    }
+
+                    vlbMain.Items.Add(
+                        new KeyValuePair<string, string>(location.LOCATION,
+                        location.DESCRIPTION + displayValue));
                 }
                 vlbMain.DisplayMember = "Value"; // set the list box display member..
 
@@ -1221,7 +1312,7 @@ namespace vamp
                 for (int i = 0; i < fileNames.Count; i++)
                 {
                     Database.SetFile(fileNames[i]);
-                    Database.SetTMDbInfo(fileNames[i], easy, easyClientConfigured);
+                    Database.SetTMDbInfo(fileNames[i], fileType, easy, easyClientConfigured);
                     if (easyClientConfigured)
                     {
                         // update the progress to the user..

@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.cbAutoDatabaseUpdateValue = new System.Windows.Forms.CheckBox();
+            this.lbAutoDatabaseUpdateDescription = new System.Windows.Forms.Label();
             this.lbSelectLanguageDescription = new System.Windows.Forms.Label();
             this.cbUseFileNameForTVShowEpisodeNamingValue = new System.Windows.Forms.CheckBox();
             this.lbUseFileNameForTVShowEpisodeNamingDescription = new System.Windows.Forms.Label();
@@ -56,16 +58,24 @@
             this.btOK = new VPKSoft.ImageButton.ImageButton();
             this.btCancel = new VPKSoft.ImageButton.ImageButton();
             this.cmbSelectLanguageValue = new System.Windows.Forms.ComboBox();
-            this.lbAutoDatabaseUpdateDescription = new System.Windows.Forms.Label();
-            this.cbAutoDatabaseUpdateValue = new System.Windows.Forms.CheckBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tpgMain = new System.Windows.Forms.TabPage();
+            this.tpgMiscSettings = new System.Windows.Forms.TabPage();
+            this.tlpMainContainer = new System.Windows.Forms.TableLayoutPanel();
+            this.btSpaceHolder1 = new System.Windows.Forms.Button();
+            this.lbItemDisplayCountDescription = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.cmbItemDisplayCountValue = new System.Windows.Forms.ComboBox();
             this.tlpMain.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tpgMain.SuspendLayout();
+            this.tpgMiscSettings.SuspendLayout();
+            this.tlpMainContainer.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpMain
             // 
-            this.tlpMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpMain.ColumnCount = 3;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -95,13 +105,12 @@
             this.tlpMain.Controls.Add(this.btSelectMovieFolder, 2, 1);
             this.tlpMain.Controls.Add(this.btSelectTVShowFolder, 2, 2);
             this.tlpMain.Controls.Add(this.btSelectPhotoFolder, 2, 3);
-            this.tlpMain.Controls.Add(this.btOK, 0, 12);
-            this.tlpMain.Controls.Add(this.btCancel, 1, 12);
             this.tlpMain.Controls.Add(this.cmbSelectLanguageValue, 1, 9);
-            this.tlpMain.Location = new System.Drawing.Point(16, 15);
+            this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpMain.Location = new System.Drawing.Point(3, 3);
             this.tlpMain.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
             this.tlpMain.Name = "tlpMain";
-            this.tlpMain.RowCount = 13;
+            this.tlpMain.RowCount = 12;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -114,9 +123,33 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpMain.Size = new System.Drawing.Size(1316, 755);
+            this.tlpMain.Size = new System.Drawing.Size(1304, 650);
             this.tlpMain.TabIndex = 0;
+            // 
+            // cbAutoDatabaseUpdateValue
+            // 
+            this.cbAutoDatabaseUpdateValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbAutoDatabaseUpdateValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
+            this.cbAutoDatabaseUpdateValue.Location = new System.Drawing.Point(620, 567);
+            this.cbAutoDatabaseUpdateValue.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
+            this.cbAutoDatabaseUpdateValue.Name = "cbAutoDatabaseUpdateValue";
+            this.cbAutoDatabaseUpdateValue.Size = new System.Drawing.Size(566, 25);
+            this.cbAutoDatabaseUpdateValue.TabIndex = 27;
+            this.cbAutoDatabaseUpdateValue.UseVisualStyleBackColor = true;
+            // 
+            // lbAutoDatabaseUpdateDescription
+            // 
+            this.lbAutoDatabaseUpdateDescription.AutoSize = true;
+            this.lbAutoDatabaseUpdateDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbAutoDatabaseUpdateDescription.Location = new System.Drawing.Point(17, 567);
+            this.lbAutoDatabaseUpdateDescription.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
+            this.lbAutoDatabaseUpdateDescription.Name = "lbAutoDatabaseUpdateDescription";
+            this.lbAutoDatabaseUpdateDescription.Size = new System.Drawing.Size(419, 25);
+            this.lbAutoDatabaseUpdateDescription.TabIndex = 26;
+            this.lbAutoDatabaseUpdateDescription.Text = "Automatic database update on startup:";
+            this.lbAutoDatabaseUpdateDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbSelectLanguageDescription
             // 
@@ -139,7 +172,7 @@
             this.cbUseFileNameForTVShowEpisodeNamingValue.Location = new System.Drawing.Point(620, 455);
             this.cbUseFileNameForTVShowEpisodeNamingValue.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
             this.cbUseFileNameForTVShowEpisodeNamingValue.Name = "cbUseFileNameForTVShowEpisodeNamingValue";
-            this.cbUseFileNameForTVShowEpisodeNamingValue.Size = new System.Drawing.Size(578, 25);
+            this.cbUseFileNameForTVShowEpisodeNamingValue.Size = new System.Drawing.Size(566, 25);
             this.cbUseFileNameForTVShowEpisodeNamingValue.TabIndex = 23;
             this.cbUseFileNameForTVShowEpisodeNamingValue.UseVisualStyleBackColor = true;
             // 
@@ -157,7 +190,7 @@
             // 
             // btSelectTMDbImagesCacheDir
             // 
-            this.btSelectTMDbImagesCacheDir.Location = new System.Drawing.Point(1228, 397);
+            this.btSelectTMDbImagesCacheDir.Location = new System.Drawing.Point(1216, 397);
             this.btSelectTMDbImagesCacheDir.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.btSelectTMDbImagesCacheDir.Name = "btSelectTMDbImagesCacheDir";
             this.btSelectTMDbImagesCacheDir.Size = new System.Drawing.Size(75, 31);
@@ -174,7 +207,7 @@
             this.tbTMDbImagesCacheDirValue.Location = new System.Drawing.Point(616, 397);
             this.tbTMDbImagesCacheDirValue.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.tbTMDbImagesCacheDirValue.Name = "tbTMDbImagesCacheDirValue";
-            this.tbTMDbImagesCacheDirValue.Size = new System.Drawing.Size(586, 31);
+            this.tbTMDbImagesCacheDirValue.Size = new System.Drawing.Size(574, 31);
             this.tbTMDbImagesCacheDirValue.TabIndex = 20;
             this.tbTMDbImagesCacheDirValue.Text = "-";
             // 
@@ -199,7 +232,7 @@
             this.cdTMDbEnabledValue.Location = new System.Drawing.Point(620, 345);
             this.cdTMDbEnabledValue.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
             this.cdTMDbEnabledValue.Name = "cdTMDbEnabledValue";
-            this.cdTMDbEnabledValue.Size = new System.Drawing.Size(578, 25);
+            this.cdTMDbEnabledValue.Size = new System.Drawing.Size(566, 25);
             this.cdTMDbEnabledValue.TabIndex = 13;
             this.cdTMDbEnabledValue.UseVisualStyleBackColor = true;
             // 
@@ -224,7 +257,7 @@
             this.cbCacheTMDbImagesIntoMemoryValue.Location = new System.Drawing.Point(620, 290);
             this.cbCacheTMDbImagesIntoMemoryValue.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
             this.cbCacheTMDbImagesIntoMemoryValue.Name = "cbCacheTMDbImagesIntoMemoryValue";
-            this.cbCacheTMDbImagesIntoMemoryValue.Size = new System.Drawing.Size(578, 25);
+            this.cbCacheTMDbImagesIntoMemoryValue.Size = new System.Drawing.Size(566, 25);
             this.cbCacheTMDbImagesIntoMemoryValue.TabIndex = 11;
             this.cbCacheTMDbImagesIntoMemoryValue.UseVisualStyleBackColor = true;
             // 
@@ -260,7 +293,7 @@
             this.tbBaseDirPhotosValue.Location = new System.Drawing.Point(616, 177);
             this.tbBaseDirPhotosValue.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.tbBaseDirPhotosValue.Name = "tbBaseDirPhotosValue";
-            this.tbBaseDirPhotosValue.Size = new System.Drawing.Size(586, 31);
+            this.tbBaseDirPhotosValue.Size = new System.Drawing.Size(574, 31);
             this.tbBaseDirPhotosValue.TabIndex = 7;
             this.tbBaseDirPhotosValue.Text = "-";
             // 
@@ -284,7 +317,7 @@
             this.tbBaseDirTVShowsValue.Location = new System.Drawing.Point(616, 122);
             this.tbBaseDirTVShowsValue.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.tbBaseDirTVShowsValue.Name = "tbBaseDirTVShowsValue";
-            this.tbBaseDirTVShowsValue.Size = new System.Drawing.Size(586, 31);
+            this.tbBaseDirTVShowsValue.Size = new System.Drawing.Size(574, 31);
             this.tbBaseDirTVShowsValue.TabIndex = 5;
             this.tbBaseDirTVShowsValue.Text = "-";
             // 
@@ -308,7 +341,7 @@
             this.tbBaseDirMoviesValue.Location = new System.Drawing.Point(616, 67);
             this.tbBaseDirMoviesValue.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.tbBaseDirMoviesValue.Name = "tbBaseDirMoviesValue";
-            this.tbBaseDirMoviesValue.Size = new System.Drawing.Size(586, 31);
+            this.tbBaseDirMoviesValue.Size = new System.Drawing.Size(574, 31);
             this.tbBaseDirMoviesValue.TabIndex = 3;
             this.tbBaseDirMoviesValue.Text = "-";
             // 
@@ -344,7 +377,7 @@
             this.tbAmpRemoteValue.Location = new System.Drawing.Point(616, 12);
             this.tbAmpRemoteValue.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.tbAmpRemoteValue.Name = "tbAmpRemoteValue";
-            this.tbAmpRemoteValue.Size = new System.Drawing.Size(586, 31);
+            this.tbAmpRemoteValue.Size = new System.Drawing.Size(574, 31);
             this.tbAmpRemoteValue.TabIndex = 1;
             this.tbAmpRemoteValue.Text = "-";
             // 
@@ -357,13 +390,13 @@
             this.cbCacheDatabaseIntoMemoryValue.Location = new System.Drawing.Point(620, 235);
             this.cbCacheDatabaseIntoMemoryValue.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
             this.cbCacheDatabaseIntoMemoryValue.Name = "cbCacheDatabaseIntoMemoryValue";
-            this.cbCacheDatabaseIntoMemoryValue.Size = new System.Drawing.Size(578, 25);
+            this.cbCacheDatabaseIntoMemoryValue.Size = new System.Drawing.Size(566, 25);
             this.cbCacheDatabaseIntoMemoryValue.TabIndex = 9;
             this.cbCacheDatabaseIntoMemoryValue.UseVisualStyleBackColor = true;
             // 
             // btSelectMovieFolder
             // 
-            this.btSelectMovieFolder.Location = new System.Drawing.Point(1228, 67);
+            this.btSelectMovieFolder.Location = new System.Drawing.Point(1216, 67);
             this.btSelectMovieFolder.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.btSelectMovieFolder.Name = "btSelectMovieFolder";
             this.btSelectMovieFolder.Size = new System.Drawing.Size(75, 31);
@@ -374,7 +407,7 @@
             // 
             // btSelectTVShowFolder
             // 
-            this.btSelectTVShowFolder.Location = new System.Drawing.Point(1228, 122);
+            this.btSelectTVShowFolder.Location = new System.Drawing.Point(1216, 122);
             this.btSelectTVShowFolder.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.btSelectTVShowFolder.Name = "btSelectTVShowFolder";
             this.btSelectTVShowFolder.Size = new System.Drawing.Size(75, 31);
@@ -385,7 +418,7 @@
             // 
             // btSelectPhotoFolder
             // 
-            this.btSelectPhotoFolder.Location = new System.Drawing.Point(1228, 177);
+            this.btSelectPhotoFolder.Location = new System.Drawing.Point(1216, 177);
             this.btSelectPhotoFolder.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.btSelectPhotoFolder.Name = "btSelectPhotoFolder";
             this.btSelectPhotoFolder.Size = new System.Drawing.Size(75, 31);
@@ -399,11 +432,11 @@
             this.btOK.BackColor = System.Drawing.SystemColors.Control;
             this.btOK.ButtonImage = global::vamp.Properties.Resources.OK;
             this.btOK.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btOK.Location = new System.Drawing.Point(2, 661);
-            this.btOK.Margin = new System.Windows.Forms.Padding(2);
+            this.btOK.Location = new System.Drawing.Point(2, 702);
+            this.btOK.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btOK.Name = "btOK";
-            this.btOK.Padding = new System.Windows.Forms.Padding(2);
-            this.btOK.Size = new System.Drawing.Size(500, 92);
+            this.btOK.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btOK.Size = new System.Drawing.Size(501, 57);
             this.btOK.TabIndex = 17;
             this.btOK.Text = "OK";
             this.btOK.Click += new System.EventHandler(this.btOK_Click);
@@ -412,13 +445,12 @@
             // 
             this.btCancel.BackColor = System.Drawing.SystemColors.Control;
             this.btCancel.ButtonImage = global::vamp.Properties.Resources.Cancel;
-            this.tlpMain.SetColumnSpan(this.btCancel, 2);
             this.btCancel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btCancel.Location = new System.Drawing.Point(814, 661);
-            this.btCancel.Margin = new System.Windows.Forms.Padding(2);
+            this.btCancel.Location = new System.Drawing.Point(821, 702);
+            this.btCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btCancel.Name = "btCancel";
-            this.btCancel.Padding = new System.Windows.Forms.Padding(2);
-            this.btCancel.Size = new System.Drawing.Size(500, 92);
+            this.btCancel.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btCancel.Size = new System.Drawing.Size(501, 57);
             this.btCancel.TabIndex = 18;
             this.btCancel.Text = "Cancel";
             this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
@@ -433,40 +465,134 @@
             this.cmbSelectLanguageValue.Location = new System.Drawing.Point(616, 507);
             this.cmbSelectLanguageValue.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.cmbSelectLanguageValue.Name = "cmbSelectLanguageValue";
-            this.cmbSelectLanguageValue.Size = new System.Drawing.Size(586, 33);
+            this.cmbSelectLanguageValue.Size = new System.Drawing.Size(574, 33);
             this.cmbSelectLanguageValue.TabIndex = 25;
             // 
-            // lbAutoDatabaseUpdateDescription
+            // tabControl1
             // 
-            this.lbAutoDatabaseUpdateDescription.AutoSize = true;
-            this.lbAutoDatabaseUpdateDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbAutoDatabaseUpdateDescription.Location = new System.Drawing.Point(17, 567);
-            this.lbAutoDatabaseUpdateDescription.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
-            this.lbAutoDatabaseUpdateDescription.Name = "lbAutoDatabaseUpdateDescription";
-            this.lbAutoDatabaseUpdateDescription.Size = new System.Drawing.Size(419, 25);
-            this.lbAutoDatabaseUpdateDescription.TabIndex = 26;
-            this.lbAutoDatabaseUpdateDescription.Text = "Automatic database update on startup:";
-            this.lbAutoDatabaseUpdateDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tlpMainContainer.SetColumnSpan(this.tabControl1, 3);
+            this.tabControl1.Controls.Add(this.tpgMain);
+            this.tabControl1.Controls.Add(this.tpgMiscSettings);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(3, 3);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1318, 694);
+            this.tabControl1.TabIndex = 1;
             // 
-            // cbAutoDatabaseUpdateValue
+            // tpgMain
             // 
-            this.cbAutoDatabaseUpdateValue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tpgMain.Controls.Add(this.tlpMain);
+            this.tpgMain.Location = new System.Drawing.Point(4, 34);
+            this.tpgMain.Name = "tpgMain";
+            this.tpgMain.Padding = new System.Windows.Forms.Padding(3);
+            this.tpgMain.Size = new System.Drawing.Size(1310, 656);
+            this.tpgMain.TabIndex = 0;
+            this.tpgMain.Text = "Main settings";
+            this.tpgMain.UseVisualStyleBackColor = true;
+            // 
+            // tpgMiscSettings
+            // 
+            this.tpgMiscSettings.Controls.Add(this.tableLayoutPanel1);
+            this.tpgMiscSettings.Location = new System.Drawing.Point(4, 34);
+            this.tpgMiscSettings.Name = "tpgMiscSettings";
+            this.tpgMiscSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tpgMiscSettings.Size = new System.Drawing.Size(1310, 656);
+            this.tpgMiscSettings.TabIndex = 1;
+            this.tpgMiscSettings.Text = "Misc settings";
+            this.tpgMiscSettings.UseVisualStyleBackColor = true;
+            // 
+            // tlpMainContainer
+            // 
+            this.tlpMainContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbAutoDatabaseUpdateValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
-            this.cbAutoDatabaseUpdateValue.Location = new System.Drawing.Point(620, 567);
-            this.cbAutoDatabaseUpdateValue.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
-            this.cbAutoDatabaseUpdateValue.Name = "cbAutoDatabaseUpdateValue";
-            this.cbAutoDatabaseUpdateValue.Size = new System.Drawing.Size(578, 25);
-            this.cbAutoDatabaseUpdateValue.TabIndex = 27;
-            this.cbAutoDatabaseUpdateValue.UseVisualStyleBackColor = true;
+            this.tlpMainContainer.ColumnCount = 3;
+            this.tlpMainContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMainContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpMainContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpMainContainer.Controls.Add(this.tabControl1, 0, 0);
+            this.tlpMainContainer.Controls.Add(this.btOK, 0, 1);
+            this.tlpMainContainer.Controls.Add(this.btCancel, 2, 1);
+            this.tlpMainContainer.Location = new System.Drawing.Point(12, 12);
+            this.tlpMainContainer.Name = "tlpMainContainer";
+            this.tlpMainContainer.RowCount = 2;
+            this.tlpMainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 92F));
+            this.tlpMainContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8F));
+            this.tlpMainContainer.Size = new System.Drawing.Size(1324, 761);
+            this.tlpMainContainer.TabIndex = 2;
+            // 
+            // btSpaceHolder1
+            // 
+            this.btSpaceHolder1.Location = new System.Drawing.Point(1216, 12);
+            this.btSpaceHolder1.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.btSpaceHolder1.Name = "btSpaceHolder1";
+            this.btSpaceHolder1.Size = new System.Drawing.Size(75, 31);
+            this.btSpaceHolder1.TabIndex = 14;
+            this.btSpaceHolder1.Text = "...";
+            this.btSpaceHolder1.UseVisualStyleBackColor = true;
+            this.btSpaceHolder1.Visible = false;
+            // 
+            // lbItemDisplayCountDescription
+            // 
+            this.lbItemDisplayCountDescription.AutoSize = true;
+            this.lbItemDisplayCountDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbItemDisplayCountDescription.Location = new System.Drawing.Point(17, 15);
+            this.lbItemDisplayCountDescription.Margin = new System.Windows.Forms.Padding(17, 15, 17, 15);
+            this.lbItemDisplayCountDescription.Name = "lbItemDisplayCountDescription";
+            this.lbItemDisplayCountDescription.Size = new System.Drawing.Size(405, 25);
+            this.lbItemDisplayCountDescription.TabIndex = 8;
+            this.lbItemDisplayCountDescription.Text = "Cache the database into the memory:";
+            this.lbItemDisplayCountDescription.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.lbItemDisplayCountDescription, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btSpaceHolder1, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.cmbItemDisplayCountValue, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 12;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1304, 650);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // cmbItemDisplayCountValue
+            // 
+            this.cmbItemDisplayCountValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbItemDisplayCountValue.DisplayMember = "DisplayName";
+            this.cmbItemDisplayCountValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbItemDisplayCountValue.FormattingEnabled = true;
+            this.cmbItemDisplayCountValue.Location = new System.Drawing.Point(452, 12);
+            this.cmbItemDisplayCountValue.Margin = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.cmbItemDisplayCountValue.Name = "cmbItemDisplayCountValue";
+            this.cmbItemDisplayCountValue.Size = new System.Drawing.Size(738, 33);
+            this.cmbItemDisplayCountValue.TabIndex = 26;
             // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1348, 785);
-            this.Controls.Add(this.tlpMain);
+            this.Controls.Add(this.tlpMainContainer);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -480,6 +606,12 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormSettings_KeyDown);
             this.tlpMain.ResumeLayout(false);
             this.tlpMain.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tpgMain.ResumeLayout(false);
+            this.tpgMiscSettings.ResumeLayout(false);
+            this.tlpMainContainer.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -515,5 +647,13 @@
         private System.Windows.Forms.ComboBox cmbSelectLanguageValue;
         private System.Windows.Forms.CheckBox cbAutoDatabaseUpdateValue;
         private System.Windows.Forms.Label lbAutoDatabaseUpdateDescription;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tpgMain;
+        private System.Windows.Forms.TabPage tpgMiscSettings;
+        private System.Windows.Forms.TableLayoutPanel tlpMainContainer;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label lbItemDisplayCountDescription;
+        private System.Windows.Forms.Button btSpaceHolder1;
+        private System.Windows.Forms.ComboBox cmbItemDisplayCountValue;
     }
 }

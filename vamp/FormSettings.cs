@@ -60,6 +60,15 @@ namespace vamp
             // prevent the form from growing larger than the size of the screen..
             //MaximumSize = Screen.PrimaryScreen.Bounds.Size;
 
+            cmbItemDisplayCountValue.Items.Clear();
+            cmbItemDisplayCountValue.Items.Add(
+                DBLangEngine.GetMessage("msgItemCount", 
+                "Count|Watched items of a location should be displayed as how many items has been watched compared to total item count."));
+
+            cmbItemDisplayCountValue.Items.Add(
+                DBLangEngine.GetMessage("msgItemPercentage",
+                "Percentage|Watched items of a location should be displayed as a percentage number of how many items has been watched compared to total item count."));
+
             // load the settings..
             LoadSettings();
         }
@@ -80,6 +89,8 @@ namespace vamp
             cdTMDbEnabledValue.Checked = Settings.TMDBEnabled;
             cbUseFileNameForTVShowEpisodeNamingValue.Checked = Settings.TVShowEpisodeFileNameTitle;
             cbAutoDatabaseUpdateValue.Checked = Settings.AutoDBUpdate;
+
+            cmbItemDisplayCountValue.SelectedIndex = Settings.ItemWatchedDisplayType;
 
             List<CultureInfo> cultures = DBLangEngine.GetLocalizedCultures();
 
@@ -106,6 +117,8 @@ namespace vamp
             Settings.TVShowEpisodeFileNameTitle = cbUseFileNameForTVShowEpisodeNamingValue.Checked;
             Settings.Culture = (CultureInfo)cmbSelectLanguageValue.SelectedItem;
             Settings.AutoDBUpdate = cbAutoDatabaseUpdateValue.Checked;
+            Settings.ItemWatchedDisplayType = cmbItemDisplayCountValue.SelectedIndex;
+
             // END: just save the settings..
         }
 
