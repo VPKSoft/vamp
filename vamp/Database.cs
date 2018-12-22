@@ -932,7 +932,7 @@ namespace vamp
                     fileCache.Where(f => (f.FILETYPE == fileType || f.FILETYPE == FileType.Unknown) &&
                                     medialocationCache.Exists(m => f.FILENAMEFULL.StartsWith(m.LOCATION) &&
                                     m.CONTEXT == context && m.TYPE == mediaLocationType) &&
-                                    (f.FILEPATH.StartsWith(filterDirectory) || filterDirectory == string.Empty));
+                                    (f.FILEPATH.StartsWith(filterDirectory) || filterDirectory == string.Empty)).Distinct();
                 foreach (var videoFile in videoFiles)
                 {
                     // don't return non-existing files..
@@ -956,7 +956,7 @@ namespace vamp
             else // no cache was initialized, so get the video file statistics from the database..
             {
                 string sql = string.Format( // now do formulate a SQL sentence..
-                "SELECT " + Environment.NewLine +
+                "SELECT DISTINCT " + Environment.NewLine +
               // 0,    1,          2,              3,          4,        5,
                 "V.ID, V.FILENAME, V.FILENAMEFULL, V.FILESIZE, V.VOLUME, V.PLAYBACKPOSITION, " + Environment.NewLine +
               // 6,        7,        8,          9,             10,       11,         12,          13,      14,
