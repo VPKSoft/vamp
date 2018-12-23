@@ -1311,7 +1311,7 @@ namespace vamp
                 // enumerate through the collection..
                 for (int i = 0; i < fileNames.Count; i++)
                 {
-                    Database.SetFile(fileNames[i]);
+                    Database.SetFile(fileNames[i], fileType);
                     Database.SetTMDbInfo(fileNames[i], fileType, easy, easyClientConfigured);
                     if (easyClientConfigured)
                     {
