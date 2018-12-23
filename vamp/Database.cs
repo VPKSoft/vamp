@@ -541,14 +541,14 @@ namespace vamp
     sql = // bad database design so make sure we get something .. IFNULL(NULLIF()) ..
                 string.Format(
                 "SELECT X.* FROM( " + Environment.NewLine +
-                "SELECT ML.ID, IFNULL(NULLIF(ML.PARENT_LOCATION, ''), LOCATION) AS LOCATION, " + Environment.NewLine +
-                "IFNULL(NULLIF(ML.PARENT_LOCATION, ''), LOCATION) AS PARENT_LOCATION, " + Environment.NewLine +
+                "SELECT ML.ID, IFNULL(NULLIF(ML.PARENT_LOCATION, ''), ML.LOCATION) AS LOCATION, " + Environment.NewLine +
+                "IFNULL(NULLIF(ML.PARENT_LOCATION, ''),  ML.LOCATION) AS PARENT_LOCATION, " + Environment.NewLine +
                 "ML.DESCRIPTION, ML.TYPE, ML.CONTEXT, '0000-00-00 00:00:00.000' AS FIRSTDATE, " + Environment.NewLine +
                 "IFNULL(WS.WATHED_PERCENTAGE, 0.0) AS WATHED_PERCENTAGE, IFNULL(WS.COUNT_WATCHED, 0) AS COUNT_WATCHED, " + Environment.NewLine +
                 "IFNULL(WS.COUNT_ALL, 0) AS COUNT_ALL " + Environment.NewLine +
                 "FROM MEDIALOCATION ML " + Environment.NewLine +
                 // left join in case there is an error in the view..
-                "  LEFT OUTER JOIN V_WATCHED_STATISTICS WS ON (WS.ID = ML.ID) " + Environment.NewLine +
+                "  LEFT OUTER JOIN V_WATCHED_STATISTICS WS ON (WS.ID = ML.ID AND ML.TYPE = WS.TYPE) " + Environment.NewLine +
                 "UNION " + Environment.NewLine +
                 "SELECT -1 AS ID, IFNULL(BASEDIROVERRIDE, {0}) AS LOCATION," + Environment.NewLine +
                 "IFNULL(BASEDIROVERRIDE, {1}) AS PARENT_LOCATION, " + Environment.NewLine +
@@ -1126,8 +1126,8 @@ namespace vamp
                     "IFNULL(WS.COUNT_ALL, 0) AS COUNT_ALL " + Environment.NewLine +
                     "FROM MEDIALOCATION ML " + Environment.NewLine +
                     // left join in case there is an error in the view..
-                    "  LEFT OUTER JOIN V_WATCHED_STATISTICS WS ON (WS.ID = ML.ID) " + Environment.NewLine +
-                    "WHERE TYPE = {0} AND CONTEXT = {1} COLLATE NOCASE ",
+                    "  LEFT OUTER JOIN V_WATCHED_STATISTICS WS ON (WS.ID = ML.ID AND ML.TYPE = WS.TYPE) " + Environment.NewLine +
+                    "WHERE ML.TYPE = {0} AND ML.CONTEXT = {1} COLLATE NOCASE ",
                     (int)mediaLocationType,
                     QS(context));
 
