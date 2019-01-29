@@ -1,7 +1,7 @@
 # vamp#
 # 
 # A VLC, Chromium and NAudio based video and multimedia player for a HTPC use.
-# Copyright © 2018 VPKSoft, Petteri Kautonen
+# Copyright © 2019 VPKSoft, Petteri Kautonen
 # 
 # Contact: vpksoft@vpksoft.net
 # 
@@ -27,7 +27,7 @@ Name "vamp#"
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 1.0.0.5
+!define VERSION 1.0.0.6
 !define COMPANY VPKSoft
 !define URL http://www.vpksoft.net
 
@@ -78,19 +78,19 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE Finnish
 
 # Installer attributes
-OutFile setup_vampsharp_1_0_0_5.exe
+OutFile setup_vampsharp_1_0_0_6.exe
 InstallDir "$PROGRAMFILES64\vamp#"
 CRCCheck on
 XPStyle on
 ShowInstDetails hide
-VIProductVersion 1.0.0.5
+VIProductVersion 1.0.0.6
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "vamp# installer"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyWebsite "${URL}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} FileVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} FileDescription "vamp#"
-VIAddVersionKey /LANG=${LANG_ENGLISH} LegalCopyright "Copyright © VPKSoft 2018"
+VIAddVersionKey /LANG=${LANG_ENGLISH} LegalCopyright "Copyright © VPKSoft 2019"
 InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails hide
 

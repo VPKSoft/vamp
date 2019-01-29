@@ -26,7 +26,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org/>
 */
 
-// PS. (C) VPKSoft 2018..
+// PS. (C) VPKSoft 2019..
 #endregion
 
 using System;

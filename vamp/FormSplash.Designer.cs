@@ -99,7 +99,7 @@
             this.lbVersion.Name = "lbVersion";
             this.lbVersion.Size = new System.Drawing.Size(241, 106);
             this.lbVersion.TabIndex = 9;
-            this.lbVersion.Text = "© VPKSoft 2018  ";
+            this.lbVersion.Text = "© VPKSoft 2019  ";
             this.lbVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbCopyright
@@ -116,7 +116,7 @@
             this.lbCopyright.Name = "lbCopyright";
             this.lbCopyright.Size = new System.Drawing.Size(241, 106);
             this.lbCopyright.TabIndex = 8;
-            this.lbCopyright.Text = "© VPKSoft 2018  ";
+            this.lbCopyright.Text = "© VPKSoft 2019  ";
             this.lbCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbLoading

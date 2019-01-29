@@ -3,7 +3,7 @@
 vamp#
 
 A software for video audio and photo playback.
-Copyright © 2018 VPKSoft, Petteri Kautonen
+Copyright © 2019 VPKSoft, Petteri Kautonen
 
 Contact: vpksoft@vpksoft.net
 

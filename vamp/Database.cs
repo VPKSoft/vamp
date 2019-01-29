@@ -656,19 +656,19 @@ namespace vamp
 
             foreach (VIDEOFILE videoFile in fileCache) // these are new VIDEOFILE entries in with a condition that the file name and size are unique..
             {
-                sql += string.Format(
+                sql += string.Format(//0         1             2         3       4                 5       6       7         8            9
                 "INSERT INTO VIDEOFILE(FILENAME, FILENAMEFULL, FILESIZE, VOLUME, PLAYBACKPOSITION, LENGTH, PLAYED, FILETYPE, TMDBFETCHED, FILEPATH) " + Environment.NewLine +
                 "SELECT {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}; " + Environment.NewLine, // .. a semicolon is required for
-                QS(videoFile.FILENAME), // the values..                             // multiple statements..
-                QS(videoFile.FILENAMEFULL),
-                videoFile.FILESIZE,
-                videoFile.VOLUME,
-                videoFile.PLAYBACKPOSITION,
-                videoFile.LENGTH,
-                videoFile.PLAYED ? 1 : 0,
-                (int)videoFile.FILETYPE,
-                videoFile.TMDBFETCHED ? 1 : 0,
-                QS(videoFile.FILEPATH));
+                QS(videoFile.FILENAME), // 0: the values..                             // multiple statements..
+                QS(videoFile.FILENAMEFULL), // 1
+                videoFile.FILESIZE, // 2
+                videoFile.VOLUME, // 3
+                videoFile.PLAYBACKPOSITION, // 4
+                videoFile.LENGTH, // 5
+                videoFile.PLAYED ? 1 : 0, // 6
+                (int)videoFile.FILETYPE, // 7
+                videoFile.TMDBFETCHED ? 1 : 0, // 8
+                QS(videoFile.FILEPATH)); // 9
             }
 
             ExecuteArbitrarySQL(sql); // run the sentence against the database..
@@ -775,22 +775,22 @@ namespace vamp
             else // .. or else add it directly to the database..
             {
                 string sql = // .. do a conditional insert based on the full file name and file size..
-                    string.Format(
+                    string.Format(      // 0         1             2         3       4                 5       6       7         8            9
                     "INSERT INTO VIDEOFILE(FILENAME, FILENAMEFULL, FILESIZE, VOLUME, PLAYBACKPOSITION, LENGTH, PLAYED, FILETYPE, TMDBFETCHED, FILEPATH) " + Environment.NewLine +
                     "SELECT {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9} " + Environment.NewLine +
-                    "WHERE NOT EXISTS(SELECT * FROM VIDEOFILE WHERE FILENAME = {9} AND FILESIZE = {10}) ",
-                    QS(Path.GetFileName(fileName)),
-                    QS(fileName),
-                    fileInfo.Length,
-                    volume,
-                    position,
-                    played ? 1 : 0,
-                    length,
-                    (int)fileType,
-                    detailExt != null ? 1 : 0, // if the given parameter is not null..
-                    QS(Path.GetFileName(fileName)),
-                    fileInfo.Length,
-                    QS(Path.GetDirectoryName(fileName))
+                    "WHERE NOT EXISTS(SELECT * FROM VIDEOFILE WHERE FILENAME = {10} AND FILESIZE = {11}) ",
+                    QS(Path.GetFileName(fileName)), // 0
+                    QS(fileName), // 1
+                    fileInfo.Length, // 2
+                    volume, // 3
+                    position, // 4
+                    length, // 5
+                    played ? 1 : 0, // 6
+                    (int)fileType, // 7
+                    detailExt != null ? 1 : 0, // 8: if the given parameter is not null..
+                    QS(Path.GetDirectoryName(fileName)), // 9
+                    QS(Path.GetFileName(fileName)), // 10
+                    fileInfo.Length // 11
                     );
 
                 ExecuteArbitrarySQL(sql); // run the sentence against the database..
@@ -879,15 +879,15 @@ namespace vamp
                     "UPDATE VIDEOFILE SET VOLUME = {0}, PLAYBACKPOSITION = {1}, PLAYED = {2}, LENGTH = {3}, TMDBFETCHED = {4}, " + Environment.NewLine +
                     "FILETYPE = {5}, FILENAMEFULL = {6} " + Environment.NewLine +
                     "WHERE FILENAME = {7} AND FILESIZE = {8} AND PLAYED = 0 " + Environment.NewLine,
-                    volume,
-                    position,
-                    played ? 1 : 0,
-                    length,
-                    (detailExt != null && detailExt.ID != -1) ? 1 : 0,
-                    (int)fileType,
-                    QS(fileName),
-                    QS(Path.GetFileName(fileName)),
-                    fileInfo.Length);
+                    volume, // 0
+                    position, // 1
+                    played ? 1 : 0, // 2
+                    length, // 3
+                    (detailExt != null && detailExt.ID != -1) ? 1 : 0, // 4
+                    (int)fileType, // 5
+                    QS(Path.GetFileName(fileName)), // 6
+                    QS(fileName), // 7
+                    fileInfo.Length); // 8
 
                 ExecuteArbitrarySQL(sql); // run the sentence against the database..
 
@@ -896,14 +896,14 @@ namespace vamp
                     "UPDATE VIDEOFILE SET VOLUME = {0}, PLAYBACKPOSITION = {1}, LENGTH = {2}, " + Environment.NewLine +
                     "TMDBFETCHED = {3}, FILETYPE = {4}, FILENAMEFULL = {5} " + Environment.NewLine +
                     "WHERE FILENAME = {6} AND FILESIZE = {7} " + Environment.NewLine,
-                    volume,
-                    position,
-                    length,
-                    (detailExt != null && detailExt.ID != -1) ? 1 : 0,
-                    (int)fileType,
-                    QS(fileName),
-                    QS(Path.GetFileName(fileName)),
-                    fileInfo.Length);
+                    volume, // 0
+                    position, // 1
+                    length, // 2
+                    (detailExt != null && detailExt.ID != -1) ? 1 : 0, // 3
+                    (int)fileType, // 4
+                    QS(Path.GetFileName(fileName)), // 5
+                    QS(fileName), // 6
+                    fileInfo.Length); // 7
 
                 ExecuteArbitrarySQL(sql); // run the sentence against the database..
             }

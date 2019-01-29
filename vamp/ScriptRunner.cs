@@ -3,7 +3,7 @@
 This file is public domain.
 You may freely do anything with it.
 
-Copyright (c) VPKSoft 2018
+Copyright (c) VPKSoft 2019
 */
 #endregion
 

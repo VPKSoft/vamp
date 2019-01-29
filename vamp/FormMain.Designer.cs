@@ -206,7 +206,7 @@
             this.lbCopyright.Name = "lbCopyright";
             this.lbCopyright.Size = new System.Drawing.Size(273, 20);
             this.lbCopyright.TabIndex = 4;
-            this.lbCopyright.Text = "© VPKSoft 2018  ";
+            this.lbCopyright.Text = "© VPKSoft 2019  ";
             this.lbCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lbCopyright.Click += new System.EventHandler(this.GlobalClickHandler);
             // 
