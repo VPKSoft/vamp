@@ -885,8 +885,8 @@ namespace vamp
                     length, // 3
                     (detailExt != null && detailExt.ID != -1) ? 1 : 0, // 4
                     (int)fileType, // 5
-                    QS(Path.GetFileName(fileName)), // 6
-                    QS(fileName), // 7
+                    QS(fileName), // 6
+                    QS(Path.GetFileName(fileName)), // 7
                     fileInfo.Length); // 8
 
                 ExecuteArbitrarySQL(sql); // run the sentence against the database..
@@ -901,8 +901,8 @@ namespace vamp
                     length, // 2
                     (detailExt != null && detailExt.ID != -1) ? 1 : 0, // 3
                     (int)fileType, // 4
-                    QS(Path.GetFileName(fileName)), // 5
-                    QS(fileName), // 6
+                    QS(fileName), // 5
+                    QS(Path.GetFileName(fileName)), // 6
                     fileInfo.Length); // 7
 
                 ExecuteArbitrarySQL(sql); // run the sentence against the database..
